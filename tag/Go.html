@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boş sayfa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Syne&display=swap" rel="stylesheet">
+  <style>
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100vh;
+      background: #000;
+      color: #f5f0e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      overflow: hidden;
+    }
+
+    .noise {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Static_Noise_Graphic.png');
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      text-align: center;
+      z-index: 10;
+      padding: 20px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: clamp(5rem, 20vw, 12rem);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin: 0;
+      line-height: 1;
+      opacity: 0.9;
+      animation: glitch 5s infinite alternate;
+    }
+
+    p {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+      text-transform: uppercase;
+      letter-spacing: 0.5em;
+      color: rgba(245, 240, 232, 0.6);
+      margin: 10px 0 50px 0;
+    }
+
+    .home-link {
+      display: inline-block;
+      text-decoration: none;
+      color: #e8d5b0;
+      border: 1px solid rgba(232, 213, 176, 0.4);
+      padding: 18px 45px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .home-link:hover {
+      background: #f5f0e8;
+      color: #000;
+      border-color: #f5f0e8;
+      box-shadow: 0 10px 40px rgba(245, 240, 232, 0.1);
+      transform: translateY(-2px);
+    }
+
+    @keyframes glitch {
+      0%, 90%, 100% { transform: skew(0deg); text-shadow: none; }
+      91% { transform: skew(2deg); text-shadow: 3px 0 #ff0000; }
+      93% { transform: skew(-2deg); text-shadow: -3px 0 #00ffff; }
+      95% { transform: skew(1deg); text-shadow: 1px 0 #ff0000; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="noise"></div>
+
+  <div class="container">
+    <h1>404</h1>
+    <p>Tag için yapılmıştır.</p>
+    <a href="/" class="home-link">huzuruma çık</a>
+  </div>
+
+</body>
+</html>
