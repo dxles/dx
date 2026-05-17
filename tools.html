@@ -426,8 +426,44 @@
       #content { padding: 3rem 1rem 5rem; }
     }
   </style>
+  <script>
+  function toggleCat(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function toggleSetup(btn) {
+    const panel = btn.closest('.tool-card').querySelector('.setup-panel');
+    panel.classList.toggle('open');
+    btn.style.color = panel.classList.contains('open') ? 'var(--accent)' : '';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const vid = document.getElementById('banner-vid');
+    const overlay = document.getElementById('unmute-overlay');
+
+    vid.muted = true; 
+
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        vid.muted = false;
+        vid.volume = 0.7; 
+        
+        vid.play().catch(err => {
+          console.log("Video oynatılamadı:", err);
+        });
+
+        overlay.remove();
+      });
+    }
+  });
+  const obs = new IntersectionObserver((entries) => {
+
+  });
+</script>
 </head>
 <body>
+  
+  <div id="unmute-overlay" style="position: fixed; inset: 0; z-index: 9999; background: transparent; cursor: pointer;"></div>
 
   <a href="/" id="back-btn">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
@@ -435,9 +471,9 @@
   </a>
 
   <section id="banner">
-    <video id="banner-vid" autoplay muted loop playsinline>
-      <source src="banner4.mp4" type="video/mp4">
-    </video>
+    <video id="banner-vid" autoplay loop playsinline>
+  <source src="banner4.mp4" type="video/mp4">
+</video>
     <div class="banner-veil"></div>
     <div class="banner-content">
       <span class="banner-eyebrow">dxles.eu</span>
@@ -912,7 +948,6 @@
       btn.style.color = panel.classList.contains('open') ? 'var(--accent)' : '';
     }
 
-    // scroll reveal
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
         if (e.isIntersecting) {
