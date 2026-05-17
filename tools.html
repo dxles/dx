@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dxles | Tools</title>
+  <link rel="canonical" href="https://dxles.eu/tools.html">
+  <meta name="description" content="Dxles tarafından geliştirilen araçlar, scriptler ve güvenlik toolları.">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #e8d5b0;
+      --accent-dim: rgba(232,213,176,0.14);
+      --accent-glow: rgba(232,213,176,0.06);
+      --text: #f5f0e8;
+      --sub: rgba(245,240,232,0.5);
+      --sub2: rgba(245,240,232,0.22);
+      --card: rgba(9,9,9,0.85);
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(232,213,176,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #000;
+      color: var(--text);
+      font-family: 'Quicksand', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    #ig-badge {
+      display: inline-flex; align-items: center; gap: 16px;
+      padding: 14px 22px 14px 14px;
+      background: rgba(8,8,8,0.72);
+      border: 1px solid rgba(255,255,255,0.09);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 18px;
+      margin-top: 1.4rem;
+      opacity: 0;
+      animation: badgeFadeIn 0.8s ease 0.6s forwards;
+    }
+    @keyframes badgeFadeIn {
+      to { opacity: 1; }
+    }
+
+    .ig-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.1);
+      background: #111;
+    }
+    .ig-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover; border-radius: 50%;
+      display: block;
+    }
+
+    .ig-info { display: flex; flex-direction: column; gap: 6px; }
+
+    .ig-name-row {
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .ig-nick {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      color: #fff; letter-spacing: 0.01em;
+    }
+
+    .ig-blue-tick { width: 17px; height: 17px; flex-shrink: 0; }
+
+    .ig-stats { display: flex; gap: 16px; }
+
+    .ig-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+
+    .ig-stat-num {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      color: #fff; line-height: 1;
+    }
+
+    .ig-stat-label {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.44rem; font-weight: 500;
+      color: rgba(255,255,255,0.38);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    #back-btn {
+      position: fixed;
+      top: 1.4rem; left: 1.4rem;
+      z-index: 100;
+      display: flex; align-items: center; gap: 0.45rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--sub);
+      text-decoration: none;
+      padding: 0.48rem 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(16px);
+      border-radius: 2px;
+      transition: color 0.25s, border-color 0.25s, background 0.25s;
+    }
+    #back-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+    #back-btn:hover { color: var(--text); border-color: rgba(232,213,176,0.22); }
+
+    #banner {
+      position: relative;
+      width: 100%; height: 100vh;
+      overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+
+    #banner-vid {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .banner-veil {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,0.5) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%);
+      pointer-events: none;
+    }
+
+    .banner-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding-bottom: 5.5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.9rem;
+      animation: bannerUp 1.1s cubic-bezier(0.22,1,0.36,1) 0.25s both;
+    }
+
+    @keyframes bannerUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .banner-eyebrow {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    .banner-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .banner-line {
+      width: 36px; height: 1px;
+      background: var(--accent);
+      opacity: 0.55;
+    }
+
+    .banner-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sub);
+    }
+
+    .scroll-cue {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      opacity: 0.35;
+      animation: cueFloat 2.2s ease-in-out infinite;
+    }
+    @keyframes cueFloat {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(7px); }
+    }
+    .scroll-cue span { font-family: 'Quicksand', sans-serif; font-size: 0.43rem; letter-spacing: 0.45em; text-transform: uppercase; color: var(--sub); }
+    .scroll-cue svg { width: 13px; height: 13px; stroke: var(--sub); fill: none; stroke-width: 1.5; }
+
+    #content {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 7rem;
+    }
+
+    .section-header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    .section-header h2 {
+      font-family: 'Quicksand', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .section-header p {
+      margin-top: 0.55rem;
+      font-size: 0.66rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sub);
+    }
+
+    .category {
+      margin-bottom: 2px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .category:hover { border-color: var(--border-hover); }
+    .category.open  { border-color: rgba(232,213,176,0.18); }
+
+    .cat-header {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.1rem 1.4rem;
+      background: var(--card);
+      cursor: pointer;
+      user-select: none;
+      backdrop-filter: blur(14px);
+      transition: background 0.2s;
+    }
+    .cat-header:hover { background: rgba(15,15,15,0.92); }
+
+    .cat-icon {
+      width: 34px; height: 34px;
+      border: 1px solid rgba(232,213,176,0.18);
+      border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      background: var(--accent-glow);
+    }
+    .cat-icon svg { width: 15px; height: 15px; stroke: var(--accent); fill: none; stroke-width: 1.6; }
+
+    .cat-label { flex: 1; }
+    .cat-label strong {
+      display: block;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text);
+    }
+    .cat-label span {
+      font-size: 0.56rem; letter-spacing: 0.1em;
+      color: var(--sub); text-transform: uppercase;
+    }
+
+    .cat-count {
+      font-size: 0.48rem; letter-spacing: 0.12em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(232,213,176,0.12);
+      padding: 2px 8px; border-radius: 2px;
+    }
+
+    .cat-arrow {
+      width: 15px; height: 15px;
+      stroke: var(--sub2); fill: none; stroke-width: 1.5;
+      transition: transform 0.38s cubic-bezier(0.22,1,0.36,1);
+      flex-shrink: 0;
+    }
+    .category.open .cat-arrow { transform: rotate(180deg); }
+
+    .cat-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.22,1,0.36,1);
+      background: rgba(4,4,4,0.72);
+      backdrop-filter: blur(14px);
+    }
+    .category.open .cat-body { max-height: 3000px; }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px; padding: 1px;
+    }
+
+    .tool-card {
+      background: rgba(7,7,7,0.92);
+      padding: 1.4rem 1.3rem;
+      display: flex; flex-direction: column; gap: 0.7rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.22s;
+      position: relative; overflow: hidden;
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 2px; height: 0;
+      background: var(--accent);
+      transition: height 0.32s ease;
+    }
+    .tool-card:hover::before { height: 100%; }
+    .tool-card:hover { background: rgba(13,13,13,0.98); }
+
+    .tool-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 0.5rem;
+    }
+
+    .tool-name {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .tool-lang {
+      font-size: 0.42rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(232,213,176,0.1);
+      padding: 2px 7px; border-radius: 2px;
+      flex-shrink: 0; margin-top: 2px;
+    }
+
+    .tool-desc {
+      font-size: 0.61rem; line-height: 1.72;
+      color: var(--sub); letter-spacing: 0.03em;
+    }
+
+    .tool-actions {
+      display: flex; gap: 0.45rem;
+      margin-top: auto; padding-top: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      display: flex; align-items: center; gap: 5px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.48rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.4rem 0.85rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--sub);
+      cursor: pointer; border-radius: 2px;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .tool-btn svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 1.9; }
+    .tool-btn:hover { color: var(--text); border-color: rgba(232,213,176,0.22); background: rgba(232,213,176,0.04); }
+    .tool-btn.primary {
+      border-color: rgba(232,213,176,0.2); color: var(--accent); background: var(--accent-glow);
+    }
+    .tool-btn.primary:hover { background: var(--accent-dim); border-color: rgba(232,213,176,0.35); color: var(--text); }
+
+    .setup-panel {
+      display: none;
+      padding: 1.1rem 1.3rem 1.2rem;
+      background: rgba(2,2,2,0.98);
+      border-top: 1px solid var(--border);
+    }
+    .setup-panel.open { display: block; }
+
+    .setup-title {
+      font-size: 0.52rem; letter-spacing: 0.38em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.85rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .setup-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .setup-steps { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .setup-step { display: flex; gap: 0.8rem; align-items: flex-start; }
+
+    .step-num {
+      width: 18px; height: 18px;
+      border: 1px solid rgba(232,213,176,0.22); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.46rem; font-weight: 700;
+      color: var(--accent); flex-shrink: 0; margin-top: 1px;
+    }
+
+    .step-text {
+      font-size: 0.59rem; line-height: 1.7;
+      color: var(--sub); letter-spacing: 0.03em;
+    }
+    .step-text code {
+      font-family: 'Courier New', monospace;
+      background: rgba(232,213,176,0.07);
+      border: 1px solid rgba(232,213,176,0.1);
+      padding: 1px 6px; border-radius: 2px;
+      color: var(--accent); font-size: 0.94em;
+    }
+
+    #footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.48rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--sub2);
+    }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.on { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 580px) {
+      .tools-grid { grid-template-columns: 1fr; }
+      .banner-title { font-size: 2.4rem; }
+      #content { padding: 3rem 1rem 5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" id="back-btn">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Ana sayfa
+  </a>
+
+  <section id="banner">
+    <video id="banner-vid" autoplay muted loop playsinline>
+      <source src="banner4.mp4" type="video/mp4">
+    </video>
+    <div class="banner-veil"></div>
+    <div class="banner-content">
+      <span class="banner-eyebrow">dxles.eu</span>
+      <h1 class="banner-title">Tools</h1>
+      <div class="banner-line"></div>
+      <span class="banner-sub">Açık kaynak araçlar &amp; scriptler</span>
+
+      <!-- Instagram Badge -->
+      <div id="ig-badge">
+        <div class="ig-avatar">
+          <img src="1779044789401_image.jpg" alt="dxl3s" />
+        </div>
+        <div class="ig-info">
+          <div class="ig-name-row">
+            <span class="ig-nick">dxl3s</span>
+            <!-- Real Instagram verified badge SVG -->
+            <svg class="ig-blue-tick" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 3l2.9 3.8 4.7-1 1 4.7 4.5 1.5-1.5 4.5 3.4 3.5-3.4 3.5 1.5 4.5-4.5 1.5-1 4.7-4.7-1L20 37l-2.9-3.8-4.7 1-1-4.7-4.5-1.5 1.5-4.5-3.4-3.5 3.4-3.5-1.5-4.5 4.5-1.5 1-4.7 4.7 1z" fill="#0095F6"/>
+              <path d="M13.5 20.5l4.5 4.5 9-9" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="ig-stats">
+            <div class="ig-stat">
+              <span class="ig-stat-num">1</span>
+              <span class="ig-stat-label">posts</span>
+            </div>
+            <div class="ig-stat">
+              <span class="ig-stat-num">260</span>
+              <span class="ig-stat-label">followers</span>
+            </div>
+            <div class="ig-stat">
+              <span class="ig-stat-num">126</span>
+              <span class="ig-stat-label">following</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <main id="content">
+
+    <div class="section-header reveal">
+      <h2>Araçlar &amp; Projeler</h2>
+      <p>Tüm araçlar GitHub üzerinden açık kaynak olarak sunulmaktadır</p>
+    </div>
+
+    <!-- ═══ KATEGORİ 1: Phone & Call ═══ -->
+    <div class="category reveal" id="cat-phone">
+      <div class="cat-header" onclick="toggleCat('cat-phone')">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>
+        </div>
+        <div class="cat-label">
+          <strong>Phone &amp; Call Tools</strong>
+          <span>Telefon &amp; arama araçları</span>
+        </div>
+        <span class="cat-count">2 tool</span>
+        <svg class="cat-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cat-body">
+        <div class="tools-grid">
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">Call Bomber</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Belirlenen numaraya otomatik arama gönderen Python scripti. Sadece kendi test ortamında kullanım içindir.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/call-bomber/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.8+ yüklü olduğundan emin ol.<br><code>python --version</code></div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text">ZIP dosyasını indir ve çıkart.</div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text">Bağımlılıkları yükle:<br><code>pip install -r requirements.txt</code></div></div>
+                <div class="setup-step"><div class="step-num">4</div><div class="step-text">Scripti çalıştır:<br><code>python main.py</code></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">Number Lookup</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Verilen telefon numarasına ait operatör, ülke ve hat tipi bilgisini sorgular.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/number-lookup/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.8+ gerekli.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text">İndir ve klasörü aç.</div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text"><code>pip install -r requirements.txt</code></div></div>
+                <div class="setup-step"><div class="step-num">4</div><div class="step-text"><code>python lookup.py +905xxxxxxxx</code></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ KATEGORİ 2: Social Media ═══ -->
+    <div class="category reveal" id="cat-social">
+      <div class="cat-header" onclick="toggleCat('cat-social')">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="cat-label">
+          <strong>Social Media Tools</strong>
+          <span>Sosyal medya araçları</span>
+        </div>
+        <span class="cat-count">2 tool</span>
+        <svg class="cat-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cat-body">
+        <div class="tools-grid">
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">Username Checker</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">50+ platformda kullanıcı adı müsaitliğini saniyeler içinde sorgular. OSINT amaçlı kullanım içindir.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/username-checker/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.8+ gerekli.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text">ZIP'i indir ve çıkart.</div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text"><code>pip install -r requirements.txt</code></div></div>
+                <div class="setup-step"><div class="step-num">4</div><div class="step-text"><code>python checker.py kullaniciadi</code></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">Account Info</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Herkese açık sosyal medya profilinden temel bilgileri (takipçi, gönderi, bio) çeken scraper.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/account-info/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.9+ gerekli.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text">İndir, klasörüne gir.</div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text"><code>pip install -r requirements.txt</code></div></div>
+                <div class="setup-step"><div class="step-num">4</div><div class="step-text"><code>python scraper.py --user dxl3s</code></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ KATEGORİ 3: Automation ═══ -->
+    <div class="category reveal" id="cat-auto">
+      <div class="cat-header" onclick="toggleCat('cat-auto')">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        </div>
+        <div class="cat-label">
+          <strong>Automation</strong>
+          <span>Bot &amp; otomasyon scriptleri</span>
+        </div>
+        <span class="cat-count">2 tool</span>
+        <svg class="cat-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cat-body">
+        <div class="tools-grid">
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">Auto Follow Bot</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Selenium tabanlı sosyal medya takip botu. Hedef listeye göre otomatik takip/takipten çıkma işlemi yapar.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/auto-follow/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.9+ ve Chrome yüklü olmalı.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text"><code>pip install selenium webdriver-manager</code></div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text"><code>config.json</code> dosyasına hesap bilgilerini gir.</div></div>
+                <div class="setup-step"><div class="step-num">4</div><div class="step-text"><code>python bot.py</code></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">Task Scheduler</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Zamanlanmış görev yöneticisi. Cron tabanlı script tetikleyicisi; webhook desteği ile birlikte gelir.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/task-scheduler/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.8+ gerekli.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text"><code>pip install -r requirements.txt</code></div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text"><code>tasks.json</code> dosyasını düzenle.</div></div>
+                <div class="setup-step"><div class="step-num">4</div><div class="step-text"><code>python scheduler.py</code></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ KATEGORİ 4: Security & OSINT ═══ -->
+    <div class="category reveal" id="cat-sec">
+      <div class="cat-header" onclick="toggleCat('cat-sec')">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <div class="cat-label">
+          <strong>Security &amp; OSINT</strong>
+          <span>Güvenlik &amp; açık kaynak istihbarat</span>
+        </div>
+        <span class="cat-count">2 tool</span>
+        <svg class="cat-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cat-body">
+        <div class="tools-grid">
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">IP Tracer</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">IP adresi üzerinden konum, ISP ve ASN bilgilerini çeken araç. Eğitim &amp; test amaçlıdır.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/ip-tracer/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.8+ gerekli.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text"><code>pip install requests</code></div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text"><code>python tracer.py 1.1.1.1</code></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">Port Scanner</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Hızlı çoklu thread port tarayıcı. Belirli aralıkta açık portları ve servis bilgilerini listeler.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/port-scanner/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.8+, ek bağımlılık yok.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text"><code>python scanner.py --host 127.0.0.1 --range 1-1000</code></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ KATEGORİ 5: Reverse Engineering ═══ -->
+    <div class="category reveal" id="cat-re">
+      <div class="cat-header" onclick="toggleCat('cat-re')">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="cat-label">
+          <strong>Reverse Engineering</strong>
+          <span>RE araçları &amp; analiz scriptleri</span>
+        </div>
+        <span class="cat-count">2 tool</span>
+        <svg class="cat-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cat-body">
+        <div class="tools-grid">
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">APK Analyzer</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Android APK dosyasını parse ederek manifest, izinler ve endpoint listesini çıkarır.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/apk-analyzer/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.9+ gerekli.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text"><code>pip install androguard</code></div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text"><code>python analyze.py app.apk</code></div></div>
+                <div class="setup-step"><div class="step-num">4</div><div class="step-text">Çıktı <code>output/</code> klasörüne kaydedilir.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-top">
+              <span class="tool-name">String Extractor</span>
+              <span class="tool-lang">Python</span>
+            </div>
+            <p class="tool-desc">Binary/executable dosyalardan okunabilir stringleri çıkarır; URL, API key ve sabit değerleri filtreler.</p>
+            <div class="tool-actions">
+              <a class="tool-btn primary" href="https://github.com/35rl/string-extractor/archive/refs/heads/main.zip" download>
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                İndir
+              </a>
+              <a class="tool-btn" href="https://github.com/35rl" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                GitHub
+              </a>
+              <button class="tool-btn" onclick="toggleSetup(this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 00-14.14 0M4.93 19.07a10 10 0 0014.14 0"/></svg>
+                Kurulum
+              </button>
+            </div>
+            <div class="setup-panel">
+              <div class="setup-title">Kurulum rehberi</div>
+              <div class="setup-steps">
+                <div class="setup-step"><div class="step-num">1</div><div class="step-text">Python 3.8+, ek bağımlılık yok.</div></div>
+                <div class="setup-step"><div class="step-num">2</div><div class="step-text"><code>python extractor.py dosya.exe</code></div></div>
+                <div class="setup-step"><div class="step-num">3</div><div class="step-text">Sonuçlar <code>strings.txt</code> olarak dışa aktarılır.</div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer id="footer">
+    &copy; 2025 dxles &nbsp;&mdash;&nbsp; tüm araçlar eğitim &amp; test amaçlıdır
+  </footer>
+
+  <script>
+    function toggleCat(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+    function toggleSetup(btn) {
+      const panel = btn.closest('.tool-card').querySelector('.setup-panel');
+      panel.classList.toggle('open');
+      btn.style.color = panel.classList.contains('open') ? 'var(--accent)' : '';
+    }
+
+    // scroll reveal
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('on'), i * 90);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>
