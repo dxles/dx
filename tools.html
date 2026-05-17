@@ -437,7 +437,7 @@
     btn.style.color = panel.classList.contains('open') ? 'var(--accent)' : '';
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+ document.addEventListener('DOMContentLoaded', () => {
     const vid = document.getElementById('banner-vid');
     const overlay = document.getElementById('unmute-overlay');
 
@@ -453,11 +453,11 @@
         });
 
         overlay.remove();
+        document.querySelectorAll('.reveal').forEach(el => {
+          el.classList.add('on');
+        });
       });
     }
-  });
-  const obs = new IntersectionObserver((entries) => {
-
   });
 </script>
 </head>
