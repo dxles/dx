@@ -1,574 +1,291 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dxles — Geliştirici, Siber Güvenlik & OSINT Araştırmacısı</title>
-  <link rel="canonical" href="https://dxles.eu/" />
-  <meta name="robots" content="index, follow" />
-  <meta name="description" content="Dxles — Python geliştirici, siber güvenlik araştırmacısı ve OSINT uzmanı. Açık kaynak araçlar, güvenlik yazıları ve otomasyon projeleri." />
-  <meta name="keywords" content="dxles, siber güvenlik, python, osint, açık kaynak, güvenlik araçları, developer" />
-  <meta property="og:title" content="Dxles — Geliştirici & Siber Güvenlik Araştırmacısı" />
-  <meta property="og:description" content="Python geliştirici, siber güvenlik araştırmacısı. Açık kaynak araçlar ve OSINT projeleri." />
-  <meta property="og:url" content="https://dxles.eu/" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Dxles",
-    "url": "https://dxles.eu/",
-    "sameAs": [
-      "https://instagram.com/dxl3s",
-      "https://github.com/35rl",
-      "https://www.linkedin.com/in/dxlesx/"
-    ],
-    "jobTitle": "Software Developer & Security Researcher",
-    "knowsAbout": ["Python", "Cyber Security", "OSINT", "Automation", "Reverse Engineering"]
-  }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-    :root {
-      --gold: #c8a96e;
-      --gold-dim: rgba(200,169,110,0.12);
-      --gold-glow: rgba(200,169,110,0.05);
-      --text: #ede8df;
-      --sub: rgba(237,232,223,0.45);
-      --bg: #080806;
-      --line: rgba(255,255,255,0.06);
-    }
- 
-    html { scroll-behavior: smooth; }
- 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      overflow-x: hidden;
-    }
-
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 2.5rem;
-      background: rgba(8,8,6,0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--line);
-    }
- 
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem; font-weight: 800;
-      letter-spacing: 0.04em;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--gold); }
- 
-    .nav-links {
-      display: flex; gap: 2rem; align-items: center;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.58rem; letter-spacing: 0.28em;
-      text-transform: uppercase; color: var(--sub);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); }
-    .nav-links .cta {
-      color: var(--gold);
-      border: 1px solid rgba(200,169,110,0.3);
-      padding: 0.4rem 1rem;
-      border-radius: 2px;
-      transition: background 0.2s, color 0.2s;
-    }
-    .nav-links .cta:hover { background: var(--gold-dim); color: var(--text); }
-
-    #hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding: 8rem 2.5rem 5rem;
-      position: relative;
-      overflow: hidden;
-    }
- 
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(200,169,110,0.04) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(200,169,110,0.03) 0%, transparent 60%);
-    }
- 
-    .hero-grid {
-      position: absolute; inset: 0; z-index: 0;
-      background-image:
-        linear-gradient(var(--line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-    }
- 
-    .hero-inner {
-      position: relative; z-index: 1;
-      max-width: 820px;
-    }
- 
-    .hero-tag {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-size: 0.52rem; letter-spacing: 0.38em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 1.8rem;
-      opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
-    }
-    .hero-tag::before {
-      content: ''; display: block;
-      width: 24px; height: 1px; background: var(--gold);
-    }
- 
-    .hero-h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      margin-bottom: 1.8rem;
-      opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
-    }
-    .hero-h1 em {
-      font-style: normal;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(200,169,110,0.5);
-    }
- 
-    .hero-desc {
-      font-size: 0.72rem; line-height: 1.9;
-      color: var(--sub); max-width: 480px;
-      letter-spacing: 0.04em;
-      margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards;
-    }
- 
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards;
-    }
- 
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.55rem; letter-spacing: 0.28em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 0.75rem 1.6rem;
-      border-radius: 2px;
-      transition: all 0.25s;
-    }
-    .btn-primary {
-      background: var(--gold);
-      color: #080806;
-      border: 1px solid var(--gold);
-    }
-    .btn-primary:hover { background: transparent; color: var(--gold); }
-    .btn-secondary {
-      border: 1px solid var(--line);
-      color: var(--sub);
-      background: transparent;
-    }
-    .btn-secondary:hover { border-color: rgba(200,169,110,0.3); color: var(--text); }
-    .btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
- 
-    .hero-stats {
-      position: absolute; right: 2.5rem; top: 50%;
-      transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 2rem;
-      z-index: 1;
-      opacity: 0; animation: fadeLeft 0.8s ease 1s forwards;
-    }
-    .stat { text-align: right; }
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 2.2rem; font-weight: 800;
-      color: var(--text); line-height: 1;
-    }
-    .stat-label {
-      font-size: 0.48rem; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--sub);
-      margin-top: 0.2rem;
-    }
- 
-    #skills {
-      padding: 6rem 2.5rem;
-      border-top: 1px solid var(--line);
-    }
- 
-    .section-eyebrow {
-      font-size: 0.52rem; letter-spacing: 0.5em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 1rem;
-    }
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800; letter-spacing: -0.02em;
-      color: var(--text); margin-bottom: 3.5rem;
-    }
- 
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1px;
-      border: 1px solid var(--line);
-    }
- 
-    .skill-cell {
-      padding: 1.8rem 1.5rem;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      background: rgba(12,12,10,0.6);
-      transition: background 0.2s;
-      position: relative;
-    }
-    .skill-cell:hover { background: rgba(200,169,110,0.03); }
-    .skill-cell::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0;
-      width: 0; height: 1px;
-      background: var(--gold);
-      transition: width 0.4s ease;
-    }
-    .skill-cell:hover::after { width: 100%; }
- 
-    .skill-icon {
-      width: 32px; height: 32px;
-      border: 1px solid rgba(200,169,110,0.2);
-      border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1rem;
-      background: var(--gold-glow);
-    }
-    .skill-icon svg { width: 15px; height: 15px; stroke: var(--gold); fill: none; stroke-width: 1.6; }
-    .skill-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.78rem; font-weight: 700;
-      letter-spacing: 0.06em; color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-    .skill-desc {
-      font-size: 0.57rem; line-height: 1.8;
-      color: var(--sub); letter-spacing: 0.03em;
-    }
- 
-    #about {
-      padding: 6rem 2.5rem;
-      border-top: 1px solid var(--line);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: center;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
- 
-    .about-text p {
-      font-size: 0.68rem; line-height: 2;
-      color: var(--sub); letter-spacing: 0.03em;
-      margin-bottom: 1rem;
-    }
-    .about-text p strong { color: var(--text); font-weight: 400; }
- 
-    .about-links {
-      display: flex; flex-direction: column; gap: 0.6rem;
-      margin-top: 2rem;
-    }
-    .about-link {
-      display: flex; align-items: center; gap: 0.8rem;
-      font-size: 0.56rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--sub);
-      text-decoration: none;
-      padding: 0.7rem 1rem;
-      border: 1px solid var(--line);
-      border-radius: 2px;
-      transition: all 0.2s;
-    }
-    .about-link:hover { color: var(--text); border-color: rgba(200,169,110,0.25); background: var(--gold-glow); }
-    .about-link svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.6; flex-shrink: 0; }
- 
-    .about-terminal {
-      background: rgba(6,6,5,0.9);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      overflow: hidden;
-      font-family: 'DM Mono', monospace;
-    }
-    .term-bar {
-      padding: 0.7rem 1rem;
-      background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid var(--line);
-      display: flex; align-items: center; gap: 0.4rem;
-    }
-    .term-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .term-body {
-      padding: 1.5rem;
-      font-size: 0.6rem; line-height: 2;
-    }
-    .term-prompt { color: var(--gold); }
-    .term-cmd { color: var(--text); }
-    .term-out { color: var(--sub); }
-    .term-out.hi { color: #7ec8a0; }
-    .term-cursor {
-      display: inline-block;
-      width: 7px; height: 13px;
-      background: var(--gold);
-      animation: blink 1s step-end infinite;
-      vertical-align: middle;
-      margin-left: 2px;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 2.5rem 2.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-left {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem; font-weight: 800;
-      color: var(--text);
-    }
-    .footer-left span { color: var(--gold); }
-    .footer-right {
-      font-size: 0.5rem; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--sub);
-    }
- 
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(24px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    @keyframes fadeLeft {
-      from { opacity:0; transform:translate(24px,-50%); }
-      to   { opacity:1; transform:translate(0,-50%); }
-    }
- 
-    .reveal { opacity:0; transform:translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.on { opacity:1; transform:translateY(0); }
- 
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.2rem; }
-      .nav-links { display: none; }
-      #hero { padding: 7rem 1.2rem 4rem; }
-      .hero-stats { display: none; }
-      #about { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.2rem; }
-      #skills { padding: 4rem 1.2rem; }
-      footer { padding: 1.5rem 1.2rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1">
+<title>Dxles 🤟</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:"Helvetica Neue",Arial,sans-serif;background:#fff;color:#000;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:hover{opacity:.6}
+.ticker{position:fixed;top:0;left:0;width:100%;background:#000;color:#fff;font-size:11px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;z-index:100;padding:6px 0}
+.ticker-inner{display:inline-block;animation:ticker 30s linear infinite}
+.ticker-inner span{margin:0 1.5rem}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.scroll-line{position:fixed;top:28px;left:0;height:2px;background:#000;z-index:500;transition:width .1s}
+nav{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:100;background:#000;border-radius:100px;padding:12px 28px;display:flex;gap:2rem}
+nav a{color:#fff;font-size:12px;letter-spacing:.08em}
+nav a:hover{opacity:.5}
+.popup{position:fixed;bottom:6rem;right:2rem;background:#000;color:#fff;padding:1.5rem 2rem;border-radius:12px;max-width:280px;z-index:200;opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .4s,transform .4s}
+.popup.show{opacity:1;transform:translateY(0);pointer-events:all}
+.popup p{font-size:13px;line-height:1.6;margin-bottom:.8rem}
+.popup-close{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer}
+#t{padding:120px 8vw 60px;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:2rem;display:flex;align-items:center;gap:.5rem}
+.hero-label::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#00c853;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-size:clamp(3rem,7vw,6.5rem);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:1.5rem}
+.hero-title em{font-style:normal;color:#888}
+.hero-roles{font-size:clamp(1rem,1.8vw,1.3rem);color:#888;font-weight:300;margin-bottom:2rem}
+.hero-roles span{color:#000;font-weight:500;border-bottom:1px solid currentColor}
+.hero-bio{max-width:480px;font-size:14px;line-height:1.8;color:#555;margin-bottom:2.5rem}
+.hero-contact{display:inline-flex;align-items:center;gap:.5rem;background:#000;color:#fff;padding:14px 28px;border-radius:100px;font-size:13px;letter-spacing:.05em;transition:opacity .2s}
+.hero-contact:hover{opacity:.7}
+.hero-right{position:relative;height:520px}
+.sticker{position:absolute;border-radius:16px;overflow:hidden;filter:drop-shadow(0 8px 24px rgba(0,0,0,.13))}
+.s1{width:220px;top:20px;left:40px;animation:f1 4s ease-in-out infinite alternate}
+.s2{width:180px;top:10px;right:20px;animation:f2 5s ease-in-out infinite alternate}
+.s3{width:200px;bottom:120px;left:10px;animation:f3 4.5s ease-in-out infinite alternate}
+.s4{width:170px;bottom:80px;right:30px;animation:f4 3.8s ease-in-out infinite alternate}
+.s5{width:190px;top:200px;left:120px;animation:f5 5.2s ease-in-out infinite alternate}
+@keyframes f1{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-18px) rotate(1deg)}}
+@keyframes f2{from{transform:translateY(0) rotate(2deg)}to{transform:translateY(-22px) rotate(-1deg)}}
+@keyframes f3{from{transform:translateY(0) rotate(1deg)}to{transform:translateY(-15px) rotate(-2deg)}}
+@keyframes f4{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-20px) rotate(2deg)}}
+@keyframes f5{from{transform:translateY(0) rotate(0)}to{transform:translateY(-12px) rotate(-1deg)}}
+.mq{border-top:1px solid #eee;border-bottom:1px solid #eee;overflow:hidden;padding:14px 0}
+.mq-t{display:flex;white-space:nowrap;animation:mq 20s linear infinite}
+.mq-t span{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin:0 2rem}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+section{padding:6rem 8vw}
+.sl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:3rem}
+.sl em{font-style:normal;color:#000}
+#skills .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#eee;border:1px solid #eee}
+.si{background:#fff;padding:2rem 1.5rem}
+.sn{font-size:11px;color:#888;letter-spacing:.1em;margin-bottom:1rem;display:block}
+.st{font-size:18px;font-weight:600;margin-bottom:.5rem}
+.sd{font-size:13px;line-height:1.6;color:#666}
+.tl{display:flex;flex-direction:column}
+.ti{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:1.5rem;padding:1.5rem 0;border-bottom:1px solid #eee}
+.ti:hover{background:#fafafa;margin:0 -2rem;padding-left:2rem;padding-right:2rem}
+.tn{font-size:11px;color:#888}
+.tnm{font-size:22px;font-weight:600;margin-bottom:.2rem}
+.td{font-size:13px;color:#666;line-height:1.5}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #ddd;padding:3px 10px;border-radius:100px;color:#888}
+.tlink{font-size:12px;letter-spacing:.05em;border-bottom:1px solid #000;white-space:nowrap}
+#exp .ei{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:3rem 0;border-bottom:1px solid #eee}
+.ep{font-size:12px;color:#888;letter-spacing:.08em;margin-bottom:.5rem;display:block}
+.ec{font-size:18px;font-weight:600;margin-bottom:.3rem}
+.er{font-size:13px;color:#666}
+.ed{font-size:15px;line-height:1.8;color:#444}
+.qs{padding:6rem 8vw;text-align:center;border-top:1px solid #eee;border-bottom:1px solid #eee}
+blockquote{font-size:clamp(1.1rem,2.5vw,1.6rem);font-style:italic;font-weight:300;color:#333;max-width:700px;margin:0 auto 1rem;line-height:1.6}
+cite{font-size:13px;color:#888;font-style:normal;letter-spacing:.1em}
+#c{padding:8rem 8vw 4rem}
+.cb{font-size:clamp(2rem,5vw,4.5rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:3rem}
+.cb a{border-bottom:3px solid #000}
+.soc{display:flex;flex-wrap:wrap;gap:2rem;margin-bottom:6rem}
+.soc a{font-size:13px;letter-spacing:.08em;border-bottom:1px solid currentColor}
+footer{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid #eee;font-size:12px;color:#888;flex-wrap:wrap;gap:1rem}
+.fe{display:flex;gap:1.5rem}
+.fe a{color:#888;border-bottom:1px solid #ddd;font-size:12px}
+@media(max-width:900px){
+#t{grid-template-columns:1fr;padding:110px 5vw 40px}
+.hero-right{height:360px}
+.s1{width:160px;top:10px;left:20px}.s2{width:140px;top:5px;right:10px}
+.s3{width:150px;bottom:60px;left:5px}.s4{width:130px;bottom:30px;right:15px}
+.s5{width:145px;top:160px;left:85px}
+section{padding:4rem 5vw}#c{padding:5rem 5vw 3rem}
+.ei{grid-template-columns:1fr;gap:1rem}.ti{grid-template-columns:1fr}
+nav{bottom:1rem;padding:10px 18px;gap:1.2rem}}
+</style>
 </head>
 <body>
- 
-  <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">
-    <h1>Dxles — Python Geliştirici ve Siber Güvenlik Araştırmacısı</h1>
-    <p>Dxles, Python programlama dili ile siber güvenlik, OSINT, otomasyon ve reverse engineering alanlarında açık kaynak araçlar geliştiren bir yazılımcıdır.</p>
-  </div>
- 
-  <nav>
-    <a href="/" class="nav-logo">dx<span>les</span></a>
-    <ul class="nav-links">
-      <li><a href="#skills">Yetenekler</a></li>
-      <li><a href="#about">Hakkında</a></li>
-      <li><a href="/tools.html">Araçlar</a></li>
-      <li><a href="/blog.html">Yazılar</a></li>
-      <li><a href="https://github.com/35rl" target="_blank" rel="noopener" class="cta">GitHub</a></li>
-    </ul>
-  </nav>
- 
-  <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-inner">
-      <div class="hero-tag">Geliştirici &amp; Güvenlik Araştırmacısı</div>
-      <h1 class="hero-h1">Kod yaz.<br><em>Güvenliği</em><br>araştır.</h1>
-      <p class="hero-desc">
-        Python, OSINT ve siber güvenlik üzerine açık kaynak araçlar geliştiriyorum.
-        Backend sistemler, otomasyon scriptleri ve güvenlik araştırmaları.
-      </p>
-      <div class="hero-actions">
-        <a href="/tools.html" class="btn btn-primary">
-          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-          Araçları Gör
-        </a>
-        <a href="/blog.html" class="btn btn-secondary">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Yazılar
-        </a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">5+</div>
-        <div class="stat-label">Açık kaynak araç</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">3+</div>
-        <div class="stat-label">Yıl deneyim</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">∞</div>
-        <div class="stat-label">Araştırma isteği</div>
-      </div>
-    </div>
-  </section>
- 
-  <section id="skills">
-    <div style="max-width:1100px;margin:0 auto;">
-      <p class="section-eyebrow reveal">Uzmanlık Alanları</p>
-      <h2 class="section-title reveal">Ne yapıyorum?</h2>
-      <div class="skills-grid">
- 
-        <div class="skill-cell reveal">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          </div>
-          <div class="skill-name">Python Dev</div>
-          <div class="skill-desc">Otomasyon scriptleri, bot geliştirme, API entegrasyonları ve backend sistemler.</div>
-        </div>
- 
-        <div class="skill-cell reveal">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div class="skill-name">Siber Güvenlik</div>
-          <div class="skill-desc">Güvenlik araştırmaları, penetrasyon testi temelleri ve zafiyet analizi.</div>
-        </div>
- 
-        <div class="skill-cell reveal">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </div>
-          <div class="skill-name">OSINT</div>
-          <div class="skill-desc">Açık kaynak istihbarat araçları, sosyal mühendislik farkındalığı ve dijital iz analizi.</div>
-        </div>
- 
-        <div class="skill-cell reveal">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
-          <div class="skill-name">Reverse Engineering</div>
-          <div class="skill-desc">Binary analizi, yazılım davranışı inceleme ve tersine mühendislik temelleri.</div>
-        </div>
- 
-        <div class="skill-cell reveal">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          </div>
-          <div class="skill-name">Otomasyon</div>
-          <div class="skill-desc">Tekrar eden görevleri otomatize eden scriptler ve workflow optimizasyonu.</div>
-        </div>
- 
-        <div class="skill-cell reveal">
-          <div class="skill-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          </div>
-          <div class="skill-name">Açık Kaynak</div>
-          <div class="skill-desc">GitHub'da aktif olarak geliştirilen araçlar, toplulukla paylaşılan projeler.</div>
-        </div>
- 
-      </div>
-    </div>
-  </section>
- 
-  <section id="about">
-    <div class="about-text reveal">
-      <p class="section-eyebrow">Hakkında</p>
-      <h2 class="section-title" style="margin-bottom:1.5rem;">Ben kimim?</h2>
-      <p>
-        <strong>Dxles</strong> — yazılım geliştirici ve siber güvenlik araştırmacısı. 
-        Python ekosisteminde araçlar yazıyor, güvenlik araştırmaları yapıyor.
-      </p>
-      <p>
-        OSINT, otomasyon ve backend geliştirme üzerine odaklanıyorum. 
-        Geliştirdiğim araçların büyük çoğunluğu <strong>açık kaynak</strong> ve GitHub'da herkesin erişimine açık.
-      </p>
-      <p>
-        Öğrenmeyi ve öğretmeyi seviyorum. Yazdığım araçlara ve güvenlik notlarına 
-        bu siteden ulaşabilirsin.
-      </p>
-      <div class="about-links">
-        <a class="about-link" href="https://github.com/35rl" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-          github.com/35rl
-        </a>
-        <a class="about-link" href="https://instagram.com/dxl3s" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
-          instagram.com/dxl3s
-        </a>
-        <a class="about-link" href="https://www.linkedin.com/in/dxlesx/" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          LinkedIn
-        </a>
-      </div>
-    </div>
- 
-    <div class="about-terminal reveal">
-      <div class="term-bar">
-        <div class="term-dot" style="background:#ff5f56"></div>
-        <div class="term-dot" style="background:#ffbd2e"></div>
-        <div class="term-dot" style="background:#27c93f"></div>
-      </div>
-      <div class="term-body">
-        <div><span class="term-prompt">~ $</span> <span class="term-cmd">whoami</span></div>
-        <div class="term-out hi">dxles</div>
-        <br>
-        <div><span class="term-prompt">~ $</span> <span class="term-cmd">cat skills.txt</span></div>
-        <div class="term-out">→ Python 3.x</div>
-        <div class="term-out">→ Siber Güvenlik</div>
-        <div class="term-out">→ OSINT &amp; Araştırma</div>
-        <div class="term-out">→ Reverse Engineering</div>
-        <div class="term-out">→ Otomasyon</div>
-        <br>
-        <div><span class="term-prompt">~ $</span> <span class="term-cmd">ls projects/</span></div>
-        <div class="term-out hi">username-checker/</div>
-        <div class="term-out hi">number-lookup/</div>
-        <div class="term-out hi">osint-tools/</div>
-        <br>
-        <div><span class="term-prompt">~ $</span> <span class="term-cmd">_<span class="term-cursor"></span></span></div>
-      </div>
-    </div>
-  </section>
- 
-  <footer>
-    <div class="footer-left">dx<span>les</span>.eu</div>
-    <div class="footer-right">© 2025 Dxles — Tüm araçlar açık kaynak</div>
-  </footer>
- 
-  <script>
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('on'), i * 80);
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-  </script>
- 
-  <script data-goatcounter="https://dxles.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-E3HJQWMVDP');
-  </script>
+
+<div class="scroll-line" id="sl"></div>
+
+<div class="ticker"><div class="ticker-inner">
+<span>Python Dev</span><span>·</span><span>OSINT Researcher</span><span>·</span><span>Security Enthusiast</span><span>·</span><span>Otomasyon</span><span>·</span><span>Backend Systems</span><span>·</span><span>Açık Kaynak</span><span>·</span><span>Reverse Engineering</span><span>·</span><span>Bavyera, Almanya</span><span>·</span>
+<span>Python Dev</span><span>·</span><span>OSINT Researcher</span><span>·</span><span>Security Enthusiast</span><span>·</span><span>Otomasyon</span><span>·</span><span>Backend Systems</span><span>·</span><span>Açık Kaynak</span><span>·</span><span>Reverse Engineering</span><span>·</span><span>Bavyera, Almanya</span><span>·</span>
+</div></div>
+
+<div class="popup" id="popup">
+<p>Araçlarıma 3 saniyeden fazla baktın. Teşekkürler!</p>
+<button class="popup-close" onclick="document.getElementById('popup').classList.remove('show')">kapat</button>
+</div>
+
+<nav>
+<a href="#w">araçlar</a>
+<a href="#skills">yetkinlikler</a>
+<a href="#exp">deneyim</a>
+<a href="mailto:contact@dxles.eu">iletişim</a>
+</nav>
+
+<section id="t">
+<div>
+<p class="hero-label">ocak · müsait</p>
+<h1 class="hero-title">Merhaba<em>.</em><br>Ben Dxles</h1>
+<p class="hero-roles"><span>Python Dev</span> &nbsp;·&nbsp; <span>Siber Güvenlik</span> &nbsp;·&nbsp; <span>OSINT</span></p>
+<p class="hero-bio">2008 doğumluyum. 2018'den beri — 10 yaşından itibaren — yazılımla ilgileniyorum. Şu an Almanya, Bavyera'da yaşıyorum. Sistemleri anlamak ve sorgulamak benim için bir yaşam biçimi.</p>
+<a href="mailto:contact@dxles.eu" class="hero-contact">iletişim kur →</a>
+</div>
+
+<div class="hero-right">
+
+<div class="sticker s1">
+<svg width="220" height="150" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg">
+<rect width="220" height="150" fill="#0d0d0d" rx="16"/>
+<rect x="0" y="0" width="220" height="28" fill="#1a1a1a" rx="16"/>
+<rect x="0" y="16" width="220" height="12" fill="#1a1a1a"/>
+<circle cx="18" cy="14" r="5" fill="#ff5f57"/><circle cx="34" cy="14" r="5" fill="#febc2e"/><circle cx="50" cy="14" r="5" fill="#28c840"/>
+<text x="12" y="48" font-family="monospace" font-size="9.5" fill="#00c853">$ python username_checker.py dxl3s</text>
+<text x="12" y="64" font-family="monospace" font-size="9" fill="#555">checking 50+ platforms...</text>
+<text x="12" y="80" font-family="monospace" font-size="9" fill="#00c853">✓ instagram    found</text>
+<text x="12" y="94" font-family="monospace" font-size="9" fill="#00c853">✓ github       found</text>
+<text x="12" y="108" font-family="monospace" font-size="9" fill="#00c853">✓ twitter      found</text>
+<text x="12" y="122" font-family="monospace" font-size="9" fill="#555">✗ snapchat     not found</text>
+<text x="12" y="138" font-family="monospace" font-size="9" fill="#555">▊</text>
+</svg>
+</div>
+
+<div class="sticker s2">
+<svg width="180" height="135" viewBox="0 0 180 135" xmlns="http://www.w3.org/2000/svg">
+<rect width="180" height="135" fill="#1e1e2e" rx="16"/>
+<text x="14" y="22" font-family="monospace" font-size="9" fill="#555">holehe.py</text>
+<text x="14" y="40" font-family="monospace" font-size="9"><tspan fill="#cba6f7">import</tspan><tspan fill="#cdd6f4"> requests, re</tspan></text>
+<text x="14" y="56" font-family="monospace" font-size="9" fill="#888"> </text>
+<text x="14" y="70" font-family="monospace" font-size="9"><tspan fill="#cba6f7">def</tspan><tspan fill="#89b4fa"> check_email</tspan><tspan fill="#cdd6f4">(email):</tspan></text>
+<text x="24" y="84" font-family="monospace" font-size="9" fill="#cdd6f4">results = []</text>
+<text x="24" y="98" font-family="monospace" font-size="9"><tspan fill="#cba6f7">for</tspan><tspan fill="#cdd6f4"> site in SITES:</tspan></text>
+<text x="34" y="112" font-family="monospace" font-size="9" fill="#a6e3a1">r = probe(email, site)</text>
+<text x="34" y="126" font-family="monospace" font-size="9" fill="#a6e3a1">results.append(r)</text>
+</svg>
+</div>
+
+<div class="sticker s3">
+<svg width="200" height="138" viewBox="0 0 200 138" xmlns="http://www.w3.org/2000/svg">
+<rect width="200" height="138" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
+<text x="14" y="20" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888" letter-spacing="2">OSINT MAP</text>
+<line x1="100" y1="72" x2="44" y2="40" stroke="#ddd" stroke-width="1"/>
+<line x1="100" y1="72" x2="158" y2="40" stroke="#ddd" stroke-width="1"/>
+<line x1="100" y1="72" x2="166" y2="82" stroke="#ddd" stroke-width="1"/>
+<line x1="100" y1="72" x2="52" y2="114" stroke="#ddd" stroke-width="1"/>
+<line x1="100" y1="72" x2="150" y2="116" stroke="#ddd" stroke-width="1"/>
+<circle cx="100" cy="72" r="16" fill="#000"/>
+<text x="100" y="76" font-family="monospace" font-size="8" fill="#fff" text-anchor="middle">dxl3s</text>
+<circle cx="44" cy="38" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+<text x="44" y="42" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">github</text>
+<circle cx="158" cy="38" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+<text x="158" y="42" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">insta</text>
+<circle cx="168" cy="82" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+<text x="168" y="86" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">yt</text>
+<circle cx="52" cy="116" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+<text x="52" y="120" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">reddit</text>
+<circle cx="150" cy="116" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+<text x="150" y="120" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">twit</text>
+</svg>
+</div>
+
+<div class="sticker s4">
+<svg width="170" height="104" viewBox="0 0 170 104" xmlns="http://www.w3.org/2000/svg">
+<rect width="170" height="104" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
+<defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs>
+<rect x="14" y="16" width="36" height="36" rx="10" fill="url(#ig)"/>
+<circle cx="32" cy="34" r="8" fill="none" stroke="#fff" stroke-width="2.2"/>
+<circle cx="40" cy="26" r="2.2" fill="#fff"/>
+<text x="60" y="30" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" font-weight="700" fill="#000">Meta / Instagram</text>
+<text x="60" y="45" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">Harici Teknik Destek</text>
+<rect x="14" y="64" width="142" height="1" fill="#f0f0f0"/>
+<text x="14" y="82" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">2023 – 2025  ·  Abuse &amp; Security</text>
+<rect x="118" y="72" width="40" height="16" rx="8" fill="#000"/>
+<text x="138" y="83" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#fff" text-anchor="middle">verified</text>
+</svg>
+</div>
+
+<div class="sticker s5">
+<svg width="190" height="112" viewBox="0 0 190 112" xmlns="http://www.w3.org/2000/svg">
+<rect width="190" height="112" fill="#000" rx="16"/>
+<text x="14" y="24" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555" letter-spacing="2">GITHUB STATS</text>
+<text x="14" y="56" font-family="Helvetica Neue,Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">35rl</text>
+<text x="108" y="46" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555">araçlar</text>
+<text x="108" y="62" font-family="Helvetica Neue,Arial,sans-serif" font-size="22" font-weight="700" fill="#fff">5+</text>
+<text x="14" y="74" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555">2018'den beri aktif</text>
+<rect x="14" y="88" width="18" height="14" rx="2" fill="#333"/>
+<rect x="36" y="84" width="18" height="18" rx="2" fill="#444"/>
+<rect x="58" y="80" width="18" height="22" rx="2" fill="#555"/>
+<rect x="80" y="76" width="18" height="26" rx="2" fill="#777"/>
+<rect x="102" y="70" width="18" height="32" rx="2" fill="#999"/>
+<rect x="124" y="82" width="18" height="20" rx="2" fill="#00c853"/>
+<text x="143" y="100" font-family="monospace" font-size="7" fill="#00c853">now</text>
+</svg>
+</div>
+
+</div>
+</section>
+
+<div class="mq"><div class="mq-t">
+<span>Python</span><span>·</span><span>Node.js</span><span>·</span><span>Go</span><span>·</span><span>OSINT</span><span>·</span><span>Telegram API</span><span>·</span><span>Discord API</span><span>·</span><span>Backend</span><span>·</span><span>Güvenlik Analizi</span><span>·</span><span>Otomasyon</span><span>·</span><span>Reverse Engineering</span><span>·</span>
+<span>Python</span><span>·</span><span>Node.js</span><span>·</span><span>Go</span><span>·</span><span>OSINT</span><span>·</span><span>Telegram API</span><span>·</span><span>Discord API</span><span>·</span><span>Backend</span><span>·</span><span>Güvenlik Analizi</span><span>·</span><span>Otomasyon</span><span>·</span><span>Reverse Engineering</span><span>·</span>
+</div></div>
+
+<section id="skills">
+<p class="sl">yetkin<em>likler</em></p>
+<div class="g">
+<div class="si"><span class="sn">01</span><div class="st">Python Dev</div><p class="sd">Otomasyon scriptleri, bot geliştirme, API entegrasyonları ve backend sistemler.</p></div>
+<div class="si"><span class="sn">02</span><div class="st">Siber Güvenlik</div><p class="sd">Güvenlik araştırmaları, penetrasyon testi temelleri ve zafiyet analizi.</p></div>
+<div class="si"><span class="sn">03</span><div class="st">OSINT</div><p class="sd">Açık kaynak istihbarat araçları, sosyal mühendislik farkındalığı ve dijital iz analizi.</p></div>
+<div class="si"><span class="sn">04</span><div class="st">Reverse Engineering</div><p class="sd">Binary analizi, yazılım davranışı inceleme ve tersine mühendislik temelleri.</p></div>
+<div class="si"><span class="sn">05</span><div class="st">Otomasyon</div><p class="sd">Tekrar eden görevleri otomatize eden scriptler ve workflow optimizasyonu.</p></div>
+<div class="si"><span class="sn">06</span><div class="st">Açık Kaynak</div><p class="sd">GitHub'da aktif olarak geliştirilen araçlar, toplulukla paylaşılan projeler.</p></div>
+</div>
+</section>
+
+<section id="w">
+<p class="sl">seçili_<em>araçlar</em></p>
+<div class="tl">
+<div class="ti"><span class="tn">01</span><div><div class="tnm">Username_Checker</div><p class="td">Belirli bir kullanıcı adının popüler sosyal medya platformlarında müsait olup olmadığını kontrol eder. Tarayıcıdan direkt çalışır.</p><div class="tags"><span class="tag">Python</span><span class="tag">Sosyal Medya</span><span class="tag">Online</span></div></div><a href="https://github.com/35rl" class="tlink" target="_blank">GitHub →</a></div>
+<div class="ti"><span class="tn">02</span><div><div class="tnm">Number_Lookup</div><p class="td">Bir telefon numarasına kayıtlı sosyal medya hesaplarını sorgular. OSINT araştırmalarında kullanılır.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span><span class="tag">Telefon</span></div></div><a href="https://github.com/35rl" class="tlink" target="_blank">GitHub →</a></div>
+<div class="ti"><span class="tn">03</span><div><div class="tnm">OSINT_Tool_Map</div><p class="td">OSINT nasıl yapılır, hangi araçlar kullanılır? İnteraktif harita tüm kategorileri görsel olarak sunar.</p><div class="tags"><span class="tag">Web</span><span class="tag">OSINT</span><span class="tag">Kaynak</span></div></div><a href="https://dxles.eu" class="tlink" target="_blank">Siteye Git →</a></div>
+<div class="ti"><span class="tn">04</span><div><div class="tnm">Sherlock</div><p class="td">300+ platformda kullanıcı adı araması yapar. En popüler OSINT araçlarından biri. Komut satırından çalışır.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span></div></div><a href="https://github.com/35rl" class="tlink" target="_blank">GitHub →</a></div>
+<div class="ti"><span class="tn">05</span><div><div class="tnm">Holehe</div><p class="td">Bir e-posta adresinin hangi platformlara kayıtlı olduğunu kontrol eder. 120+ servisi tarar.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span><span class="tag">E-posta</span></div></div><a href="https://github.com/35rl" class="tlink" target="_blank">GitHub →</a></div>
+</div>
+</section>
+
+<section id="exp">
+<p class="sl">dene<em>yim</em></p>
+<div class="ei">
+<div><span class="ep">2023 – 2025</span><div class="ec">Meta / Instagram</div><p class="er">Harici Teknik Destek</p></div>
+<div><p class="ed">Instagram'ın ban ve abuse algoritmalarıyla platform güvenlik süreçlerinde harici teknik destek sağladım. Sistem analizi, abuse tespiti ve süreç optimizasyonu üzerine çalıştım.</p></div>
+</div>
+<div class="ei">
+<div><span class="ep">2018 – günümüz</span><div class="ec">Açık Kaynak</div><p class="er">Kişisel Projeler</p></div>
+<div><p class="ed">10 yaşından beri yazılımla ilgileniyorum. Python, Node.js ve Go ile araçlar, botlar, otomasyon sistemleri ve güvenlik araçları geliştiriyorum. Projelerimin büyük çoğunluğu GitHub'da açık kaynak.</p></div>
+</div>
+</section>
+
+<div class="qs">
+<blockquote>"A good programmer is someone who always looks both ways before crossing a one-way street."</blockquote>
+<cite>— Doug Linder</cite>
+</div>
+
+<section id="c">
+<p class="sl">iletişime_<em>geç</em></p>
+<p class="cb">Bir proje mi var?<br><a href="mailto:contact@dxles.eu">Konuşalım.</a></p>
+<div class="soc">
+<a href="https://github.com/35rl" target="_blank">github</a>
+<a href="https://instagram.com/dxl3s" target="_blank">instagram</a>
+<a href="https://dxles.eu" target="_blank">dxles.eu</a>
+<a href="https://youtube.com/@dxles" target="_blank">youtube</a>
+<a href="https://linkedin.com/in/dxlesx" target="_blank">linkedin</a>
+</div>
+<footer>
+<span>Dxles · he/him · Bavyera, Almanya</span>
+<div class="fe"><a href="#t">yukarı çık</a></div>
+</footer>
+</section>
+
+<script>
+window.addEventListener("scroll",function(){
+var p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+document.getElementById("sl").style.width=p+"%";
+});
+setTimeout(function(){
+document.getElementById("popup").classList.add("show");
+setTimeout(function(){document.getElementById("popup").classList.remove("show");},5000);
+},4000);
+</script>
 </body>
 </html>
