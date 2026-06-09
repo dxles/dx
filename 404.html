@@ -1,206 +1,160 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — dxles.eu</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Dxles</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:"Helvetica Neue",Arial,sans-serif;background:#fff;color:#000;overflow:hidden;height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+a:hover{opacity:.6}
 
-    :root {
-      --gold: #c8a96e;
-      --gold-dim: rgba(200,169,110,0.12);
-      --gold-glow: rgba(200,169,110,0.05);
-      --text: #ede8df;
-      --sub: rgba(237,232,223,0.45);
-      --bg: #080806;
-      --line: rgba(255,255,255,0.06);
-    }
+.ticker{position:fixed;top:0;left:0;width:100%;background:#000;color:#fff;font-size:11px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;z-index:100;padding:6px 0}
+.ticker-inner{display:inline-block;animation:ticker 30s linear infinite}
+.ticker-inner span{margin:0 1.5rem}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-    html, body {
-      height: 100%;
-    }
+nav{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:100;background:#000;border-radius:100px;padding:12px 28px;display:flex;gap:2rem}
+nav a{color:#fff;font-size:12px;letter-spacing:.08em}
+nav a:hover{opacity:.5}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
+.page{flex:1;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:80px 8vw 40px;gap:3rem;height:100vh}
 
-    .bg-grid {
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(var(--line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
-      pointer-events: none;
-      z-index: 0;
-    }
+.left{}
+.label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+.label::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff3b30;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-    .bg-glow {
-      position: fixed; inset: 0;
-      background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(200,169,110,0.05) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
+.big{font-size:clamp(5rem,14vw,11rem);font-weight:700;line-height:.9;letter-spacing:-.04em;margin-bottom:1.2rem}
+.big em{font-style:normal;color:#888}
 
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 2.5rem;
-      background: rgba(8,8,6,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.1rem; font-weight: 800;
-      color: var(--text); text-decoration: none;
-    }
-    .nav-logo span { color: var(--gold); }
+.sub{font-size:clamp(.9rem,1.5vw,1.1rem);color:#888;font-weight:300;margin-bottom:1rem}
+.sub span{color:#000;font-weight:500;border-bottom:1px solid currentColor}
 
-    .container {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 2rem;
-      animation: fadeUp 0.8s ease 0.2s both;
-    }
+.desc{max-width:420px;font-size:14px;line-height:1.8;color:#555;margin-bottom:2rem}
 
-    .error-tag {
-      font-size: 0.52rem; letter-spacing: 0.5em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 1.5rem;
-      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
-    }
-    .error-tag::before, .error-tag::after {
-      content: ''; width: 20px; height: 1px; background: var(--gold);
-    }
+.home-btn{display:inline-flex;align-items:center;gap:.5rem;background:#000;color:#fff;padding:14px 28px;border-radius:100px;font-size:13px;letter-spacing:.05em;transition:opacity .2s}
+.home-btn:hover{opacity:.7}
+.right{position:relative;height:460px}
+.card{position:absolute;border-radius:16px;overflow:hidden;filter:drop-shadow(0 8px 24px rgba(0,0,0,.13))}
 
-    .error-num {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(7rem, 22vw, 14rem);
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      line-height: 0.9;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(200,169,110,0.35);
-      position: relative;
-      animation: glitch 7s infinite;
-      user-select: none;
-    }
+.c1{width:230px;top:10px;left:30px;animation:f1 4s ease-in-out infinite alternate}
+.c2{width:185px;top:0;right:10px;animation:f2 5s ease-in-out infinite alternate}
+.c3{width:200px;bottom:90px;left:5px;animation:f3 4.5s ease-in-out infinite alternate}
+.c4{width:175px;bottom:50px;right:20px;animation:f4 3.8s ease-in-out infinite alternate}
 
-    .error-num::before,
-    .error-num::after {
-      content: '404';
-      position: absolute; left: 0; top: 0; width: 100%;
-    }
-    .error-num::before {
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(255,80,80,0.4);
-      animation: glitch-r 7s infinite;
-      clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
-    }
-    .error-num::after {
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(0,200,200,0.3);
-      animation: glitch-b 7s infinite;
-      clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
-    }
+@keyframes f1{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-16px) rotate(1deg)}}
+@keyframes f2{from{transform:translateY(0) rotate(2deg)}to{transform:translateY(-20px) rotate(-1deg)}}
+@keyframes f3{from{transform:translateY(0) rotate(1deg)}to{transform:translateY(-14px) rotate(-2deg)}}
+@keyframes f4{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-18px) rotate(2deg)}}
 
-    .error-msg {
-      font-size: 0.65rem; line-height: 1.9;
-      color: var(--sub); letter-spacing: 0.08em;
-      margin: 1.5rem 0 2.5rem;
-    }
-
-    .home-btn {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.52rem; letter-spacing: 0.28em; text-transform: uppercase;
-      text-decoration: none;
-      padding: 0.8rem 1.8rem;
-      border: 1px solid rgba(200,169,110,0.3);
-      color: var(--gold);
-      background: var(--gold-glow);
-      border-radius: 2px;
-      transition: all 0.25s;
-    }
-    .home-btn:hover {
-      background: var(--gold-dim);
-      color: var(--text);
-      transform: translateY(-2px);
-    }
-    .home-btn svg {
-      width: 12px; height: 12px;
-      stroke: currentColor; fill: none; stroke-width: 1.8;
-    }
-    
-    .scanlines {
-      position: fixed; inset: 0; z-index: 2;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px,
-        transparent 3px,
-        rgba(0,0,0,0.03) 3px,
-        rgba(0,0,0,0.03) 4px
-      );
-      pointer-events: none;
-    }
-
-    @keyframes glitch {
-      0%, 85%, 100% { transform: skew(0deg); }
-      86% { transform: skew(2.5deg) translateX(2px); }
-      88% { transform: skew(-1.5deg) translateX(-2px); }
-      90% { transform: skew(0.5deg); }
-    }
-    @keyframes glitch-r {
-      0%, 85%, 100% { transform: translateX(0); opacity: 0; }
-      86% { transform: translateX(4px); opacity: 1; }
-      88% { transform: translateX(-2px); opacity: 1; }
-      90% { transform: translateX(0); opacity: 0; }
-    }
-    @keyframes glitch-b {
-      0%, 85%, 100% { transform: translateX(0); opacity: 0; }
-      86% { transform: translateX(-4px); opacity: 1; }
-      88% { transform: translateX(2px); opacity: 1; }
-      90% { transform: translateX(0); opacity: 0; }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 480px) {
-      nav { padding: 1rem 1.2rem; }
-    }
+@media(max-width:900px){
+  .page{grid-template-columns:1fr;padding:90px 5vw 80px;height:auto;overflow:auto}
+  body{overflow:auto}
+  .right{height:340px}
+  .c1{width:170px;top:5px;left:15px}
+  .c2{width:145px;top:0;right:5px}
+  .c3{width:155px;bottom:50px;left:0}
+  .c4{width:140px;bottom:20px;right:10px}
+  nav{bottom:1rem;padding:10px 18px;gap:1.2rem}
+}
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-glow"></div>
-  <div class="scanlines"></div>
 
-  <nav>
-    <a href="/" class="nav-logo">dx<span>les</span></a>
-  </nav>
+<div class="ticker"><div class="ticker-inner">
+<span>404</span><span>·</span><span>Sayfa Bulunamadı</span><span>·</span><span>Not Found</span><span>·</span><span>Page Missing</span><span>·</span><span>Kayboldu</span><span>·</span><span>Error</span><span>·</span><span>404</span><span>·</span>
+<span>404</span><span>·</span><span>Sayfa Bulunamadı</span><span>·</span><span>Not Found</span><span>·</span><span>Page Missing</span><span>·</span><span>Kayboldu</span><span>·</span><span>Error</span><span>·</span><span>404</span><span>·</span>
+</div></div>
 
-  <div class="container">
-    <div class="error-tag">Sayfa bulunamadı</div>
-    <div class="error-num">404</div>
-    <p class="error-msg">Aradığın sayfa mevcut değil.<br>Silindi, taşındı ya da hiç olmadı.</p>
-    <a href="/" class="home-btn">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      Ana sayfaya dön
-    </a>
+<nav>
+  <a href="/">ana sayfa</a>
+  <a href="/#w">araçlar</a>
+  <a href="mailto:contact@dxles.eu">iletişim</a>
+</nav>
+
+<div class="page">
+  <div class="left">
+    <div class="label">hata tespit edildi</div>
+    <div class="big">4<em>0</em>4</div>
+    <p class="sub">Sayfa <span>mevcut değil</span></p>
+    <p class="desc">Aradığın sayfa silinmiş, taşınmış ya da hiç var olmamış olabilir. Ama endişelenme — ana sayfaya dönebilirsin.</p>
+    <a href="/" class="home-btn">ana sayfaya dön →</a>
   </div>
+
+  <div class="right">
+
+    <div class="card c1">
+      <svg width="230" height="155" viewBox="0 0 230 155" xmlns="http://www.w3.org/2000/svg">
+        <rect width="230" height="155" fill="#0d0d0d" rx="16"/>
+        <rect x="0" y="0" width="230" height="28" fill="#1a1a1a" rx="16"/>
+        <rect x="0" y="16" width="230" height="12" fill="#1a1a1a"/>
+        <circle cx="18" cy="14" r="5" fill="#ff5f57"/><circle cx="34" cy="14" r="5" fill="#febc2e"/><circle cx="50" cy="14" r="5" fill="#28c840"/>
+        <text x="12" y="48" font-family="monospace" font-size="9.5" fill="#888">$ curl https://dxles.eu/???</text>
+        <text x="12" y="64" font-family="monospace" font-size="9" fill="#555">resolving host...</text>
+        <text x="12" y="80" font-family="monospace" font-size="9" fill="#555">connecting... 200ms</text>
+        <text x="12" y="96" font-family="monospace" font-size="9" fill="#ff5f57">HTTP/1.1 404 Not Found</text>
+        <text x="12" y="112" font-family="monospace" font-size="9" fill="#ff5f57">content-type: text/html</text>
+        <text x="12" y="128" font-family="monospace" font-size="9" fill="#555">resource not found on server</text>
+        <text x="12" y="144" font-family="monospace" font-size="9" fill="#555">▊</text>
+      </svg>
+    </div>
+
+    <div class="card c2">
+      <svg width="185" height="140" viewBox="0 0 185 140" xmlns="http://www.w3.org/2000/svg">
+        <rect width="185" height="140" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
+        <text x="14" y="20" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888" letter-spacing="2">PATH MAP</text>
+        <line x1="92" y1="78" x2="36" y2="46" stroke="#ddd" stroke-width="1"/>
+        <line x1="92" y1="78" x2="150" y2="46" stroke="#ddd" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="92" y1="78" x2="92" y2="128" stroke="#ddd" stroke-width="1"/>
+        <circle cx="92" cy="78" r="16" fill="#000"/>
+        <text x="92" y="82" font-family="monospace" font-size="7.5" fill="#fff" text-anchor="middle">dxles.eu</text>
+        <circle cx="36" cy="44" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+        <text x="36" y="48" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">home</text>
+        <circle cx="150" cy="44" r="12" fill="#fff0f0" stroke="#ff5f57" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="150" y="48" font-family="monospace" font-size="7" fill="#ff5f57" text-anchor="middle">???</text>
+        <line x1="144" y1="38" x2="156" y2="50" stroke="#ff5f57" stroke-width="1.5"/>
+        <line x1="156" y1="38" x2="144" y2="50" stroke="#ff5f57" stroke-width="1.5"/>
+        <circle cx="92" cy="128" r="10" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+        <text x="92" y="132" font-family="monospace" font-size="6" fill="#333" text-anchor="middle">← geri</text>
+      </svg>
+    </div>
+
+    <div class="card c3">
+      <svg width="200" height="140" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+        <rect width="200" height="140" fill="#1e1e2e" rx="16"/>
+        <text x="14" y="22" font-family="monospace" font-size="9" fill="#555">router.py</text>
+        <text x="14" y="40" font-family="monospace" font-size="9"><tspan fill="#cba6f7">def</tspan><tspan fill="#89b4fa"> resolve</tspan><tspan fill="#cdd6f4">(path):</tspan></text>
+        <text x="24" y="55" font-family="monospace" font-size="9"><tspan fill="#cba6f7">if</tspan><tspan fill="#cdd6f4"> path in ROUTES:</tspan></text>
+        <text x="34" y="70" font-family="monospace" font-size="9" fill="#a6e3a1">return render(path)</text>
+        <text x="24" y="85" font-family="monospace" font-size="9"><tspan fill="#cba6f7">else</tspan><tspan fill="#cdd6f4">:</tspan></text>
+        <text x="34" y="100" font-family="monospace" font-size="9" fill="#f38ba8">raise NotFound(404)</text>
+        <text x="14" y="118" font-family="monospace" font-size="9" fill="#f38ba8">NotFoundError: /???</text>
+        <text x="14" y="132" font-family="monospace" font-size="9" fill="#555">▊</text>
+      </svg>
+    </div>
+    <div class="card c4">
+      <svg width="175" height="112" viewBox="0 0 175 112" xmlns="http://www.w3.org/2000/svg">
+        <rect width="175" height="112" fill="#000" rx="16"/>
+        <text x="14" y="24" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555" letter-spacing="2">PAGE STATS</text>
+        <text x="14" y="56" font-family="Helvetica Neue,Arial,sans-serif" font-size="30" font-weight="700" fill="#ff5f57">404</text>
+        <text x="100" y="46" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555">ziyaretçi</text>
+        <text x="100" y="62" font-family="Helvetica Neue,Arial,sans-serif" font-size="22" font-weight="700" fill="#fff">0</text>
+        <text x="14" y="74" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555">bu sayfa hiç görülmedi</text>
+        <rect x="14" y="98" width="18" height="4" rx="2" fill="#222"/>
+        <rect x="36" y="98" width="18" height="4" rx="2" fill="#222"/>
+        <rect x="58" y="98" width="18" height="4" rx="2" fill="#222"/>
+        <rect x="80" y="98" width="18" height="4" rx="2" fill="#222"/>
+        <rect x="102" y="98" width="18" height="4" rx="2" fill="#222"/>
+        <rect x="124" y="96" width="18" height="6" rx="2" fill="#ff5f57"/>
+        <text x="143" y="106" font-family="monospace" font-size="7" fill="#ff5f57">err</text>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
