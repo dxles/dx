@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dxles — Geliştirici, Siber Güvenlik & OSINT Araştırmacısı</title>
+  <title>Dxles</title>
   <link rel="canonical" href="https://dxles.eu/" />
   <meta name="robots" content="index, follow" />
   <meta name="description" content="Dxles — Python geliştirici, siber güvenlik araştırmacısı ve OSINT uzmanı. Açık kaynak araçlar, güvenlik yazıları ve otomasyon projeleri." />
@@ -32,23 +31,25 @@ nav a:hover{opacity:.5}
 .popup.show{opacity:1;transform:translateY(0);pointer-events:all}
 .popup p{font-size:13px;line-height:1.6;margin-bottom:.8rem}
 .popup-close{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer}
-#t{padding:120px 8vw 60px;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
-.hero-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:2rem;display:flex;align-items:center;gap:.5rem}
+    
+#t{padding:80px 8vw 40px;min-height:auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+
+.hero-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
 .hero-label::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#00c853;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-title{font-size:clamp(3rem,7vw,6.5rem);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:1.5rem}
+.hero-title{font-size:clamp(3rem,7vw,6.5rem);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:1.2rem}
 .hero-title em{font-style:normal;color:#888}
-.hero-roles{font-size:clamp(1rem,1.8vw,1.3rem);color:#888;font-weight:300;margin-bottom:2rem}
+.hero-roles{font-size:clamp(1rem,1.8vw,1.3rem);color:#888;font-weight:300;margin-bottom:1.5rem}
 .hero-roles span{color:#000;font-weight:500;border-bottom:1px solid currentColor}
-.hero-bio{max-width:480px;font-size:14px;line-height:1.8;color:#555;margin-bottom:2.5rem}
+.hero-bio{max-width:480px;font-size:14px;line-height:1.8;color:#555;margin-bottom:2rem}
 .hero-contact{display:inline-flex;align-items:center;gap:.5rem;background:#000;color:#fff;padding:14px 28px;border-radius:100px;font-size:13px;letter-spacing:.05em;transition:opacity .2s}
 .hero-contact:hover{opacity:.7}
-.hero-right{position:relative;height:520px}
+.hero-right{position:relative;height:480px}
 .sticker{position:absolute;border-radius:16px;overflow:hidden;filter:drop-shadow(0 8px 24px rgba(0,0,0,.13))}
 .s1{width:220px;top:20px;left:40px;animation:f1 4s ease-in-out infinite alternate}
 .s2{width:180px;top:10px;right:20px;animation:f2 5s ease-in-out infinite alternate}
-.s3{width:200px;bottom:120px;left:10px;animation:f3 4.5s ease-in-out infinite alternate}
-.s4{width:170px;bottom:80px;right:30px;animation:f4 3.8s ease-in-out infinite alternate}
+.s3{width:200px;bottom:100px;left:10px;animation:f3 4.5s ease-in-out infinite alternate}
+.s4{width:170px;bottom:60px;right:30px;animation:f4 3.8s ease-in-out infinite alternate}
 .s5{width:190px;top:200px;left:120px;animation:f5 5.2s ease-in-out infinite alternate}
 @keyframes f1{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-18px) rotate(1deg)}}
 @keyframes f2{from{transform:translateY(0) rotate(2deg)}to{transform:translateY(-22px) rotate(-1deg)}}
@@ -59,7 +60,7 @@ nav a:hover{opacity:.5}
 .mq-t{display:flex;white-space:nowrap;animation:mq 20s linear infinite}
 .mq-t span{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin:0 2rem}
 @keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-section{padding:6rem 8vw}
+section{padding:5rem 8vw}
 .sl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:3rem}
 .sl em{font-style:normal;color:#000}
 #skills .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#eee;border:1px solid #eee}
@@ -81,10 +82,10 @@ section{padding:6rem 8vw}
 .ec{font-size:18px;font-weight:600;margin-bottom:.3rem}
 .er{font-size:13px;color:#666}
 .ed{font-size:15px;line-height:1.8;color:#444}
-.qs{padding:6rem 8vw;text-align:center;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.qs{padding:5rem 8vw;text-align:center;border-top:1px solid #eee;border-bottom:1px solid #eee}
 blockquote{font-size:clamp(1.1rem,2.5vw,1.6rem);font-style:italic;font-weight:300;color:#333;max-width:700px;margin:0 auto 1rem;line-height:1.6}
 cite{font-size:13px;color:#888;font-style:normal;letter-spacing:.1em}
-#c{padding:8rem 8vw 4rem}
+#c{padding:7rem 8vw 4rem}
 .cb{font-size:clamp(2rem,5vw,4.5rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:3rem}
 .cb a{border-bottom:3px solid #000}
 .soc{display:flex;flex-wrap:wrap;gap:2rem;margin-bottom:6rem}
@@ -93,7 +94,7 @@ footer{display:flex;justify-content:space-between;align-items:center;padding-top
 .fe{display:flex;gap:1.5rem}
 .fe a{color:#888;border-bottom:1px solid #ddd;font-size:12px}
 @media(max-width:900px){
-#t{grid-template-columns:1fr;padding:110px 5vw 40px}
+#t{grid-template-columns:1fr;padding:90px 5vw 30px}
 .hero-right{height:360px}
 .s1{width:160px;top:10px;left:20px}.s2{width:140px;top:5px;right:10px}
 .s3{width:150px;bottom:60px;left:5px}.s4{width:130px;bottom:30px;right:15px}
@@ -188,20 +189,39 @@ nav{bottom:1rem;padding:10px 18px;gap:1.2rem}}
 <text x="150" y="120" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">twit</text>
 </svg>
 </div>
-
 <div class="sticker s4">
-<svg width="170" height="104" viewBox="0 0 170 104" xmlns="http://www.w3.org/2000/svg">
-<rect width="170" height="104" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
-<defs><linearGradient id="ig" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs>
-<rect x="14" y="16" width="36" height="36" rx="10" fill="url(#ig)"/>
-<circle cx="32" cy="34" r="8" fill="none" stroke="#fff" stroke-width="2.2"/>
-<circle cx="40" cy="26" r="2.2" fill="#fff"/>
-<text x="60" y="30" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" font-weight="700" fill="#000">Meta / Instagram</text>
-<text x="60" y="45" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">Harici Teknik Destek</text>
-<rect x="14" y="64" width="142" height="1" fill="#f0f0f0"/>
-<text x="14" y="82" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">2023 – 2025  ·  Abuse &amp; Security</text>
-<rect x="118" y="72" width="40" height="16" rx="8" fill="#000"/>
-<text x="138" y="83" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#fff" text-anchor="middle">verified</text>
+<svg width="200" height="130" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="igbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf0e8"/>
+      <stop offset="100%" stop-color="#fce4ec"/>
+    </linearGradient>
+    <linearGradient id="igring" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f09433"/>
+      <stop offset="40%" stop-color="#dc2743"/>
+      <stop offset="100%" stop-color="#bc1888"/>
+    </linearGradient>
+    <clipPath id="ppclip">
+      <circle cx="38" cy="42" r="22"/>
+    </clipPath>
+  </defs>
+  <rect width="200" height="130" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
+  <circle cx="38" cy="42" r="25" fill="url(#igring)"/>
+  <circle cx="38" cy="42" r="23" fill="#fff"/>
+  <image href="1779044789401_image.jpg"
+         x="16" y="20" width="44" height="44"
+         clip-path="url(#ppclip)"
+         preserveAspectRatio="xMidYMid slice"/>
+  <text x="72" y="34" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" font-weight="700" fill="#000">dxl3s</text>
+  <circle cx="106" cy="30" r="7" fill="#1877F2"/>
+  <polyline points="102.5,30 105,33 110,27" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="72" y="50" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" font-weight="600" fill="#000">10B</text>
+  <text x="92" y="50" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#888"> takipçi</text>
+  <rect x="14" y="72" width="172" height="1" fill="#f0f0f0"/>
+  <text x="14" y="91" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">Meta / Instagram</text>
+  <text x="14" y="106" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">2023 – 2025  ·  Abuse &amp; Security Team</text>
+  <rect x="138" y="95" width="50" height="18" rx="9" fill="#000"/>
+  <text x="163" y="107" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#fff" text-anchor="middle">verified</text>
 </svg>
 </div>
 
