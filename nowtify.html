@@ -99,15 +99,16 @@ body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:10
 
 /* ── video aç butonu (sağ alt) ── */
 #vid-btn{
-  position:fixed;bottom:36px;right:40px;z-index:10;
-  background:rgba(255,255,255,0.1);color:#fff;
-  border:1px solid rgba(255,255,255,0.22);
-  padding:10px 22px;border-radius:50px;cursor:pointer;
-  font-family:'Montserrat',sans-serif;font-size:0.9em;font-weight:700;
-  backdrop-filter:blur(8px);display:none;pointer-events:auto;
-  transition:background 0.2s;
+  position:fixed;bottom:36px;right:40px;z-index:30;
+  background:var(--accent);color:#000;
+  border:none;
+  padding:12px 26px;border-radius:50px;cursor:pointer;
+  font-family:'Montserrat',sans-serif;font-size:0.95em;font-weight:700;
+  display:none;pointer-events:auto;
+  box-shadow:0 4px 20px rgba(29,185,84,0.45);
+  transition:transform 0.15s,box-shadow 0.15s;
 }
-#vid-btn:hover{background:rgba(255,255,255,0.22);}
+#vid-btn:hover{transform:scale(1.05);box-shadow:0 6px 28px rgba(29,185,84,0.6);}
 
 /* ── login ── */
 #login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:100;pointer-events:auto;transition:opacity 0.5s ease;}
