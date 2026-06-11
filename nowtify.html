@@ -8,12 +8,11 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--accent:#1db954;}
-body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:100vh;overflow:hidden;display:flex;justify-content:flex-start;align-items:center;pointer-events:none;}
+body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:100vh;overflow:hidden;display:flex;justify-content:flex-start;align-items:center;}
 
-#background{position:fixed;inset:0;background-size:cover;background-position:center;filter:blur(35px) brightness(0.35);z-index:0;transition:background-image 0.8s ease;}
+#background{position:fixed;inset:0;background-size:cover;background-position:center;filter:blur(35px) brightness(0.35);z-index:0;transition:background-image 0.8s ease;pointer-events:none;}
 
-/* ── player ── */
-#main{position:relative;z-index:1;display:none;align-items:center;margin-left:50px;opacity:0;transition:opacity 0.5s ease;}
+#main{position:relative;z-index:1;display:none;align-items:center;margin-left:50px;opacity:0;transition:opacity 0.5s ease;pointer-events:none;}
 #main.visible{opacity:1;}
 #album-img{width:250px;height:250px;object-fit:cover;border-radius:15px;box-shadow:0 20px 50px rgba(0,0,0,0.7);flex-shrink:0;}
 #info{margin-left:40px;display:flex;flex-direction:column;justify-content:center;}
@@ -23,16 +22,12 @@ body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:10
 #progress{width:100%;height:8px;background:rgba(255,255,255,0.15);border-radius:5px;overflow:hidden;}
 #progress-bar{height:100%;width:0%;background:var(--accent);transition:width 0.25s linear;}
 #time-info{display:flex;justify-content:space-between;font-size:0.8em;color:#aaa;margin-top:6px;}
-
-/* paused badge */
 #paused-badge{display:none;margin-top:12px;font-size:0.78em;color:rgba(255,255,255,0.35);letter-spacing:0.08em;text-transform:uppercase;}
 
-/* ── eq ── */
-#eq{position:fixed;bottom:40px;left:50px;z-index:2;display:flex;align-items:flex-end;height:34px;gap:4px;opacity:0;transition:opacity 0.5s ease;}
+#eq{position:fixed;bottom:40px;left:50px;z-index:2;display:flex;align-items:flex-end;height:34px;gap:4px;opacity:0;transition:opacity 0.5s ease;pointer-events:none;}
 #eq.active{opacity:1;}
 .bar{width:7px;height:5px;background:var(--accent);border-radius:2px;transform-origin:bottom;transition:height 0.08s linear;}
 
-/* ── lyrics ── */
 #lyrics{position:fixed;top:50%;right:50px;transform:translateY(-50%);width:560px;height:78vh;max-height:680px;overflow-y:scroll;padding:20px 10px 20px 0;z-index:2;opacity:0;pointer-events:none;transition:opacity 0.5s ease;scrollbar-width:thin;scrollbar-color:var(--accent) transparent;}
 #lyrics::-webkit-scrollbar{width:5px;}
 #lyrics::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
@@ -41,76 +36,49 @@ body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:10
 .ll:last-child{margin-bottom:320px;}
 .la{font-size:1.9em;color:#fff;font-weight:700;}
 
-/* ── no track ── */
-#no-track{position:relative;z-index:2;display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;gap:12px;text-align:center;}
+#no-track{position:relative;z-index:2;display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;gap:12px;text-align:center;pointer-events:none;}
 #no-track svg{opacity:0.3;}
 #no-track p{color:#aaa;font-size:1em;}
 
-/* ── video overlay (full-screen, blurlu bg üstünde) ── */
-#vid-overlay{
-  position:fixed;inset:0;z-index:20;
-  display:none;opacity:0;
-  transition:opacity 0.5s ease;
-  pointer-events:none;
-}
-#vid-overlay.visible{opacity:1;pointer-events:auto;display:block;}
-
-/* album art + bilgi sol altta */
-#vid-info{
-  position:absolute;bottom:40px;left:50px;
-  display:flex;align-items:center;gap:20px;
-  z-index:22;
-}
+/* video overlay */
+#vid-overlay{position:fixed;inset:0;z-index:20;display:none;opacity:0;transition:opacity 0.5s ease;pointer-events:none;}
+#vid-overlay.visible{opacity:1;pointer-events:auto;}
+#vid-info{position:absolute;bottom:40px;left:50px;display:flex;align-items:center;gap:20px;z-index:22;pointer-events:none;}
 #vid-album{width:80px;height:80px;border-radius:10px;object-fit:cover;box-shadow:0 8px 24px rgba(0,0,0,0.6);}
 #vid-meta{display:flex;flex-direction:column;gap:4px;}
 #vid-song{font-size:1.1em;font-weight:700;}
 #vid-artist{font-size:0.9em;color:#ccc;}
-
-/* lyrics sağ tarafta */
-#vid-lyrics{
-  position:absolute;top:50%;right:50px;
-  transform:translateY(-50%);
-  width:420px;height:78vh;max-height:640px;
-  overflow-y:scroll;padding:10px 0;
-  scrollbar-width:thin;scrollbar-color:var(--accent) transparent;
-  z-index:22;pointer-events:none;
-}
+#vid-lyrics{position:absolute;top:50%;right:50px;transform:translateY(-50%);width:420px;height:78vh;max-height:640px;overflow-y:scroll;padding:10px 0;scrollbar-width:thin;scrollbar-color:var(--accent) transparent;z-index:22;pointer-events:none;}
 #vid-lyrics::-webkit-scrollbar{width:4px;}
 #vid-lyrics::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
 .vll{font-size:1.3em;font-weight:500;color:rgba(255,255,255,0.3);margin-bottom:22px;line-height:1.4;transition:all 0.3s ease;}
 .vll:last-child{margin-bottom:280px;}
 .vla{font-size:1.7em;color:#fff;font-weight:700;}
-
-/* iframe tam ekran arkada */
-#yt-frame{
-  position:absolute;inset:0;width:100%;height:100%;
-  border:none;z-index:21;
-  pointer-events:none;
-}
-/* kapat butonu */
-#vid-close{
-  position:absolute;top:30px;right:40px;z-index:23;
-  background:rgba(0,0,0,0.5);color:#fff;border:1px solid rgba(255,255,255,0.2);
-  padding:8px 18px;border-radius:50px;cursor:pointer;
-  font-family:'Montserrat',sans-serif;font-size:0.85em;font-weight:700;
-  pointer-events:auto;transition:background 0.2s;
-}
+#yt-frame{position:absolute;inset:0;width:100%;height:100%;border:none;z-index:21;pointer-events:none;}
+#vid-close{position:absolute;top:30px;right:40px;z-index:23;background:rgba(0,0,0,0.5);color:#fff;border:1px solid rgba(255,255,255,0.2);padding:8px 18px;border-radius:50px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:0.85em;font-weight:700;pointer-events:auto;transition:background 0.2s;}
 #vid-close:hover{background:rgba(0,0,0,0.8);}
 
-/* ── video aç butonu (sağ alt) ── */
+/* VİDEO BUTONU — her şeyin üstünde, her zaman tıklanabilir */
 #vid-btn{
-  position:fixed;bottom:36px;right:40px;z-index:30;
-  background:var(--accent);color:#000;
+  position:fixed;
+  bottom:36px;right:40px;
+  z-index:9999;
+  background:var(--accent);
+  color:#000;
   border:none;
-  padding:12px 26px;border-radius:50px;cursor:pointer;
-  font-family:'Montserrat',sans-serif;font-size:0.95em;font-weight:700;
-  display:none;pointer-events:auto;
-  box-shadow:0 4px 20px rgba(29,185,84,0.45);
+  padding:13px 28px;
+  border-radius:50px;
+  cursor:pointer;
+  font-family:'Montserrat',sans-serif;
+  font-size:0.95em;
+  font-weight:700;
+  display:none;
+  pointer-events:auto;
+  box-shadow:0 4px 24px rgba(29,185,84,0.5);
   transition:transform 0.15s,box-shadow 0.15s;
 }
-#vid-btn:hover{transform:scale(1.05);box-shadow:0 6px 28px rgba(29,185,84,0.6);}
+#vid-btn:hover{transform:scale(1.06);box-shadow:0 6px 32px rgba(29,185,84,0.7);}
 
-/* ── login ── */
 #login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:100;pointer-events:auto;transition:opacity 0.5s ease;}
 #login h2{font-size:2em;font-weight:700;letter-spacing:-0.02em;}
 #login h2 span{color:var(--accent);}
@@ -123,7 +91,6 @@ body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:10
 <body>
 
 <div id="background"></div>
-
 <div id="main">
   <img id="album-img" src="" alt=""/>
   <div id="info">
@@ -131,10 +98,7 @@ body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:10
     <div id="artist"></div>
     <div id="progress-container">
       <div id="progress"><div id="progress-bar"></div></div>
-      <div id="time-info">
-        <span id="cur">0:00</span>
-        <span id="dur">0:00</span>
-      </div>
+      <div id="time-info"><span id="cur">0:00</span><span id="dur">0:00</span></div>
     </div>
     <div id="paused-badge">⏸ duraklatıldı</div>
   </div>
@@ -154,7 +118,6 @@ body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:10
 
 <div id="lyrics"></div>
 
-<!-- Video overlay -->
 <div id="vid-overlay">
   <iframe id="yt-frame" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   <div id="vid-info">
@@ -179,68 +142,53 @@ body{font-family:'Montserrat',sans-serif;background:#121212;color:#fff;height:10
 </div>
 
 <script>
-const LFM_KEY = '7f7181bf02aa309352cf0bb2f05bb299';
-const POLL_MS = 5000;
+const LFM_KEY='7f7181bf02aa309352cf0bb2f05bb299';
+const POLL_MS=5000;
 
-const bg          = document.getElementById('background');
-const mainEl      = document.getElementById('main');
-const noEl        = document.getElementById('no-track');
-const imgEl       = document.getElementById('album-img');
-const nameEl      = document.getElementById('song-name');
-const artEl       = document.getElementById('artist');
-const pBar        = document.getElementById('progress-bar');
-const curEl       = document.getElementById('cur');
-const durEl       = document.getElementById('dur');
-const pausedBadge = document.getElementById('paused-badge');
-const eqEl        = document.getElementById('eq');
-const lyrEl       = document.getElementById('lyrics');
-const loginEl     = document.getElementById('login');
-const loginBtn    = document.getElementById('login-btn');
-const input       = document.getElementById('lfm-input');
-const bars        = document.querySelectorAll('.bar');
-const vidOverlay  = document.getElementById('vid-overlay');
-const ytFrame     = document.getElementById('yt-frame');
-const vidBtn      = document.getElementById('vid-btn');
-const vidClose    = document.getElementById('vid-close');
-const vidAlbum    = document.getElementById('vid-album');
-const vidSong     = document.getElementById('vid-song');
-const vidArtist   = document.getElementById('vid-artist');
-const vidLyrEl    = document.getElementById('vid-lyrics');
+const bg=document.getElementById('background');
+const mainEl=document.getElementById('main');
+const noEl=document.getElementById('no-track');
+const imgEl=document.getElementById('album-img');
+const nameEl=document.getElementById('song-name');
+const artEl=document.getElementById('artist');
+const pBar=document.getElementById('progress-bar');
+const curEl=document.getElementById('cur');
+const durEl=document.getElementById('dur');
+const pausedBadge=document.getElementById('paused-badge');
+const eqEl=document.getElementById('eq');
+const lyrEl=document.getElementById('lyrics');
+const loginEl=document.getElementById('login');
+const loginBtn=document.getElementById('login-btn');
+const input=document.getElementById('lfm-input');
+const bars=document.querySelectorAll('.bar');
+const vidOverlay=document.getElementById('vid-overlay');
+const ytFrame=document.getElementById('yt-frame');
+const vidBtn=document.getElementById('vid-btn');
+const vidClose=document.getElementById('vid-close');
+const vidAlbum=document.getElementById('vid-album');
+const vidSong=document.getElementById('vid-song');
+const vidArtist=document.getElementById('vid-artist');
+const vidLyrEl=document.getElementById('vid-lyrics');
 
-let user          = localStorage.getItem('lfm_user') || '';
-let trackKey      = '';
-let curMs         = 0;
-let durMs         = 0;
-let isPlaying     = false;
-let lrcData       = [];
-let activeIdx     = -1;
-let lastScrollIdx = -1;
-let vidActiveIdx  = -1;
-let vidLastScrollIdx = -1;
-let progTimer     = null;
-let eqTimer       = null;
-let lyricTimer    = null;
-let pollTimer     = null;
-let currentVidId  = null;
-let vidOpen       = false;
+let user='',trackKey='',curMs=0,durMs=0,isPlaying=false;
+let lrcData=[],activeIdx=-1,lastScrollIdx=-1,vidActiveIdx=-1,vidLastScrollIdx=-1;
+let progTimer=null,eqTimer=null,lyricTimer=null,pollTimer=null;
+let currentVidId=null,vidOpen=false;
 
-/* ── utils ── */
+try{user=localStorage.getItem('lfm_user')||'';}catch(_){}
+
 function fmt(ms){const s=Math.floor(ms/1000);return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 
-/* ── lrclib ── */
 async function getLyrics(artist,track){
   try{
     const r=await fetch(`https://lrclib.net/api/search?q=${encodeURIComponent(artist+' '+track)}`);
     if(r.ok){
       const list=await r.json();
       if(Array.isArray(list)&&list.length){
-        const hit=list.find(x=>
-          x.artistName?.toLowerCase().includes(artist.toLowerCase())&&
-          x.trackName?.toLowerCase().includes(track.toLowerCase())
-        )||list[0];
-        if(hit.duration&&hit.duration>10) durMs=Math.round(hit.duration)*1000;
-        if(hit.syncedLyrics) return parseLRC(hit.syncedLyrics);
-        if(hit.plainLyrics)  return plainLRC(hit.plainLyrics);
+        const hit=list.find(x=>x.artistName?.toLowerCase().includes(artist.toLowerCase())&&x.trackName?.toLowerCase().includes(track.toLowerCase()))||list[0];
+        if(hit.duration&&hit.duration>10)durMs=Math.round(hit.duration)*1000;
+        if(hit.syncedLyrics)return parseLRC(hit.syncedLyrics);
+        if(hit.plainLyrics)return plainLRC(hit.plainLyrics);
       }
     }
   }catch(_){}
@@ -248,9 +196,9 @@ async function getLyrics(artist,track){
     const r=await fetch(`https://lrclib.net/api/get?artist_name=${encodeURIComponent(artist)}&track_name=${encodeURIComponent(track)}`);
     if(r.ok){
       const d=await r.json();
-      if(d.duration&&d.duration>10) durMs=Math.round(d.duration)*1000;
-      if(d.syncedLyrics) return parseLRC(d.syncedLyrics);
-      if(d.plainLyrics)  return plainLRC(d.plainLyrics);
+      if(d.duration&&d.duration>10)durMs=Math.round(d.duration)*1000;
+      if(d.syncedLyrics)return parseLRC(d.syncedLyrics);
+      if(d.plainLyrics)return plainLRC(d.plainLyrics);
     }
   }catch(_){}
   return[];
@@ -267,90 +215,47 @@ function parseLRC(raw){
   }
   return out.sort((a,b)=>a.ms-b.ms);
 }
-function plainLRC(raw){
-  return raw.split('\n').filter(l=>l.trim()).map((text,i)=>({ms:i*3000,text}));
-}
+function plainLRC(raw){return raw.split('\n').filter(l=>l.trim()).map((text,i)=>({ms:i*3000,text}));}
 
-/* ── lyrics render ── */
 function renderLyrics(data){
-  lrcData=data; activeIdx=-1; lastScrollIdx=-1;
-  vidActiveIdx=-1; vidLastScrollIdx=-1;
+  lrcData=data;activeIdx=-1;lastScrollIdx=-1;vidActiveIdx=-1;vidLastScrollIdx=-1;
   if(!data.length){
-    const msg='<div class="ll" style="color:rgba(255,255,255,0.2);text-align:center;">Sözler bulunamadı.</div>';
-    lyrEl.innerHTML=msg;
-    vidLyrEl.innerHTML=msg.replace(/class="ll"/g,'class="vll"');
+    lyrEl.innerHTML='<div class="ll" style="color:rgba(255,255,255,0.2);text-align:center;">Sözler bulunamadı.</div>';
+    vidLyrEl.innerHTML='<div class="vll" style="color:rgba(255,255,255,0.2);text-align:center;">Sözler bulunamadı.</div>';
     return;
   }
   lyrEl.innerHTML=data.map((l,i)=>`<div class="ll" data-i="${i}">${l.text}</div>`).join('');
   vidLyrEl.innerHTML=data.map((l,i)=>`<div class="vll" data-i="${i}">${l.text}</div>`).join('');
-  lyrEl.scrollTop=0; vidLyrEl.scrollTop=0;
+  lyrEl.scrollTop=0;vidLyrEl.scrollTop=0;
 }
 
-/* ── sync ── */
 function syncLyrics(){
   if(!lrcData.length)return;
   let idx=-1;
   for(let i=0;i<lrcData.length;i++){if(curMs>=lrcData[i].ms)idx=i;else break;}
   if(idx<0)return;
-
-  // ana lyrics
   if(idx!==activeIdx){
     lyrEl.querySelector('.la')?.classList.remove('la');
     activeIdx=idx;
     const el=lyrEl.querySelector(`[data-i="${idx}"]`);
-    if(el){
-      el.classList.add('la');
-      if(idx!==lastScrollIdx){
-        lastScrollIdx=idx;
-        lyrEl.scrollTo({top:el.offsetTop-lyrEl.clientHeight/2+el.clientHeight/2,behavior:'smooth'});
-      }
-    }
+    if(el){el.classList.add('la');if(idx!==lastScrollIdx){lastScrollIdx=idx;lyrEl.scrollTo({top:el.offsetTop-lyrEl.clientHeight/2+el.clientHeight/2,behavior:'smooth'});}}
   }
-
-  // video overlay lyrics
   if(vidOpen&&idx!==vidActiveIdx){
     vidLyrEl.querySelector('.vla')?.classList.remove('vla');
     vidActiveIdx=idx;
     const vel=vidLyrEl.querySelector(`[data-i="${idx}"]`);
-    if(vel){
-      vel.classList.add('vla');
-      if(idx!==vidLastScrollIdx){
-        vidLastScrollIdx=idx;
-        vidLyrEl.scrollTo({top:vel.offsetTop-vidLyrEl.clientHeight/2+vel.clientHeight/2,behavior:'smooth'});
-      }
-    }
+    if(vel){vel.classList.add('vla');if(idx!==vidLastScrollIdx){vidLastScrollIdx=idx;vidLyrEl.scrollTo({top:vel.offsetTop-vidLyrEl.clientHeight/2+vel.clientHeight/2,behavior:'smooth'});}}
   }
 }
 
-/* ── eq ── */
-function startEq(){
-  if(eqTimer)return;
-  eqEl.classList.add('active');
-  eqTimer=setInterval(()=>bars.forEach(b=>{b.style.height=(4+Math.random()*26)+'px';}),90);
-}
-function stopEq(){
-  clearInterval(eqTimer);eqTimer=null;
-  eqEl.classList.remove('active');
-  bars.forEach(b=>{b.style.height='5px';});
-}
-
-/* ── progress ── */
-function startProg(){
-  if(progTimer||durMs<=0)return;
-  progTimer=setInterval(()=>{curMs=Math.min(curMs+250,durMs);drawProg();},250);
-}
+function startEq(){if(eqTimer)return;eqEl.classList.add('active');eqTimer=setInterval(()=>bars.forEach(b=>{b.style.height=(4+Math.random()*26)+'px';}),90);}
+function stopEq(){clearInterval(eqTimer);eqTimer=null;eqEl.classList.remove('active');bars.forEach(b=>{b.style.height='5px';});}
+function startProg(){if(progTimer||durMs<=0)return;progTimer=setInterval(()=>{curMs=Math.min(curMs+250,durMs);drawProg();},250);}
 function stopProg(){clearInterval(progTimer);progTimer=null;}
-function drawProg(){
-  pBar.style.width=durMs>0?(curMs/durMs*100)+'%':'0%';
-  curEl.textContent=fmt(curMs);
-  durEl.textContent=fmt(durMs);
-}
-
-/* ── lyric ticker ── */
+function drawProg(){pBar.style.width=durMs>0?(curMs/durMs*100)+'%':'0%';curEl.textContent=fmt(curMs);durEl.textContent=fmt(durMs);}
 function startSync(){if(lyricTimer)return;lyricTimer=setInterval(syncLyrics,100);}
 function stopSync(){clearInterval(lyricTimer);lyricTimer=null;lyrEl.querySelector('.la')?.classList.remove('la');vidLyrEl.querySelector('.vla')?.classList.remove('vla');}
 
-/* ── YouTube search via Invidious ── */
 async function fetchVideoId(query){
   const instances=['https://inv.tux.pizza','https://invidious.slipfox.xyz','https://invidious.privacydev.net'];
   for(const base of instances){
@@ -364,14 +269,12 @@ async function fetchVideoId(query){
   return null;
 }
 
-/* ── video overlay ── */
 function openVideo(){
   if(!currentVidId)return;
   vidOpen=true;
   vidOverlay.style.display='block';
   setTimeout(()=>vidOverlay.classList.add('visible'),20);
-  // sync vid lyrics to current position
-  vidActiveIdx=-1; vidLastScrollIdx=-1;
+  vidActiveIdx=-1;vidLastScrollIdx=-1;
 }
 function closeVideo(){
   vidOpen=false;
@@ -382,18 +285,13 @@ function closeVideo(){
 vidBtn.addEventListener('click',openVideo);
 vidClose.addEventListener('click',closeVideo);
 
-/* ── handleTrack: durdurulunca son şarkıyı koru ── */
 function handleTrack(t){
-  const name    = t.name;
-  const artist  = t.artist['#text'];
-  const img     = t.image?.find(i=>i.size==='extralarge')?.['#text']||'';
-  const nowPlay = t['@attr']?.nowplaying==='true';
-
-  // Hiç şarkı yoksa (liste boş gelirse) no-track göster
-  // Ama şarkı var fakat nowplaying değilse → son şarkıyı göster, sadece durdur
+  const name=t.name;
+  const artist=t.artist['#text'];
+  const img=t.image?.find(i=>i.size==='extralarge')?.['#text']||'';
+  const nowPlay=t['@attr']?.nowplaying==='true';
   if(!name){showNothing();return;}
 
-  // UI'ı göster (nowplaying false olsa da son şarkıyı gösteriyoruz)
   noEl.style.display='none';
   mainEl.style.display='flex';
   setTimeout(()=>mainEl.classList.add('visible'),30);
@@ -401,7 +299,6 @@ function handleTrack(t){
   const key=`${artist}|||${name}`;
 
   if(nowPlay){
-    // Çalıyor
     isPlaying=true;
     pausedBadge.style.display='none';
     nameEl.textContent=name;
@@ -410,12 +307,8 @@ function handleTrack(t){
     lyrEl.classList.add('visible');
     startEq();
 
-    if(key===trackKey){
-      // Aynı şarkı devam ediyor
-      startProg();startSync();return;
-    }
+    if(key===trackKey){startProg();startSync();return;}
 
-    // Yeni şarkı
     trackKey=key;
     curMs=0;
     const rawDur=parseInt(t.duration);
@@ -424,7 +317,6 @@ function handleTrack(t){
     drawProg();
     startProg();
 
-    // Video
     currentVidId=null;
     vidBtn.style.display='none';
     if(vidOpen)closeVideo();
@@ -436,10 +328,8 @@ function handleTrack(t){
     lyrEl.innerHTML='<div class="ll" style="color:rgba(255,255,255,0.2);text-align:center;">Sözler yükleniyor…</div>';
     vidLyrEl.innerHTML='<div class="vll" style="color:rgba(255,255,255,0.2);text-align:center;">Sözler yükleniyor…</div>';
 
-    // lrc + video arka planda
     getLyrics(artist,name).then(data=>{
-      renderLyrics(data);
-      drawProg();
+      renderLyrics(data);drawProg();
       if(!progTimer&&durMs>0)startProg();
       startSync();
     });
@@ -452,21 +342,17 @@ function handleTrack(t){
     });
 
   }else{
-    // Duraklatıldı — aynı şarkıyı göster, progress durdur
     isPlaying=false;
     stopEq();
     stopProg();
-    // trackKey'i sıfırlama! curMs/durMs'i sıfırlama!
     pausedBadge.style.display='block';
 
-    // İlk kez bu şarkıyı görüyorsak (yeni track ama nowplaying değil) bilgileri göster
     if(key!==trackKey){
       trackKey=key;
       nameEl.textContent=name;
       artEl.textContent=artist;
       if(img){imgEl.src=img;bg.style.backgroundImage=`url(${img})`;}
       lyrEl.classList.add('visible');
-      // sözleri yine yükle
       const rawDur=parseInt(t.duration);
       durMs=(!isNaN(rawDur)&&rawDur>1000)?rawDur:0;
       curMs=0;drawProg();
@@ -474,10 +360,10 @@ function handleTrack(t){
       fetchVideoId(`${artist} ${name} official audio`).then(vid=>{
         if(!vid)return;
         currentVidId=vid;vidBtn.style.display='block';
+        vidSong.textContent=name;vidArtist.textContent=artist;vidAlbum.src=img;
         ytFrame.src=`https://www.youtube.com/embed/${vid}?autoplay=1&mute=1&loop=1&playlist=${vid}&controls=0&rel=0&start=0`;
       });
     }
-    // Mevcut şarkıysa zaten ekranda gösteriliyor, hiçbir şeyi sıfırlama
   }
 }
 
@@ -493,7 +379,6 @@ function showNothing(){
   isPlaying=false;
 }
 
-/* ── poll ── */
 async function poll(){
   try{
     const r=await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(user)}&api_key=${LFM_KEY}&format=json&limit=1`);
@@ -505,7 +390,6 @@ async function poll(){
   }catch(_){}
 }
 
-/* ── login ── */
 function startApp(){
   loginEl.style.opacity='0';
   setTimeout(()=>{loginEl.style.display='none';},500);
@@ -516,7 +400,8 @@ function startApp(){
 loginBtn.addEventListener('click',()=>{
   const v=input.value.trim();
   if(!v)return;
-  user=v;localStorage.setItem('lfm_user',user);
+  user=v;
+  try{localStorage.setItem('lfm_user',user);}catch(_){}
   startApp();
 });
 input.addEventListener('keydown',e=>{if(e.key==='Enter')loginBtn.click();});
@@ -526,4 +411,5 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 </body>
+</html>
 </html>
