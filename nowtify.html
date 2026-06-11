@@ -129,7 +129,6 @@
     #player-screen {
       display: none;
       flex-direction: column;
-      gap: 0;
       animation: fadeUp 0.5s ease both;
     }
 
@@ -591,41 +590,110 @@
   const progressArea  = document.getElementById('progress-area');
   const idleState     = document.getElementById('idle-state');
 
-  let pollTimer       = null;
-  let progressTimer   = null;
-  let currentMs       = 0;
-  let durationMs      = 0;
-  let isPlaying       = false;
-  let lastTrackId     = null;
-  let currentVideoId  = null;
-  let ytReady         = false;
-  let ytPlayer        = null;
-  let viewMode        = localStorage.getItem('nf_mode') || 'foto';
+  let pollTimer      = null;
+  let progressTimer  = null;
+  let currentMs      = 0;
+  let durationMs     = 0;
+  let isPlaying      = false;
+  let lastTrackId    = null;
+  let currentVideoId = null;
+  let ytReady        = false;
+  let ytPlayer       = null;
+  let viewMode       = localStorage.getItem('nf_mode') || 'foto';
 
-  function buildAuthUrl() {
-    return 'https://accounts.spotify.com/authorize?' + new URLSearchParams({
-      client_id:     CLIENT_ID,
-      response_type: 'token',
-      redirect_uri:  REDIRECT_URI,
-      scope:         SCOPES,
-      show_dialog:   'false'
-    }).toString();
+  async function generateCodeVerifier() {
+    const array = new Uint8Array(64);
+    crypto.getRandomValues(array);
+    return btoa(String.fromCharCode(...array))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
 
-  function saveToken(t)  { localStorage.setItem('sp_token', t); }
-  function getToken()    { return localStorage.getItem('sp_token'); }
-  function clearToken()  { localStorage.removeItem('sp_token'); }
+  async function generateCodeChallenge(verifier) {
+    const encoder = new TextEncoder();
+    const data    = encoder.encode(verifier);
+    const digest  = await crypto.subtle.digest('SHA-256', data);
+    return btoa(String.fromCharCode(...new Uint8Array(digest)))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
 
-  function captureHashToken() {
-    const hash = window.location.hash.substring(1);
-    if (!hash) return null;
-    const p = new URLSearchParams(hash);
-    const t = p.get('access_token');
-    if (t) {
-      saveToken(t);
-      window.history.pushState({}, document.title, window.location.pathname);
+  async function startPKCELogin() {
+    const verifier   = await generateCodeVerifier();
+    const challenge  = await generateCodeChallenge(verifier);
+    const state      = crypto.randomUUID();
+    localStorage.setItem('pkce_verifier', verifier);
+    localStorage.setItem('pkce_state', state);
+    const url = 'https://accounts.spotify.com/authorize?' + new URLSearchParams({
+      client_id:             CLIENT_ID,
+      response_type:         'code',
+      redirect_uri:          REDIRECT_URI,
+      scope:                 SCOPES,
+      code_challenge_method: 'S256',
+      code_challenge:        challenge,
+      state:                 state,
+    }).toString();
+    window.location.href = url;
+  }
+
+  async function exchangeCodeForToken(code, verifier) {
+    const res = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id:     CLIENT_ID,
+        grant_type:    'authorization_code',
+        code:          code,
+        redirect_uri:  REDIRECT_URI,
+        code_verifier: verifier,
+      }).toString(),
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  }
+
+  async function refreshAccessToken(refreshToken) {
+    const res = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id:     CLIENT_ID,
+        grant_type:    'refresh_token',
+        refresh_token: refreshToken,
+      }).toString(),
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  }
+
+  function saveTokens(data) {
+    localStorage.setItem('sp_access_token',  data.access_token);
+    localStorage.setItem('sp_expires_at',    String(Date.now() + data.expires_in * 1000));
+    if (data.refresh_token) {
+      localStorage.setItem('sp_refresh_token', data.refresh_token);
     }
-    return t || null;
+  }
+
+  function getAccessToken()  { return localStorage.getItem('sp_access_token'); }
+  function getRefreshToken() { return localStorage.getItem('sp_refresh_token'); }
+  function getExpiresAt()    { return parseInt(localStorage.getItem('sp_expires_at') || '0', 10); }
+
+  function clearTokens() {
+    localStorage.removeItem('sp_access_token');
+    localStorage.removeItem('sp_refresh_token');
+    localStorage.removeItem('sp_expires_at');
+    localStorage.removeItem('pkce_verifier');
+    localStorage.removeItem('pkce_state');
+  }
+
+  async function getValidToken() {
+    const token     = getAccessToken();
+    const expiresAt = getExpiresAt();
+    if (token && Date.now() < expiresAt - 30000) return token;
+    const refresh = getRefreshToken();
+    if (!refresh) return null;
+    const data = await refreshAccessToken(refresh);
+    if (!data || !data.access_token) return null;
+    saveTokens(data);
+    return data.access_token;
   }
 
   function fmt(ms) {
@@ -644,9 +712,9 @@
 
   function renderProgress() {
     const pct = durationMs > 0 ? (currentMs / durationMs) * 100 : 0;
-    progressFill.style.width  = `${pct}%`;
-    timeCurrent.textContent   = fmt(currentMs);
-    timeTotal.textContent     = fmt(durationMs);
+    progressFill.style.width = `${pct}%`;
+    timeCurrent.textContent  = fmt(currentMs);
+    timeTotal.textContent    = fmt(durationMs);
   }
 
   function applyMarquee(el, outer) {
@@ -676,15 +744,6 @@
     btnVideo.classList.toggle('active', viewMode === 'video');
   }
 
-  function applyViewMode() {
-    setModeBtns();
-    if (viewMode === 'video' && currentVideoId) {
-      showVideo();
-    } else {
-      showPhoto();
-    }
-  }
-
   function showPhoto() {
     videoLayer.classList.remove('visible');
     vinylLayer.style.opacity = '1';
@@ -705,54 +764,55 @@
     }
   }
 
+  function applyViewMode() {
+    setModeBtns();
+    if (viewMode === 'video' && currentVideoId) {
+      showVideo();
+    } else {
+      showPhoto();
+    }
+  }
+
   function loadYouTubeVideo(videoId, progressSec) {
     currentVideoId = videoId;
-    if (!ytReady) {
+    if (!ytReady || !ytPlayer || typeof ytPlayer.loadVideoById !== 'function') {
       ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&enablejsapi=1&start=${Math.floor(progressSec)}`;
       if (viewMode === 'video') showVideo();
       return;
     }
-    if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-      try {
-        ytPlayer.loadVideoById({ videoId, startSeconds: progressSec });
-        ytPlayer.mute();
-        if (viewMode === 'video') showVideo();
-      } catch (_) {
-        ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&enablejsapi=1&start=${Math.floor(progressSec)}`;
-        if (viewMode === 'video') showVideo();
-      }
+    try {
+      ytPlayer.loadVideoById({ videoId, startSeconds: progressSec });
+      ytPlayer.mute();
+      if (viewMode === 'video') showVideo();
+    } catch (_) {
+      ytIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&enablejsapi=1&start=${Math.floor(progressSec)}`;
+      if (viewMode === 'video') showVideo();
     }
   }
 
   async function fetchVideoId(query) {
-    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}&sp=EgIQAQ%253D%253D`;
-    try {
-      const res  = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=dQw4w9WgXcQ`);
-    } catch (_) {}
-
-    const oembedUrl = `https://noembed.com/embed?url=https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-
-    const invidious = `https://inv.tux.pizza/api/v1/search?q=${encodeURIComponent(query)}&type=video&fields=videoId`;
-    try {
-      const r = await fetch(invidious);
-      if (r.ok) {
+    const endpoints = [
+      async () => {
+        const r = await fetch(`https://inv.tux.pizza/api/v1/search?q=${encodeURIComponent(query)}&type=video&fields=videoId`);
+        if (!r.ok) return null;
         const d = await r.json();
-        if (Array.isArray(d) && d.length > 0) return d[0].videoId;
-      }
-    } catch (_) {}
-
-    const piped = `https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(query)}&filter=videos`;
-    try {
-      const r = await fetch(piped);
-      if (r.ok) {
+        return Array.isArray(d) && d.length > 0 ? d[0].videoId : null;
+      },
+      async () => {
+        const r = await fetch(`https://pipedapi.kavin.rocks/search?q=${encodeURIComponent(query)}&filter=videos`);
+        if (!r.ok) return null;
         const d = await r.json();
-        if (d.items && d.items.length > 0) {
-          const id = d.items[0].url?.replace('/watch?v=', '');
-          if (id && id.length === 11) return id;
-        }
-      }
-    } catch (_) {}
-
+        if (!d.items || d.items.length === 0) return null;
+        const id = d.items[0].url?.replace('/watch?v=', '');
+        return id && id.length === 11 ? id : null;
+      },
+    ];
+    for (const fn of endpoints) {
+      try {
+        const id = await fn();
+        if (id) return id;
+      } catch (_) {}
+    }
     return null;
   }
 
@@ -760,7 +820,6 @@
     const artists = item.artists.map(a => a.name).join(', ');
     const query   = `${artists} - ${item.name} official music video`;
     const vid     = await fetchVideoId(query);
-
     if (vid) {
       loadYouTubeVideo(vid, progressMs / 1000);
     } else {
@@ -796,38 +855,30 @@
     lastTrackId    = null;
   }
 
-  function syncYtProgress() {
-    if (viewMode !== 'video' || !ytPlayer) return;
-    if (typeof ytPlayer.seekTo !== 'function') return;
-    try { ytPlayer.seekTo(currentMs / 1000, true); } catch (_) {}
-  }
-
   async function updateTrack(item, progress, playing) {
     const artists = item.artists.map(a => a.name).join(', ');
     const imgUrl  = item.album.images?.[0]?.url ?? '';
 
     if (item.id !== lastTrackId) {
       lastTrackId = item.id;
-
       trackNameEl.textContent   = item.name;
       trackArtistEl.textContent = artists;
       trackNameEl.classList.remove('scrolling');
-
       if (imgUrl) {
         vinylArt.style.backgroundImage = `url(${imgUrl})`;
         artBg.style.backgroundImage    = `url(${imgUrl})`;
       }
-
       currentMs  = progress;
       durationMs = item.duration_ms;
-
       applyMarquee(trackNameEl, marqueeOuter);
       await handleNewTrack(item, progress);
     } else {
       const drift = Math.abs(currentMs - progress);
       if (drift > 2000) {
         currentMs = progress;
-        syncYtProgress();
+        if (viewMode === 'video' && ytPlayer && typeof ytPlayer.seekTo === 'function') {
+          try { ytPlayer.seekTo(currentMs / 1000, true); } catch (_) {}
+        }
       }
       durationMs = item.duration_ms;
     }
@@ -839,7 +890,7 @@
   }
 
   async function poll() {
-    const token = getToken();
+    const token = await getValidToken();
     if (!token) { logout(); return; }
 
     let res;
@@ -849,7 +900,7 @@
       });
     } catch (_) { return; }
 
-    if (res.status === 401) { clearToken(); logout(); return; }
+    if (res.status === 401) { clearTokens(); logout(); return; }
     if (res.status === 204) { setIdleState(); return; }
     if (!res.ok) return;
 
@@ -869,14 +920,16 @@
   }
 
   function logout() {
-    clearToken();
+    clearTokens();
     clearInterval(pollTimer);
     clearInterval(progressTimer);
+    currentVideoId = null;
+    lastTrackId    = null;
     setIdleState();
     showLogin();
   }
 
-  btnLogin.addEventListener('click', () => { window.location.href = buildAuthUrl(); });
+  btnLogin.addEventListener('click', startPKCELogin);
   btnLogout.addEventListener('click', logout);
 
   btnFoto.addEventListener('click', () => {
@@ -896,9 +949,7 @@
     try {
       ytPlayer = new YT.Player('yt-iframe', {
         events: {
-          onReady: () => {
-            if (ytPlayer && typeof ytPlayer.mute === 'function') ytPlayer.mute();
-          },
+          onReady: () => { try { ytPlayer.mute(); } catch (_) {} },
           onStateChange: (e) => {
             if (e.data === YT.PlayerState.ENDED && currentVideoId) {
               try { ytPlayer.seekTo(0); ytPlayer.playVideo(); } catch (_) {}
@@ -909,17 +960,51 @@
     } catch (_) {}
   };
 
-  window.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('DOMContentLoaded', async () => {
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.head.appendChild(tag);
 
     setModeBtns();
 
-    const hashToken   = captureHashToken();
-    const storedToken = getToken();
+    const params = new URLSearchParams(window.location.search);
+    const code   = params.get('code');
+    const state  = params.get('state');
+    const error  = params.get('error');
 
-    if (hashToken || storedToken) {
+    if (error) {
+      window.history.pushState({}, document.title, window.location.pathname);
+      showLogin();
+      return;
+    }
+
+    if (code) {
+      window.history.pushState({}, document.title, window.location.pathname);
+      const savedState   = localStorage.getItem('pkce_state');
+      const verifier     = localStorage.getItem('pkce_verifier');
+
+      if (!verifier || (savedState && state && savedState !== state)) {
+        clearTokens();
+        showLogin();
+        return;
+      }
+
+      const tokenData = await exchangeCodeForToken(code, verifier);
+      localStorage.removeItem('pkce_verifier');
+      localStorage.removeItem('pkce_state');
+
+      if (!tokenData || !tokenData.access_token) {
+        showLogin();
+        return;
+      }
+
+      saveTokens(tokenData);
+      startSession();
+      return;
+    }
+
+    const token = await getValidToken();
+    if (token) {
       startSession();
     } else {
       showLogin();
