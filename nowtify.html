@@ -263,7 +263,7 @@ function showNoTrack() {
   trackKey = ''; curMs = 0; durMs = 0; drawProg();
 }
 
-async function handleTrack(t) {
+function handleTrack(t) {
   const name    = t.name;
   const artist  = t.artist['#text'];
   const img     = t.image?.find(i => i.size === 'extralarge')?.['#text'] || '';
@@ -283,44 +283,31 @@ async function handleTrack(t) {
 
   const key = `${artist}|||${name}`;
   if (key === trackKey) {
-    // Aynı şarkı, sadece tickerlara devam
     startProg(); startSync(); return;
   }
 
-  // Yeni şarkı
+  // Yeni şarkı — duration'ı hemen metadata'dan al, progress anında başlasın
   trackKey = key;
-  curMs = 0; durMs = 0;
+  curMs = 0;
+  // recenttracks'te duration ms cinsinden gelir (bazen 0 veya eksik olabilir)
+  const rawDur = parseInt(t.duration);
+  durMs = (!isNaN(rawDur) && rawDur > 1000) ? rawDur : 0;
   stopProg(); stopSync();
   drawProg();
+  startProg(); // duration varsa hemen başlar, yoksa lrc gelince düzeltilir
 
   lyrEl.innerHTML = '<div class="ll" style="color:rgba(255,255,255,0.2);text-align:center;">Sözler yükleniyor…</div>';
 
-  const data = await getLyrics(artist, name);
-  renderLyrics(data);
-
-  // durMs getLyrics içinde set edildi, şimdi Last.fm fallback dene
-  if (durMs <= 0) {
-    durMs = await lfmDuration(artist, name);
-  }
-
-  drawProg();
-  startProg();
-  startSync();
+  // Lyrics arka planda yükle
+  getLyrics(artist, name).then(data => {
+    // getLyrics içinde durMs lrclib'den set edilmiş olabilir — daha doğruysa kullan
+    renderLyrics(data);
+    drawProg();
+    if (!progTimer && durMs > 0) startProg();
+    startSync();
+  });
 }
 
-/* ── Last.fm duration fallback ── */
-async function lfmDuration(artist, track) {
-  try {
-    const r = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=${LFM_KEY}&artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}&format=json`
-    );
-    if (!r.ok) return 0;
-    const d = await r.json();
-    const v = parseInt(d?.track?.duration);
-    // Last.fm ms cinsinden döner
-    return (!isNaN(v) && v > 1000) ? v : 0;
-  } catch(_) { return 0; }
-}
 
 /* ── poll ── */
 async function poll() {
@@ -332,7 +319,7 @@ async function poll() {
     const d = await r.json();
     const tracks = d.recenttracks?.track;
     if (!tracks?.length) { showNoTrack(); return; }
-    await handleTrack(Array.isArray(tracks) ? tracks[0] : tracks);
+    handleTrack(Array.isArray(tracks) ? tracks[0] : tracks);
   } catch(_) {}
 }
 
