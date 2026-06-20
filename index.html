@@ -13,304 +13,8 @@
   <meta property="og:url" content="https://dxles.eu/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary" />
-  <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;scroll-behavior:smooth}
-body{font-family:"Helvetica Neue",Arial,sans-serif;background:#e3e1e1;color:#000;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-a:hover{opacity:.6}
-.ticker{position:fixed;top:0;left:0;width:100%;background:#000;color:#ccbeb8;font-size:11px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;z-index:100;padding:6px 0}
-.ticker-inner{display:inline-block;animation:ticker 30s linear infinite}
-.ticker-inner span{margin:0 1.5rem}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.scroll-line{position:fixed;top:28px;left:0;height:2px;background:#000;z-index:500;transition:width .1s}
-nav{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:100;background:#000;border-radius:100px;padding:12px 28px;display:flex;gap:2rem}
-nav a{color:#ccbeb8;font-size:12px;letter-spacing:.08em}
-nav a:hover{opacity:.5}
-.popup{position:fixed;bottom:6rem;right:2rem;background:#000;color:#e3e1e1;padding:1.5rem 2rem;border-radius:12px;max-width:280px;z-index:200;opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .4s,transform .4s}
-.popup.show{opacity:1;transform:translateY(0);pointer-events:all}
-.popup p{font-size:13px;line-height:1.6;margin-bottom:.8rem}
-.popup-close{background:none;border:1px solid rgba(255,255,255,.3);color:#e3e1e1;font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer}
-    
-#t{padding:80px 8vw 40px;min-height:auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-
-.hero-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
-.hero-label::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#00c853;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-title{font-size:clamp(3rem,7vw,6.5rem);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:1.2rem}
-.hero-title em{font-style:normal;color:#888}
-.hero-roles{font-size:clamp(1rem,1.8vw,1.3rem);color:#888;font-weight:300;margin-bottom:1.5rem}
-.hero-roles span{color:#000;font-weight:500;border-bottom:1px solid currentColor}
-.hero-bio{max-width:480px;font-size:14px;line-height:1.8;color:#555;margin-bottom:2rem}
-.hero-contact{display:inline-flex;align-items:center;gap:.5rem;background:#000;color:#ccbeb8;padding:14px 28px;border-radius:100px;font-size:13px;letter-spacing:.05em;transition:opacity .2s}
-.hero-contact:hover{opacity:.7}
-.hero-right{position:relative;height:480px}
-.sticker{position:absolute;border-radius:16px;overflow:hidden;filter:drop-shadow(0 8px 24px rgba(0,0,0,.13))}
-.s1{width:220px;top:20px;left:40px;animation:f1 4s ease-in-out infinite alternate}
-.s2{width:180px;top:10px;right:20px;animation:f2 5s ease-in-out infinite alternate}
-.s3{width:200px;bottom:100px;left:10px;animation:f3 4.5s ease-in-out infinite alternate}
-.s4{width:170px;bottom:60px;right:30px;animation:f4 3.8s ease-in-out infinite alternate}
-.s5{width:190px;top:200px;left:120px;animation:f5 5.2s ease-in-out infinite alternate}
-@keyframes f1{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-18px) rotate(1deg)}}
-@keyframes f2{from{transform:translateY(0) rotate(2deg)}to{transform:translateY(-22px) rotate(-1deg)}}
-@keyframes f3{from{transform:translateY(0) rotate(1deg)}to{transform:translateY(-15px) rotate(-2deg)}}
-@keyframes f4{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-20px) rotate(2deg)}}
-@keyframes f5{from{transform:translateY(0) rotate(0)}to{transform:translateY(-12px) rotate(-1deg)}}
-.mq{border-top:1px solid #eee;border-bottom:1px solid #eee;overflow:hidden;padding:14px 0}
-.mq-t{display:flex;white-space:nowrap;animation:mq 20s linear infinite}
-.mq-t span{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin:0 2rem}
-@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-section{padding:5rem 8vw}
-.sl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:3rem}
-.sl em{font-style:normal;color:#000}
-#skills .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#eee;border:1px solid #eee}
-.si{background:#fff;padding:2rem 1.5rem}
-.sn{font-size:11px;color:#888;letter-spacing:.1em;margin-bottom:1rem;display:block}
-.st{font-size:18px;font-weight:600;margin-bottom:.5rem}
-.sd{font-size:13px;line-height:1.6;color:#666}
-.tl{display:flex;flex-direction:column}
-.ti{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:1.5rem;padding:1.5rem 0;border-bottom:1px solid #eee}
-.ti:hover{background:#fafafa;margin:0 -2rem;padding-left:2rem;padding-right:2rem}
-.tn{font-size:11px;color:#888}
-.tnm{font-size:22px;font-weight:600;margin-bottom:.2rem}
-.td{font-size:13px;color:#666;line-height:1.5}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #ddd;padding:3px 10px;border-radius:100px;color:#888}
-.tlink{font-size:12px;letter-spacing:.05em;border-bottom:1px solid #000;white-space:nowrap}
-#exp .ei{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:3rem 0;border-bottom:1px solid #eee}
-.ep{font-size:12px;color:#888;letter-spacing:.08em;margin-bottom:.5rem;display:block}
-.ec{font-size:18px;font-weight:600;margin-bottom:.3rem}
-.er{font-size:13px;color:#666}
-.ed{font-size:15px;line-height:1.8;color:#444}
-.qs{padding:5rem 8vw;text-align:center;border-top:1px solid #eee;border-bottom:1px solid #eee}
-blockquote{font-size:clamp(1.1rem,2.5vw,1.6rem);font-style:italic;font-weight:300;color:#333;max-width:700px;margin:0 auto 1rem;line-height:1.6}
-cite{font-size:13px;color:#888;font-style:normal;letter-spacing:.1em}
-#c{padding:7rem 8vw 4rem}
-.cb{font-size:clamp(2rem,5vw,4.5rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:3rem}
-.cb a{border-bottom:3px solid #000}
-.soc{display:flex;flex-wrap:wrap;gap:2rem;margin-bottom:6rem}
-.soc a{font-size:13px;letter-spacing:.08em;border-bottom:1px solid currentColor}
-footer{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid #eee;font-size:12px;color:#888;flex-wrap:wrap;gap:1rem}
-.fe{display:flex;gap:1.5rem}
-.fe a{color:#888;border-bottom:1px solid #ddd;font-size:12px}
-@media(max-width:900px){
-#t{grid-template-columns:1fr;padding:90px 5vw 30px}
-.hero-right{height:360px}
-.s1{width:160px;top:10px;left:20px}.s2{width:140px;top:5px;right:10px}
-.s3{width:150px;bottom:60px;left:5px}.s4{width:130px;bottom:30px;right:15px}
-.s5{width:145px;top:160px;left:85px}
-section{padding:4rem 5vw}#c{padding:5rem 5vw 3rem}
-.ei{grid-template-columns:1fr;gap:1rem}.ti{grid-template-columns:1fr}
-nav{bottom:1rem;padding:10px 18px;gap:1.2rem}}
-</style>
-</head>
-<body>
-
-<div class="scroll-line" id="sl"></div>
-
-<div class="ticker"><div class="ticker-inner">
-<span>Python Dev</span><span>·</span><span>OSINT Researcher</span><span>·</span><span>Security Enthusiast</span><span>·</span><span>Otomasyon</span><span>·</span><span>Backend Systems</span><span>·</span><span>Açık Kaynak</span><span>·</span><span>Reverse Engineering</span><span>·</span><span>Bavyera, Almanya</span><span>·</span>
-<span>Python Dev</span><span>·</span><span>OSINT Researcher</span><span>·</span><span>Security Enthusiast</span><span>·</span><span>Otomasyon</span><span>·</span><span>Backend Systems</span><span>·</span><span>Açık Kaynak</span><span>·</span><span>Reverse Engineering</span><span>·</span><span>Bavyera, Almanya</span><span>·</span>
-</div></div>
-
-<div class="popup" id="popup">
-<p>Araçlarıma 3 saniyeden fazla baktın.</p>
-<button class="popup-close" onclick="document.getElementById('popup').classList.remove('show')">kapat</button>
-</div>
-
-<nav>
-<a href="#w">araçlar</a>
-<a href="#skills">yetkinlikler</a>
-<a href="#exp">deneyim</a>
-<a href="mailto:dxxlxdxxx@gmail.com">iletişim</a>
-</nav>
-
-<section id="t">
-<div>
-<h1 class="hero-title">Merhaba<em>.</em><br>Ben Dxles</h1>
-<p class="hero-roles"><span>Python Dev</span> &nbsp;·&nbsp; <span>Siber Güvenlik</span> &nbsp;·&nbsp; <span>OSINT</span></p>
-<p class="hero-bio">2018'den beri yazılımla ilgileniyorum. Şu an Almanya, Bavyera'da yaşıyorum. Sistemleri anlamak ve sorgulamak benim için bir yaşam biçimi.</p>
-<a href="mailto:dxxlxdxxx@gmail.com" class="hero-contact">iletişim kur →</a>
-</div>
-
-<div class="hero-right">
-
-<div class="sticker s1">
-<svg width="220" height="150" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg">
-<rect width="220" height="150" fill="#0d0d0d" rx="16"/>
-<rect x="0" y="0" width="220" height="28" fill="#1a1a1a" rx="16"/>
-<rect x="0" y="16" width="220" height="12" fill="#1a1a1a"/>
-<circle cx="18" cy="14" r="5" fill="#ff5f57"/><circle cx="34" cy="14" r="5" fill="#febc2e"/><circle cx="50" cy="14" r="5" fill="#28c840"/>
-<text x="12" y="48" font-family="monospace" font-size="9.5" fill="#00c853">$ python username_checker.py dxl3s</text>
-<text x="12" y="64" font-family="monospace" font-size="9" fill="#555">checking 5+ platforms...</text>
-<text x="12" y="80" font-family="monospace" font-size="9" fill="#00c853">✓ instagram    found</text>
-<text x="12" y="94" font-family="monospace" font-size="9" fill="#00c853">✓ tiktok       found</text>
-<text x="12" y="108" font-family="monospace" font-size="9" fill="#00c853">✓discord      found</text>
-<text x="12" y="122" font-family="monospace" font-size="9" fill="#555">✗ snapchat     not found</text>
-<text x="12" y="138" font-family="monospace" font-size="9" fill="#555">▊</text>
-</svg>
-</div>
-
-<div class="sticker s2">
-<svg width="180" height="135" viewBox="0 0 180 135" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="135" fill="#1e1e2e" rx="16"/>
-<text x="14" y="22" font-family="monospace" font-size="9" fill="#555">holehe.py</text>
-<text x="14" y="40" font-family="monospace" font-size="9"><tspan fill="#cba6f7">import</tspan><tspan fill="#cdd6f4"> requests, re</tspan></text>
-<text x="14" y="56" font-family="monospace" font-size="9" fill="#888"> </text>
-<text x="14" y="70" font-family="monospace" font-size="9"><tspan fill="#cba6f7">def</tspan><tspan fill="#89b4fa"> check_email</tspan><tspan fill="#cdd6f4">(email):</tspan></text>
-<text x="24" y="84" font-family="monospace" font-size="9" fill="#cdd6f4">results = []</text>
-<text x="24" y="98" font-family="monospace" font-size="9"><tspan fill="#cba6f7">for</tspan><tspan fill="#cdd6f4"> site in SITES:</tspan></text>
-<text x="34" y="112" font-family="monospace" font-size="9" fill="#a6e3a1">r = probe(email, site)</text>
-<text x="34" y="126" font-family="monospace" font-size="9" fill="#a6e3a1">results.append(r)</text>
-</svg>
-</div>
-
-<div class="sticker s3">
-<svg width="200" height="138" viewBox="0 0 200 138" xmlns="http://www.w3.org/2000/svg">
-<rect width="200" height="138" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
-<text x="14" y="20" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888" letter-spacing="2">OSINT MAP</text>
-<line x1="100" y1="72" x2="44" y2="40" stroke="#ddd" stroke-width="1"/>
-<line x1="100" y1="72" x2="158" y2="40" stroke="#ddd" stroke-width="1"/>
-<line x1="100" y1="72" x2="166" y2="82" stroke="#ddd" stroke-width="1"/>
-<line x1="100" y1="72" x2="52" y2="114" stroke="#ddd" stroke-width="1"/>
-<line x1="100" y1="72" x2="150" y2="116" stroke="#ddd" stroke-width="1"/>
-<circle cx="100" cy="72" r="16" fill="#000"/>
-<text x="100" y="76" font-family="monospace" font-size="8" fill="#fff" text-anchor="middle">dxl3s</text>
-<circle cx="44" cy="38" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-<text x="44" y="42" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">github</text>
-<circle cx="158" cy="38" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-<text x="158" y="42" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">insta</text>
-<circle cx="168" cy="82" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-<text x="168" y="86" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">yt</text>
-<circle cx="52" cy="116" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-<text x="52" y="120" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">reddit</text>
-<circle cx="150" cy="116" r="12" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
-<text x="150" y="120" font-family="monospace" font-size="7" fill="#333" text-anchor="middle">twit</text>
-</svg>
-</div>
-<div class="sticker s4">
-<svg width="200" height="130" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="igbg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fdf0e8"/>
-      <stop offset="100%" stop-color="#fce4ec"/>
-    </linearGradient>
-    <linearGradient id="igring" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f09433"/>
-      <stop offset="40%" stop-color="#dc2743"/>
-      <stop offset="100%" stop-color="#bc1888"/>
-    </linearGradient>
-    <clipPath id="ppclip">
-      <circle cx="38" cy="42" r="22"/>
-    </clipPath>
-  </defs>
-  <rect width="200" height="130" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
-  <circle cx="38" cy="42" r="25" fill="url(#igring)"/>
-  <circle cx="38" cy="42" r="23" fill="#fff"/>
-  <image href="1779044789401_image.jpg"
-         x="16" y="20" width="44" height="44"
-         clip-path="url(#ppclip)"
-         preserveAspectRatio="xMidYMid slice"/>
-  <text x="72" y="34" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" font-weight="700" fill="#000">dxl3s</text>
-  <circle cx="106" cy="30" r="7" fill="#1877F2"/>
-  <polyline points="102.5,30 105,33 110,27" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="72" y="50" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" font-weight="600" fill="#000">10B</text>
-  <text x="92" y="50" font-family="Helvetica Neue,Arial,sans-serif" font-size="10" fill="#888"> takipçi</text>
-  <rect x="14" y="72" width="172" height="1" fill="#f0f0f0"/>
-  <text x="14" y="91" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">Meta / Instagram</text>
-  <text x="14" y="106" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#888">2023 – 2025  ·  Abuse &amp; Security Team</text>
-  <rect x="138" y="95" width="50" height="18" rx="9" fill="#000"/>
-  <text x="163" y="107" font-family="Helvetica Neue,Arial,sans-serif" font-size="8" fill="#fff" text-anchor="middle">verified</text>
-</svg>
-</div>
-
-<div class="sticker s5">
-<svg width="190" height="112" viewBox="0 0 190 112" xmlns="http://www.w3.org/2000/svg">
-<rect width="190" height="112" fill="#000" rx="16"/>
-<text x="14" y="24" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555" letter-spacing="2">GITHUB STATS</text>
-<text x="14" y="56" font-family="Helvetica Neue,Arial,sans-serif" font-size="30" font-weight="700" fill="#fff">35rl</text>
-<text x="108" y="46" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555">araçlar</text>
-<text x="108" y="62" font-family="Helvetica Neue,Arial,sans-serif" font-size="22" font-weight="700" fill="#fff">5+</text>
-<text x="14" y="74" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555">2018'den beri aktif</text>
-<rect x="14" y="88" width="18" height="14" rx="2" fill="#333"/>
-<rect x="36" y="84" width="18" height="18" rx="2" fill="#444"/>
-<rect x="58" y="80" width="18" height="22" rx="2" fill="#555"/>
-<rect x="80" y="76" width="18" height="26" rx="2" fill="#777"/>
-<rect x="102" y="70" width="18" height="32" rx="2" fill="#999"/>
-<rect x="124" y="82" width="18" height="20" rx="2" fill="#00c853"/>
-<text x="143" y="100" font-family="monospace" font-size="7" fill="#00c853">now</text>
-</svg>
-</div>
-
-</div>
-</section>
-
-<div class="mq"><div class="mq-t">
-<span>Python</span><span>·</span><span>Node.js</span><span>·</span><span>Go</span><span>·</span><span>OSINT</span><span>·</span><span>Telegram API</span><span>·</span><span>Discord API</span><span>·</span><span>Backend</span><span>·</span><span>Güvenlik Analizi</span><span>·</span><span>Otomasyon</span><span>·</span><span>Reverse Engineering</span><span>·</span>
-<span>Python</span><span>·</span><span>Node.js</span><span>·</span><span>Go</span><span>·</span><span>OSINT</span><span>·</span><span>Telegram API</span><span>·</span><span>Discord API</span><span>·</span><span>Backend</span><span>·</span><span>Güvenlik Analizi</span><span>·</span><span>Otomasyon</span><span>·</span><span>Reverse Engineering</span><span>·</span>
-</div></div>
-
-<section id="skills">
-<p class="sl">yetkin<em>likler</em></p>
-<div class="g">
-<div class="si"><span class="sn">01</span><div class="st">Python Dev</div><p class="sd">Otomasyon scriptleri, bot geliştirme, API entegrasyonları ve backend sistemler.</p></div>
-<div class="si"><span class="sn">02</span><div class="st">Siber Güvenlik</div><p class="sd">Güvenlik araştırmaları, penetrasyon testi temelleri ve zafiyet analizi.</p></div>
-<div class="si"><span class="sn">03</span><div class="st">OSINT</div><p class="sd">Açık kaynak istihbarat araçları, sosyal mühendislik farkındalığı ve dijital iz analizi.</p></div>
-<div class="si"><span class="sn">04</span><div class="st">Reverse Engineering</div><p class="sd">Binary analizi, yazılım davranışı inceleme ve tersine mühendislik temelleri.</p></div>
-<div class="si"><span class="sn">05</span><div class="st">Otomasyon</div><p class="sd">Tekrar eden görevleri otomatize eden scriptler ve workflow optimizasyonu.</p></div>
-<div class="si"><span class="sn">06</span><div class="st">Açık Kaynak</div><p class="sd">GitHub'da aktif olarak geliştirilen araçlar, toplulukla paylaşılan projeler.</p></div>
-</div>
-</section>
-
-<section id="w">
-<p class="sl">seçili_<em>araçlar</em></p>
-<div class="tl">
-<div class="ti"><span class="tn">01</span><div><div class="tnm">Username_Checker</div><p class="td">Belirli bir kullanıcı adının popüler sosyal medya platformlarında müsait olup olmadığını kontrol eder. Tarayıcıdan direkt çalışır.</p><div class="tags"><span class="tag">Python</span><span class="tag">Sosyal Medya</span><span class="tag">Online</span></div></div><a href="https://github.com/35rl/Socialmedia-user-checker" class="tlink" target="_blank">GitHub →</a></div>
-<div class="ti"><span class="tn">02</span><div><div class="tnm">Number_Lookup</div><p class="td">Bir telefon numarasına kayıtlı sosyal medya hesaplarını sorgular. OSINT araştırmalarında kullanılır.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span><span class="tag">Telefon</span></div></div><a href="https://github.com/megadose/ignorant" class="tlink" target="_blank">GitHub →</a></div>
-<div class="ti"><span class="tn">03</span><div><div class="tnm">OSINT_Tool_Map</div><p class="td">OSINT nasıl yapılır, hangi araçlar kullanılır? İnteraktif harita tüm kategorileri görsel olarak sunar.</p><div class="tags"><span class="tag">Web</span><span class="tag">OSINT</span><span class="tag">Kaynak</span></div></div><a href="https://map.malfrats.industries/" class="tlink" target="_blank">Siteye Git →</a></div>
-<div class="ti"><span class="tn">04</span><div><div class="tnm">Sherlock</div><p class="td">300+ platformda kullanıcı adı araması yapar. En popüler OSINT araçlarından biri. Komut satırından çalışır.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span></div></div><a href="https://github.com/sherlock-project/sherlock" class="tlink" target="_blank">GitHub →</a></div>
-<div class="ti"><span class="tn">05</span><div><div class="tnm">Holehe</div><p class="td">Bir e-posta adresinin hangi platformlara kayıtlı olduğunu kontrol eder. 120+ servisi tarar.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span><span class="tag">E-posta</span></div></div><a href="https://holeheosint.com/" class="tlink" target="_blank">Site →</a></div>
-  <div class="ti"><span class="tn">06</span><div><div class="tnm">Callb0mb</div><p class="td">Girdiğiniz telefon numarasına farklı ülkelerden arama yağdırır</p><div class="tags"><span class="tag">Python</span><span class="tag">Callbomb</span><span class="tag">Telefon</span></div></div><a href="https://github.com/35rl/CallBomber" class="tlink" target="_blank">Tool →</a></div>
-</div>
-</div>
-</section>
-
-<section id="exp">
-<p class="sl">dene<em>yim</em></p>
-<div class="ei">
-<div><span class="ep">2023 – 2025</span><div class="ec">Meta / Instagram</div><p class="er">Harici Teknik Destek</p></div>
-<div><p class="ed">Instagram'ın ban ve abuse algoritmalarıyla platform güvenlik süreçlerinde harici teknik destek sağladım. Sistem analizi, abuse tespiti ve süreç optimizasyonu üzerine çalıştım.</p></div>
-</div>
-<div class="ei">
-<div><span class="ep">2018 – günümüz</span><div class="ec">Açık Kaynak</div><p class="er">Kişisel Projeler</p></div>
-<div><p class="ed">10 yaşından beri yazılımla ilgileniyorum. Python, Node.js ve Go ile araçlar, botlar, otomasyon sistemleri ve güvenlik araçları geliştiriyorum. Projelerimin büyük çoğunluğu GitHub'da açık kaynak.</p></div>
-</div>
-</section>
-
-<div class="qs">
-<blockquote>"A good programmer is someone who always looks both ways before crossing a one-way street."</blockquote>
-<cite>— Doug Linder</cite>
-</div>
-
-<section id="c">
-<p class="sl">iletişime_<em>geç</em></p>
-<p class="cb">Bir proje mi var?<br><a href="mailto:contact@dxles.eu">Konuşalım.</a></p>
-<div class="soc">
-<a href="https://github.com/35rl" target="_blank">github</a>
-<a href="https://instagram.com/dxl3s" target="_blank">instagram</a>
-<a href="https://dxles.eu" target="_blank">dxles.eu</a>
-<a href="https://youtube.com/@dxles" target="_blank">youtube</a>
-<a href="https://linkedin.com/in/dxlesx" target="_blank">linkedin</a>
-</div>
-<footer>
-<span>Dxles · he/him · Bavyera, Almanya</span>
-<div class="fe"><a href="#t">yukarı çık</a></div>
-</footer>
-</section>
-  
-</script>
-  
-<script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script>
 window.addEventListener("scroll",function(){
 var p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
 document.getElementById("sl").style.width=p+"%";
@@ -319,19 +23,305 @@ setTimeout(function(){
 document.getElementById("popup").classList.add("show");
 setTimeout(function(){document.getElementById("popup").classList.remove("show");},5000);
 },4000);
-
+window.addEventListener("DOMContentLoaded",function(){
+setTimeout(function(){
+document.getElementById("intro").classList.add("fade");
+},350);
+});
   </script>
-  
+
   <script data-goatcounter="https://dxles.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>
-<script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>
+  <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-E3HJQWMVDP');
+  </script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Noto+Naskh+Arabic:wght@500&display=swap');
+
+  :root{
+    --bg: #050505;
+    --red: #ff1a3a;
+    --red-dim: #5c0014;
+    --green: #00ff66;
+    --green-dim: #0a3d1f;
+    --white: #e8e8e8;
+    --pop-purple: #b026ff;
+    --pop-pink: #ff2e9a;
+    --pop-orange: #ff7a1a;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html,body{
+    background: var(--bg);
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+    .scrollbar-track{
+    position: fixed;
+    top:0; left:0;
+    width:100%;
+    height:3px;
+    background: rgba(255,255,255,0.06);
+    z-index: 50;
+  }
+  #sl{
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--red), var(--green));
+  }
+
+    .popup{
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: rgba(8,8,8,0.94);
+    border: 1px solid var(--green-dim);
+    padding: 14px 18px;
+    border-radius: 6px;
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .4s ease;
+    z-index: 60;
+    max-width: 230px;
+  }
+  .popup.show{ opacity: 1; transform: translateY(0); }
+  .popup strong{
+    display:block;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .popup p{
+    font-size: 0.78rem;
+    color: #7fae8d;
+  }
+
+    .scanlines{
+    pointer-events:none;
+    position: fixed;
+    inset:0;
+    z-index: 5;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 3px
+    );
+    mix-blend-mode: multiply;
+  }
+
+  .vignette{
+    pointer-events:none;
+    position:fixed;
+    inset:0;
+    z-index:4;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.92) 100%);
+    animation: heartbeat 4.5s ease-in-out infinite;
+  }
+  @keyframes heartbeat{
+    0%, 100% { opacity: 1; }
+    8%  { opacity: 0.82; }
+    16% { opacity: 1; }
+    24% { opacity: 0.7; }
+    34% { opacity: 1; }
+  }
+
+    .grain{
+    pointer-events:none;
+    position: fixed;
+    inset: -10%;
+    width: 120%;
+    height: 120%;
+    z-index: 6;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grainShift 0.5s steps(3) infinite;
+  }
+  @keyframes grainShift{
+    0%   { transform: translate(0,0); }
+    33%  { transform: translate(-2%,1%); }
+    66%  { transform: translate(2%,-1%); }
+    100% { transform: translate(0,0); }
+  }
+
+    .flicker{
+    pointer-events:none;
+    position: fixed;
+    inset: 0;
+    z-index: 7;
+    background: #000;
+    opacity: 0;
+    animation: flicker 11s infinite;
+  }
+  @keyframes flicker{
+    0%, 92%, 100% { opacity: 0; }
+    92.5% { opacity: 0.45; }
+    93%   { opacity: 0.05; }
+    93.5% { opacity: 0.35; }
+    94%   { opacity: 0; }
+  }
+
+    .intro{
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+    transition: opacity 1.4s ease;
+  }
+  .intro.fade{ opacity: 0; pointer-events: none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .vignette, .grain, .flicker{ animation: none; }
+  }
+
+  .wrap{
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding: 40px 20px;
+    text-align:center;
+  }
+
+    h1.glitch{
+    font-family: 'VT323', monospace;
+    font-size: clamp(2.2rem, 8vw, 5.2rem);
+    color: #fff;
+    letter-spacing: 3px;
+    position: relative;
+    line-height: 1.05;
+    margin-bottom: 22px;
+  }
+  h1.glitch::before,
+  h1.glitch::after{
+    content: attr(data-text);
+    position: absolute;
+    left:0; top:0; right:0;
+    opacity: 0.55;
+    mix-blend-mode: screen;
+  }
+  h1.glitch::before{
+    animation: glitchTopPop 4s infinite steps(1);
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  }
+  h1.glitch::after{
+    animation: glitchBottomPop 4s infinite steps(1);
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  }
+
+  @keyframes glitchTopPop{
+    0%, 54%   { color: var(--green); transform: translate(0,0); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); }
+    55%  { color: var(--pop-purple); transform: translate(-8px,-2px); clip-path: polygon(0 8%, 100% 8%, 100% 38%, 0 38%); }
+    56%  { color: var(--pop-orange); transform: translate(7px,1px); }
+    57%  { color: var(--red);        transform: translate(-6px,2px); clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); }
+    58%  { color: var(--pop-pink);   transform: translate(8px,-2px); }
+    59%  { color: var(--pop-orange); transform: translate(-5px,1px); clip-path: polygon(0 5%, 100% 5%, 100% 42%, 0 42%); }
+    60%  { color: var(--green);      transform: translate(0,0); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); }
+    78%, 82%  { color: var(--pop-orange); transform: translate(5px,0); }
+    80%  { color: var(--pop-pink); transform: translate(-5px,0); }
+    84%, 100% { color: var(--green); transform: translate(0,0); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); }
+  }
+  @keyframes glitchBottomPop{
+    0%, 54%   { color: var(--red); transform: translate(0,0); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%); }
+    55%  { color: var(--pop-orange); transform: translate(7px,2px); clip-path: polygon(0 62%, 100% 62%, 100% 92%, 0 92%); }
+    56%  { color: var(--green);      transform: translate(-7px,-1px); }
+    57%  { color: var(--pop-pink);   transform: translate(6px,2px); clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%); }
+    58%  { color: var(--pop-purple); transform: translate(-8px,-2px); }
+    59%  { color: var(--pop-pink);   transform: translate(5px,1px); clip-path: polygon(0 58%, 100% 58%, 100% 96%, 0 96%); }
+    60%  { color: var(--red);        transform: translate(0,0); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%); }
+    78%, 82%  { color: var(--pop-purple); transform: translate(-5px,0); }
+    80%  { color: var(--pop-orange); transform: translate(5px,0); }
+    84%, 100% { color: var(--red); transform: translate(0,0); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%); }
+  }
+
+  .quote{
+    font-family: 'VT323', monospace;
+    font-size: clamp(1.1rem, 2.6vw, 1.7rem);
+    letter-spacing: 1px;
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto 14px;
+    color: rgba(255,26,58,0.82);
+  }
+
+    .quote-ar{
+    font-family: 'Noto Naskh Arabic', serif;
+    direction: rtl;
+    font-size: clamp(1rem, 2.4vw, 1.4rem);
+    color: rgba(232,232,232,0.35);
+    max-width: 600px;
+    margin: 0 auto 30px;
+    line-height: 1.8;
+  }
+
+  .subtitle{
+    color: #555;
+    font-size: clamp(0.75rem, 1.6vw, 0.95rem);
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+
+  .footer-note{
+    margin-top: 26px;
+    color: #3a3a3a;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    h1.glitch::before, h1.glitch::after{ animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="intro" id="intro"></div>
+
+<div class="scrollbar-track"><div id="sl"></div></div>
+<div class="scanlines"></div>
+<div class="grain"></div>
+<div class="flicker"></div>
+<div class="vignette"></div>
+
+<audio id="bg-music" loop>
+    <source src="https://audiocdn.epidemicsound.com/lqmp3/01KK1FVN6GTBTZ0QKQB4Z1XB6X.mp3" type="audio/mpeg">
+</audio>
+
+<div class="wrap">
+  <h1 class="glitch" data-text="HACKED BY DXLES">HACKED BY DXLES</h1>
+  <p class="quote">"Hayatınla bir oyuncağınla oynar gibi oynarım; kaderini yazmak da silmek de artık benim yetkimde."</p>
+  <p class="quote-ar">"ألعب بحياتك كما ألعب بلعبة؛ كتابة قدرك أو محوه أصبح بيدي الآن."</p>
+</div>
+
+<div id="popup" class="popup">
+  <strong>dxles.eu</strong>
+  <p>Python • Siber Güvenlik • OSINT</p>
+</div>
+
+<script>
+    window.addEventListener('click', function musicStarter() {
+        const audio = document.getElementById('bg-music');
+        audio.play().then(() => {
+            console.log("Müzik başladı.");
+            window.removeEventListener('click', musicStarter);
+        }).catch(e => console.log("Müzik için etkileşim gerekiyor."));
+    }, { once: true });
 </script>
+
 </body>
 </html>
