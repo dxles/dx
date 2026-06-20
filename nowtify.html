@@ -14,23 +14,7 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary" />
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script>
-window.addEventListener("scroll",function(){
-var p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
-document.getElementById("sl").style.width=p+"%";
-});
-setTimeout(function(){
-document.getElementById("popup").classList.add("show");
-setTimeout(function(){document.getElementById("popup").classList.remove("show");},5000);
-},4000);
-window.addEventListener("DOMContentLoaded",function(){
-setTimeout(function(){
-document.getElementById("intro").classList.add("fade");
-},350);
-});
-  </script>
-
-  <script data-goatcounter="https://dxles.goatcounter.com/count"
+<script data-goatcounter="https://dxles.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>
   <script>
@@ -303,23 +287,16 @@ document.getElementById("intro").classList.add("fade");
 </audio>
 
 <div class="wrap">
-  <h1 class="glitch" data-text="HACKED BY DXLES">HACKED BY DXLES</h1>
+  <h1 class="glitch" data-text="HACKED BY DXLES">HACKED BY VEXXY</h1>
   <p class="quote">"Hayatınla bir oyuncağınla oynar gibi oynarım; kaderini yazmak da silmek de artık benim yetkimde."</p>
   <p class="quote-ar">"ألعب بحياتك كما ألعب بلعبة؛ كتابة قدرك أو محوه أصبح بيدي الآن."</p>
 </div>
 
-<div id="popup" class="popup">
-  <strong>dxles.eu</strong>
-  <p>Python • Siber Güvenlik • OSINT</p>
-</div>
-
 <script>
-    // Kullanıcı sayfada herhangi bir yere tıkladığı an müzik başlar
     window.addEventListener('click', function musicStarter() {
         const audio = document.getElementById('bg-music');
         audio.play().then(() => {
             console.log("Müzik başladı.");
-            // Bir kez çalışması yeterli
             window.removeEventListener('click', musicStarter);
         }).catch(e => console.log("Müzik için etkileşim gerekiyor."));
     }, { once: true });
