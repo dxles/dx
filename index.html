@@ -1,318 +1,88 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dxles</title>
-  <link rel="canonical" href="https://dxles.eu/" />
-  <meta name="robots" content="index, follow" />
-  <meta name="description" content="Dxles — Python geliştirici, siber güvenlik araştırmacısı ve OSINT uzmanı. Açık kaynak araçlar, güvenlik yazıları ve otomasyon projeleri." />
-  <meta name="keywords" content="dxles, siber güvenlik, python, osint, açık kaynak, güvenlik araçları, developer" />
-  <meta property="og:title" content="Dxles — Geliştirici & Siber Güvenlik Araştırmacısı" />
-  <meta property="og:description" content="Python geliştirici, siber güvenlik araştırmacısı. Açık kaynak araçlar ve OSINT projeleri." />
-  <meta property="og:url" content="https://dxles.eu/" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary" />
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  <script>
-window.addEventListener("scroll",function(){
-var p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
-document.getElementById("sl").style.width=p+"%";
-});
-window.addEventListener("DOMContentLoaded",function(){
-setTimeout(function(){
-document.getElementById("intro").classList.add("fade");
-},350);
-});
+<!DOCTYPE html><html lang="tr"><head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+  <title>dxles</title>  
+  <link rel="canonical" href="https://dxles.eu/" />  
+  <meta name="robots" content="index, follow" />  
+  <meta name="description" content="Python Developer & Core Security Researcher" />  
+  <meta property="og:title" content="dxles" />  
+  <meta property="og:url" content="https://dxles.eu/" />  
+  <meta property="og:type" content="website" />  
+  <meta name="twitter:card" content="summary" />  
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>  
+  <script data-goatcounter="https://dxles.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>    
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>  
+  <script>  
+    window.dataLayer = window.dataLayer || [];  
+    function gtag(){dataLayer.push(arguments);}  
+    gtag('js', new Date());  
+    gtag('config', 'G-E3HJQWMVDP');  
   </script>
-
-  <script data-goatcounter="https://dxles.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>
-  <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-E3HJQWMVDP');
-  </script>
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Noto+Naskh+Arabic:wght@500&display=swap');
-
-  :root{
-    --bg: #050505;
-    --red: #ff1a3a;
-    --red-dim: #5c0014;
-    --green: #00ff66;
-    --green-dim: #0a3d1f;
-    --white: #e8e8e8;
-    --pop-purple: #b026ff;
-    --pop-pink: #ff2e9a;
-    --pop-orange: #ff7a1a;
+<style>  
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+  
+  :root{    
+    --bg: #ffffff;
+    --text-main: #000000;   
+    --text-muted: #64748b;
+    --alert: #ef4444;
   }
-
+  
   *{ margin:0; padding:0; box-sizing:border-box; }
-
-  html,body{
-    background: var(--bg);
-    color: var(--green);
-    font-family: 'Share Tech Mono', monospace;
-    overflow-x: hidden;
-    min-height: 100vh;
+  html,body{    
+    background: var(--bg);    
+    color: var(--text-main);    
+    font-family: 'Inter', sans-serif;    
+    overflow: hidden;  
+    height: 100vh;  
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .wrap{    
+    height: 100vh;    
+    display: flex;    
+    flex-direction: column;    
+    align-items: center;    
+    justify-content: center;    
+    padding: 20px;    
+    text-align: center;  
+  }
+  
+  .nick{    
+    font-size: clamp(3.5rem, 12vw, 6rem);    
+    font-weight: 700;
+    color: var(--text-main);    
+    letter-spacing: -3px;    
+    line-height: 1;    
+    margin-bottom: 12px;  
   }
 
-    .scrollbar-track{
-    position: fixed;
-    top:0; left:0;
-    width:100%;
-    height:3px;
-    background: rgba(255,255,255,0.06);
-    z-index: 50;
+  .subtitle{    
+    color: var(--text-muted);    
+    font-size: clamp(0.95rem, 2.2vw, 1.2rem);    
+    font-weight: 400;
+    letter-spacing: -0.2px;
+    margin-bottom: 48px;
   }
-  #sl{
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--red), var(--green));
-  }
-
-    .popup{
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: rgba(8,8,8,0.94);
-    border: 1px solid var(--green-dim);
-    padding: 14px 18px;
-    border-radius: 6px;
-    transform: translateY(20px);
-    opacity: 0;
-    pointer-events: none;
-    transition: all .4s ease;
-    z-index: 60;
-    max-width: 230px;
-  }
-  .popup.show{ opacity: 1; transform: translateY(0); }
-  .popup strong{
-    display:block;
-    color: #fff;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-  .popup p{
-    font-size: 0.78rem;
-    color: #7fae8d;
+  
+  .weak-msg {
+    color: var(--alert);
+    font-weight: 500;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    letter-spacing: -0.3px;
+    animation: fadeIn 1s ease-in-out;
   }
 
-    .scanlines{
-    pointer-events:none;
-    position: fixed;
-    inset:0;
-    z-index: 5;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(0,0,0,0) 0px,
-      rgba(0,0,0,0) 2px,
-      rgba(0,0,0,0.06) 3px,
-      rgba(0,0,0,0.06) 3px
-    );
-    mix-blend-mode: multiply;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
+</style></head><body>
 
-  .vignette{
-    pointer-events:none;
-    position:fixed;
-    inset:0;
-    z-index:4;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.92) 100%);
-    animation: heartbeat 4.5s ease-in-out infinite;
-  }
-  @keyframes heartbeat{
-    0%, 100% { opacity: 1; }
-    8%  { opacity: 0.82; }
-    16% { opacity: 1; }
-    24% { opacity: 0.7; }
-    34% { opacity: 1; }
-  }
-
-    .grain{
-    pointer-events:none;
-    position: fixed;
-    inset: -10%;
-    width: 120%;
-    height: 120%;
-    z-index: 6;
-    opacity: 0.05;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    animation: grainShift 0.5s steps(3) infinite;
-  }
-  @keyframes grainShift{
-    0%   { transform: translate(0,0); }
-    33%  { transform: translate(-2%,1%); }
-    66%  { transform: translate(2%,-1%); }
-    100% { transform: translate(0,0); }
-  }
-
-    .flicker{
-    pointer-events:none;
-    position: fixed;
-    inset: 0;
-    z-index: 7;
-    background: #000;
-    opacity: 0;
-    animation: flicker 11s infinite;
-  }
-  @keyframes flicker{
-    0%, 92%, 100% { opacity: 0; }
-    92.5% { opacity: 0.45; }
-    93%   { opacity: 0.05; }
-    93.5% { opacity: 0.35; }
-    94%   { opacity: 0; }
-  }
-
-    .intro{
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: #000;
-    transition: opacity 1.4s ease;
-  }
-  .intro.fade{ opacity: 0; pointer-events: none; }
-
-  @media (prefers-reduced-motion: reduce){
-    .vignette, .grain, .flicker{ animation: none; }
-  }
-
-  .wrap{
-    position: relative;
-    z-index: 10;
-    min-height: 100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding: 40px 20px;
-    text-align:center;
-  }
-
-    h1.glitch{
-    font-family: 'VT323', monospace;
-    font-size: clamp(2.2rem, 8vw, 5.2rem);
-    color: #fff;
-    letter-spacing: 3px;
-    position: relative;
-    line-height: 1.05;
-    margin-bottom: 22px;
-  }
-  h1.glitch::before,
-  h1.glitch::after{
-    content: attr(data-text);
-    position: absolute;
-    left:0; top:0; right:0;
-    opacity: 0.55;
-    mix-blend-mode: screen;
-  }
-  h1.glitch::before{
-    animation: glitchTopPop 4s infinite steps(1);
-    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-  }
-  h1.glitch::after{
-    animation: glitchBottomPop 4s infinite steps(1);
-    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-  }
-
-  @keyframes glitchTopPop{
-    0%, 54%   { color: var(--green); transform: translate(0,0); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); }
-    55%  { color: var(--pop-purple); transform: translate(-8px,-2px); clip-path: polygon(0 8%, 100% 8%, 100% 38%, 0 38%); }
-    56%  { color: var(--pop-orange); transform: translate(7px,1px); }
-    57%  { color: var(--red);        transform: translate(-6px,2px); clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); }
-    58%  { color: var(--pop-pink);   transform: translate(8px,-2px); }
-    59%  { color: var(--pop-orange); transform: translate(-5px,1px); clip-path: polygon(0 5%, 100% 5%, 100% 42%, 0 42%); }
-    60%  { color: var(--green);      transform: translate(0,0); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); }
-    78%, 82%  { color: var(--pop-orange); transform: translate(5px,0); }
-    80%  { color: var(--pop-pink); transform: translate(-5px,0); }
-    84%, 100% { color: var(--green); transform: translate(0,0); clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%); }
-  }
-  @keyframes glitchBottomPop{
-    0%, 54%   { color: var(--red); transform: translate(0,0); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%); }
-    55%  { color: var(--pop-orange); transform: translate(7px,2px); clip-path: polygon(0 62%, 100% 62%, 100% 92%, 0 92%); }
-    56%  { color: var(--green);      transform: translate(-7px,-1px); }
-    57%  { color: var(--pop-pink);   transform: translate(6px,2px); clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%); }
-    58%  { color: var(--pop-purple); transform: translate(-8px,-2px); }
-    59%  { color: var(--pop-pink);   transform: translate(5px,1px); clip-path: polygon(0 58%, 100% 58%, 100% 96%, 0 96%); }
-    60%  { color: var(--red);        transform: translate(0,0); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%); }
-    78%, 82%  { color: var(--pop-purple); transform: translate(-5px,0); }
-    80%  { color: var(--pop-orange); transform: translate(5px,0); }
-    84%, 100% { color: var(--red); transform: translate(0,0); clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%); }
-  }
-
-  .quote{
-    font-family: 'VT323', monospace;
-    font-size: clamp(1.1rem, 2.6vw, 1.7rem);
-    letter-spacing: 1px;
-    line-height: 1.5;
-    max-width: 600px;
-    margin: 0 auto 14px;
-    color: rgba(255,26,58,0.82);
-  }
-
-    .quote-ar{
-    font-family: 'Noto Naskh Arabic', serif;
-    direction: rtl;
-    font-size: clamp(1rem, 2.4vw, 1.4rem);
-    color: rgba(232,232,232,0.35);
-    max-width: 600px;
-    margin: 0 auto 30px;
-    line-height: 1.8;
-  }
-
-  .subtitle{
-    color: #555;
-    font-size: clamp(0.75rem, 1.6vw, 0.95rem);
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-  }
-
-  .footer-note{
-    margin-top: 26px;
-    color: #3a3a3a;
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    h1.glitch::before, h1.glitch::after{ animation: none; }
-  }
-</style>
-</head>
-<body>
-
-<div class="intro" id="intro"></div>
-
-<div class="scrollbar-track"><div id="sl"></div></div>
-<div class="scanlines"></div>
-<div class="grain"></div>
-<div class="flicker"></div>
-<div class="vignette"></div>
-
-<audio id="bg-music" loop>
-    <source src="https://audiocdn.epidemicsound.com/lqmp3/01KK1FVN6GTBTZ0QKQB4Z1XB6X.mp3" type="audio/mpeg">
-</audio>
-
-<div class="wrap">
-  <h1 class="glitch" data-text="HACKED BY VEXXY">HACKED BY VEXXY</h1>
-  <p class="quote">"Hayatınla bir oyuncağınla oynar gibi oynarım; kaderini yazmak da silmek de artık benim yetkimde."</p>
-  <p class="quote-ar">"ألعب بحياتك كما ألعب بلعبة؛ كتابة قدرك أو محوه أصبح بيدي الآن."</p>
+<div class="wrap">  
+  <h1 class="nick">dxles</h1>  
+  <p class="subtitle">Python Developer & Core Security Researcher</p>
+  <div class="weak-msg">you are too weak for virtual ;D</div>
 </div>
 
-<script>
-    window.addEventListener('click', function musicStarter() {
-        const audio = document.getElementById('bg-music');
-        audio.play().then(() => {
-            console.log("Müzik başladı.");
-            window.removeEventListener('click', musicStarter);
-        }).catch(e => console.log("Müzik için etkileşim gerekiyor."));
-    }, { once: true });
-</script>
-
-</body>
-</html>
+</body></html>
