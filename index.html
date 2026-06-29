@@ -1,88 +1,530 @@
-<!DOCTYPE html><html lang="tr"><head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <title>dxles</title>  
-  <link rel="canonical" href="https://dxles.eu/" />  
-  <meta name="robots" content="index, follow" />  
-  <meta name="description" content="Python Developer & Core Security Researcher" />  
-  <meta property="og:title" content="dxles" />  
-  <meta property="og:url" content="https://dxles.eu/" />  
-  <meta property="og:type" content="website" />  
-  <meta name="twitter:card" content="summary" />  
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>  
-  <script data-goatcounter="https://dxles.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>    
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>  
-  <script>  
-    window.dataLayer = window.dataLayer || [];  
-    function gtag(){dataLayer.push(arguments);}  
-    gtag('js', new Date());  
-    gtag('config', 'G-E3HJQWMVDP');  
-  </script>
-<style>  
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
-  
-  :root{    
-    --bg: #ffffff;
-    --text-main: #000000;   
-    --text-muted: #64748b;
-    --alert: #ef4444;
-  }
-  
-  *{ margin:0; padding:0; box-sizing:border-box; }
-  html,body{    
-    background: var(--bg);    
-    color: var(--text-main);    
-    font-family: 'Inter', sans-serif;    
-    overflow: hidden;  
-    height: 100vh;  
-    -webkit-font-smoothing: antialiased;
-  }
-  
-  .wrap{    
-    height: 100vh;    
-    display: flex;    
-    flex-direction: column;    
-    align-items: center;    
-    justify-content: center;    
-    padding: 20px;    
-    text-align: center;  
-  }
-  
-  .nick{    
-    font-size: clamp(3.5rem, 12vw, 6rem);    
-    font-weight: 700;
-    color: var(--text-main);    
-    letter-spacing: -3px;    
-    line-height: 1;    
-    margin-bottom: 12px;  
-  }
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nosecondus</title>
+  <link rel="canonical" href="https://dxles.eu/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="nosecondus — Python geliştirici, siber güvenlik araştırmacısı ve OSINT uzmanı." />
+  <meta name="keywords" content="nosecondus, dxles, siber güvenlik, python, osint, açık kaynak, güvenlik araçları, developer" />
+  <meta property="og:title" content="nosecondus — Geliştirici & Siber Güvenlik Araştırmacısı" />
+  <meta property="og:description" content="Python geliştirici, siber güvenlik araştırmacısı. Açık kaynak araçlar ve OSINT projeleri." />
+  <meta property="og:url" content="https://dxles.eu/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
 
-  .subtitle{    
-    color: var(--text-muted);    
-    font-size: clamp(0.95rem, 2.2vw, 1.2rem);    
-    font-weight: 400;
-    letter-spacing: -0.2px;
-    margin-bottom: 48px;
-  }
-  
-  .weak-msg {
-    color: var(--alert);
-    font-weight: 500;
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    letter-spacing: -0.3px;
-    animation: fadeIn 1s ease-in-out;
-  }
+  <style>
+:root{
+  --pop-purple:#b026ff;
+  --pop-pink:#ff2e9a;
+  --pop-orange:#ff7a1a;
+  --pop-green:#00ff66;
+  --pop-red:#ff1a3a;
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style></head><body>
+.nick-wrap {
+  display:inline-block;
+  position:relative;
+  cursor:pointer;
+  user-select:none;
+}
+.nick-text {
+  display:inline-block;
+  position:relative;
+  text-decoration:line-through;
+  text-decoration-thickness:2px;
+  text-decoration-color:#888;
+  transition:text-decoration-color .3s;
+}
+.nick-text::before,
+.nick-text::after {
+  content:attr(data-text);
+  position:absolute;
+  left:0;top:0;
+  width:100%;height:100%;
+  opacity:0;
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+.nick-text::before{color:var(--pop-purple);}
+.nick-text::after {color:var(--pop-orange);}
+.nick-wrap.glitching .nick-text::before{
+  opacity:.7;
+  animation:nickGlitchTop .35s steps(1) forwards;
+}
+.nick-wrap.glitching .nick-text::after{
+  opacity:.7;
+  animation:nickGlitchBot .35s steps(1) forwards;
+}
+.nick-wrap.glitching .nick-text{
+  animation:nickShake .35s steps(1) forwards;
+}
 
-<div class="wrap">  
-  <h1 class="nick">dxles</h1>  
-  <p class="subtitle">Python Developer & Core Security Researcher</p>
-  <div class="weak-msg">you are too weak for virtual ;D</div>
+@keyframes nickShake{
+  0%  {transform:translate(0,0);   color:inherit;}
+  15% {transform:translate(-5px,1px); color:var(--pop-green);}
+  30% {transform:translate(6px,-1px); color:var(--pop-pink);}
+  45% {transform:translate(-4px,2px); color:var(--pop-purple);}
+  60% {transform:translate(5px,-2px); color:var(--pop-orange);}
+  75% {transform:translate(-3px,1px); color:var(--pop-red);}
+  100%{transform:translate(0,0);   color:inherit;}
+}
+@keyframes nickGlitchTop{
+  0%  {clip-path:polygon(0 0,100% 0,100% 45%,0 45%);transform:translate(0,0);}
+  20% {clip-path:polygon(0 8%,100% 8%,100% 38%,0 38%);transform:translate(-7px,-2px);}
+  40% {clip-path:polygon(0 0,100% 0,100% 50%,0 50%);transform:translate(7px,1px);color:var(--pop-pink);}
+  60% {clip-path:polygon(0 5%,100% 5%,100% 42%,0 42%);transform:translate(-5px,2px);}
+  80% {clip-path:polygon(0 0,100% 0,100% 45%,0 45%);transform:translate(4px,-1px);color:var(--pop-purple);}
+  100%{clip-path:polygon(0 0,100% 0,100% 0,0 0);opacity:0;}
+}
+@keyframes nickGlitchBot{
+  0%  {clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);transform:translate(0,0);}
+  20% {clip-path:polygon(0 62%,100% 62%,100% 92%,0 92%);transform:translate(7px,2px);}
+  40% {clip-path:polygon(0 50%,100% 50%,100% 100%,0 100%);transform:translate(-7px,-1px);color:var(--pop-green);}
+  60% {clip-path:polygon(0 58%,100% 58%,100% 96%,0 96%);transform:translate(5px,2px);}
+  80% {clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);transform:translate(-5px,0);color:var(--pop-pink);}
+  100%{clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);opacity:0;}
+}
+.nick-particle {
+  position:fixed;width:5px;height:5px;border-radius:50%;
+  pointer-events:none;z-index:9999;
+  animation:nickParticle .55s ease-out forwards;
+}
+@keyframes nickParticle{
+  from{opacity:1;transform:translate(0,0) scale(1);}
+  to  {opacity:0;transform:var(--pt) scale(0);}
+}
+#site {opacity:1;}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:"Helvetica Neue",Arial,sans-serif;background:#e3e1e1;color:#000;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:hover{opacity:.6}
+.ticker{position:fixed;top:0;left:0;width:100%;background:#000;color:#ccbeb8;font-size:11px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;z-index:100;padding:6px 0}
+.ticker-inner{display:inline-block;animation:ticker 30s linear infinite}
+.ticker-inner span{margin:0 1.5rem}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.scroll-line{position:fixed;top:28px;left:0;height:2px;background:#000;z-index:500;transition:width .1s}
+nav{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:100;background:#000;border-radius:100px;padding:12px 28px;display:flex;gap:2rem}
+nav a{color:#ccbeb8;font-size:12px;letter-spacing:.08em}
+nav a:hover{opacity:.5}
+.popup{position:fixed;bottom:6rem;right:2rem;background:#000;color:#e3e1e1;padding:1.5rem 2rem;border-radius:12px;max-width:280px;z-index:200;opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .4s,transform .4s}
+.popup.show{opacity:1;transform:translateY(0);pointer-events:all}
+.popup p{font-size:13px;line-height:1.6;margin-bottom:.8rem}
+.popup-close{background:none;border:1px solid rgba(255,255,255,.3);color:#e3e1e1;font-size:11px;padding:4px 12px;border-radius:100px;cursor:pointer}
+
+#t{padding:80px 8vw 40px;min-height:auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hero-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+.hero-label::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#00c853;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-title{font-size:clamp(3rem,7vw,6.5rem);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:1.2rem}
+.hero-title em{font-style:normal;color:#888}
+
+.hero-roles{font-size:clamp(1rem,1.8vw,1.3rem);color:#888;font-weight:300;margin-bottom:1.5rem}
+.hero-roles span{color:#000;font-weight:500;border-bottom:1px solid currentColor}
+.hero-bio{max-width:480px;font-size:14px;line-height:1.8;color:#555;margin-bottom:2rem}
+.hero-contact{display:inline-flex;align-items:center;gap:.5rem;background:#000;color:#ccbeb8;padding:14px 28px;border-radius:100px;font-size:13px;letter-spacing:.05em;transition:opacity .2s}
+.hero-contact:hover{opacity:.7}
+.hero-right{position:relative;height:480px}
+.sticker{position:absolute;border-radius:16px;overflow:hidden;filter:drop-shadow(0 8px 24px rgba(0,0,0,.13))}
+.s1{width:220px;top:20px;left:40px;animation:f1 4s ease-in-out infinite alternate}
+.s2{width:180px;top:10px;right:20px;animation:f2 5s ease-in-out infinite alternate}
+.s3{width:200px;bottom:100px;left:10px;animation:f3 4.5s ease-in-out infinite alternate}
+.s4{width:170px;bottom:60px;right:30px;animation:f4 3.8s ease-in-out infinite alternate}
+.s5{width:190px;top:200px;left:120px;animation:f5 5.2s ease-in-out infinite alternate}
+@keyframes f1{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-18px) rotate(1deg)}}
+@keyframes f2{from{transform:translateY(0) rotate(2deg)}to{transform:translateY(-22px) rotate(-1deg)}}
+@keyframes f3{from{transform:translateY(0) rotate(1deg)}to{transform:translateY(-15px) rotate(-2deg)}}
+@keyframes f4{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-20px) rotate(2deg)}}
+@keyframes f5{from{transform:translateY(0) rotate(0)}to{transform:translateY(-12px) rotate(-1deg)}}
+.mq{border-top:1px solid #eee;border-bottom:1px solid #eee;overflow:hidden;padding:14px 0}
+.mq-t{display:flex;white-space:nowrap;animation:mq 20s linear infinite}
+.mq-t span{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin:0 2rem}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+section{padding:5rem 8vw}
+.sl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:3rem}
+.sl em{font-style:normal;color:#000}
+#skills .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#eee;border:1px solid #eee}
+.si{background:#fff;padding:2rem 1.5rem}
+.sn{font-size:11px;color:#888;letter-spacing:.1em;margin-bottom:1rem;display:block}
+.st{font-size:18px;font-weight:600;margin-bottom:.5rem}
+.sd{font-size:13px;line-height:1.6;color:#666}
+.tl{display:flex;flex-direction:column}
+.ti{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:1.5rem;padding:1.5rem 0;border-bottom:1px solid #eee}
+.ti:hover{background:#fafafa;margin:0 -2rem;padding-left:2rem;padding-right:2rem}
+.tn{font-size:11px;color:#888}
+.tnm{font-size:22px;font-weight:600;margin-bottom:.2rem}
+.td{font-size:13px;color:#666;line-height:1.5}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #ddd;padding:3px 10px;border-radius:100px;color:#888}
+.tlink{font-size:12px;letter-spacing:.05em;border-bottom:1px solid #000;white-space:nowrap}
+#exp .ei{display:grid;grid-template-columns:200px 1fr;gap:3rem;padding:3rem 0;border-bottom:1px solid #eee}
+.ep{font-size:12px;color:#888;letter-spacing:.08em;margin-bottom:.5rem;display:block}
+.ec{font-size:18px;font-weight:600;margin-bottom:.3rem}
+.er{font-size:13px;color:#666}
+.ed{font-size:15px;line-height:1.8;color:#444}
+.qs{padding:5rem 8vw;text-align:center;border-top:1px solid #eee;border-bottom:1px solid #eee}
+blockquote{font-size:clamp(1.1rem,2.5vw,1.6rem);font-style:italic;font-weight:300;color:#333;max-width:700px;margin:0 auto 1rem;line-height:1.6}
+cite{font-size:13px;color:#888;font-style:normal;letter-spacing:.1em}
+#c{padding:7rem 8vw 4rem}
+.cb{font-size:clamp(2rem,5vw,4.5rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:3rem}
+.cb a{border-bottom:3px solid #000}
+.soc{display:flex;flex-wrap:wrap;gap:2rem;margin-bottom:6rem}
+.soc a{font-size:13px;letter-spacing:.08em;border-bottom:1px solid currentColor}
+footer{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid #eee;font-size:12px;color:#888;flex-wrap:wrap;gap:1rem}
+.fe{display:flex;gap:1.5rem}
+.fe a{color:#888;border-bottom:1px solid #ddd;font-size:12px}
+@media(max-width:900px){
+#t{grid-template-columns:1fr;padding:90px 5vw 30px}
+.hero-right{height:360px}
+.s1{width:160px;top:10px;left:20px}.s2{width:140px;top:5px;right:10px}
+.s3{width:150px;bottom:60px;left:5px}.s4{width:130px;bottom:30px;right:15px}
+.s5{width:145px;top:160px;left:85px}
+section{padding:4rem 5vw}#c{padding:5rem 5vw 3rem}
+.ei{grid-template-columns:1fr;gap:1rem}.ti{grid-template-columns:1fr}
+nav{bottom:1rem;padding:10px 18px;gap:1.2rem}}
+</style>
+</head>
+<body>
+<div id="site">
+
+<div class="scroll-line" id="sl"></div>
+
+<div class="ticker"><div class="ticker-inner">
+<span>Python Dev</span><span>·</span><span>OSINT Researcher</span><span>·</span><span>Security Enthusiast</span><span>·</span><span>Otomasyon</span><span>·</span><span>Backend Systems</span><span>·</span><span>Açık Kaynak</span><span>·</span><span>Reverse Engineering</span><span>·</span><span>Bavyera, Almanya</span><span>·</span>
+<span>Python Dev</span><span>·</span><span>OSINT Researcher</span><span>·</span><span>Security Enthusiast</span><span>·</span><span>Otomasyon</span><span>·</span><span>Backend Systems</span><span>·</span><span>Açık Kaynak</span><span>·</span><span>Reverse Engineering</span><span>·</span><span>Bavyera, Almanya</span><span>·</span>
+</div></div>
+
+<div class="popup" id="popup">
+<p>Araçlarıma 3 saniyeden fazla baktın.</p>
+<button class="popup-close" onclick="document.getElementById('popup').classList.remove('show')">kapat</button>
 </div>
 
-</body></html>
+<nav>
+<a href="#w">araçlar</a>
+<a href="#skills">yetkinlikler</a>
+<a href="#exp">deneyim</a>
+<a href="mailto:dxxlxdxxx@gmail.com">iletişim</a>
+</nav>
+
+<section id="t">
+<div>
+<h1 class="hero-title">Merhaba<em>.</em><br>Ben <span class="nick-wrap" id="nickWrap"><span class="nick-text" id="nickText" data-text="dxl3s">dxl3s</span></span></h1>
+<p class="hero-roles"><span>Python Dev</span> &nbsp;·&nbsp; <span>Siber Güvenlik</span> &nbsp;·&nbsp; <span>OSINT</span></p>
+<p class="hero-bio">2018'den beri yazılımla ilgileniyorum. Şu an Almanya, Bavyera'da yaşıyorum. Sistemleri anlamak ve sorgulamak benim için bir yaşam biçimi.</p>
+<a href="mailto:dxxlxdxxx@gmail.com" class="hero-contact">iletişim kur →</a>
+</div>
+
+<div class="hero-right">
+
+<div class="sticker s1">
+<svg width="220" height="150" viewBox="0 0 220 150" xmlns="http://www.w3.org/2000/svg">
+<rect width="220" height="150" fill="#0d0d0d" rx="16"/>
+<rect x="0" y="0" width="220" height="28" fill="#1a1a1a" rx="16"/>
+<rect x="0" y="16" width="220" height="12" fill="#1a1a1a"/>
+<circle cx="18" cy="14" r="5" fill="#ff5f57"/><circle cx="34" cy="14" r="5" fill="#febc2e"/><circle cx="50" cy="14" r="5" fill="#28c840"/>
+<text x="12" y="48" font-family="monospace" font-size="9.5" fill="#00c853">$ whoami</text>
+<text x="12" y="63" font-family="monospace" font-size="9" fill="#e3e1e1">nosecondus</text>
+<text x="12" y="79" font-family="monospace" font-size="9.5" fill="#00c853">$ uname -a</text>
+<text x="12" y="94" font-family="monospace" font-size="8.5" fill="#555">Linux dxles 6.x #1 SMP x86_64</text>
+<text x="12" y="110" font-family="monospace" font-size="9.5" fill="#00c853">$ cat /etc/skills</text>
+<text x="12" y="125" font-family="monospace" font-size="8.5" fill="#e3e1e1">python · osint · sec · asm</text>
+<text x="12" y="141" font-family="monospace" font-size="9" fill="#00c853">▊</text>
+</svg>
+</div>
+
+<div class="sticker s2">
+<svg width="180" height="135" viewBox="0 0 180 135" xmlns="http://www.w3.org/2000/svg">
+<rect width="180" height="135" fill="#0d0f1a" rx="16"/>
+<text x="14" y="22" font-family="monospace" font-size="9" fill="#444">network_scan.py</text>
+<text x="14" y="42" font-family="monospace" font-size="9"><tspan fill="#7aa2f7">import</tspan><tspan fill="#c0caf5"> socket, sys</tspan></text>
+<text x="14" y="56" font-family="monospace" font-size="9"><tspan fill="#7aa2f7">def</tspan><tspan fill="#7dcfff"> ping</tspan><tspan fill="#c0caf5">(host):</tspan></text>
+<text x="24" y="70" font-family="monospace" font-size="9" fill="#c0caf5">s = socket.socket()</text>
+<text x="24" y="84" font-family="monospace" font-size="9"><tspan fill="#7aa2f7">try</tspan><tspan fill="#c0caf5">: s.connect((host,80))</tspan></text>
+<text x="34" y="98" font-family="monospace" font-size="9" fill="#9ece6a">return "alive"</text>
+<text x="24" y="112" font-family="monospace" font-size="9"><tspan fill="#7aa2f7">except</tspan><tspan fill="#c0caf5">: </tspan><tspan fill="#f7768e">return "dead"</tspan></text>
+<text x="14" y="127" font-family="monospace" font-size="8" fill="#444"># nosecondus · 2025</text>
+</svg>
+</div>
+
+<div class="sticker s3">
+<svg width="200" height="138" viewBox="0 0 200 138" xmlns="http://www.w3.org/2000/svg">
+<rect width="200" height="138" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
+<text x="14" y="22" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#aaa" letter-spacing="2">SYSTEM STATUS</text>
+<circle cx="24" cy="44" r="5" fill="#00c853"/>
+<text x="36" y="48" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" font-weight="600" fill="#000">python scripts</text>
+<text x="160" y="48" font-family="monospace" font-size="9" fill="#00c853" text-anchor="end">online</text>
+<rect x="14" y="57" width="172" height="1" fill="#f0f0f0"/>
+<circle cx="24" cy="72" r="5" fill="#00c853"/>
+<text x="36" y="76" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" font-weight="600" fill="#000">osint tools</text>
+<text x="160" y="76" font-family="monospace" font-size="9" fill="#00c853" text-anchor="end">online</text>
+<rect x="14" y="84" width="172" height="1" fill="#f0f0f0"/>
+<circle cx="24" cy="99" r="5" fill="#febc2e"/>
+<text x="36" y="103" font-family="Helvetica Neue,Arial,sans-serif" font-size="12" font-weight="600" fill="#000">social accounts</text>
+<text x="160" y="103" font-family="monospace" font-size="9" fill="#febc2e" text-anchor="end">lurking</text>
+<rect x="14" y="112" width="172" height="1" fill="#f0f0f0"/>
+<text x="14" y="128" font-family="monospace" font-size="8" fill="#bbb">uptime: 2018 → now · nosecondus</text>
+</svg>
+</div>
+
+<div class="sticker s4">
+<svg width="200" height="130" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+<rect width="200" height="130" fill="#fff" rx="16" stroke="#eee" stroke-width="1"/>
+<text x="14" y="22" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#aaa" letter-spacing="2">LAST COMMIT</text>
+<rect x="14" y="30" width="172" height="1" fill="#f0f0f0"/>
+<circle cx="24" cy="52" r="10" fill="#000"/>
+<text x="24" y="56" font-family="monospace" font-size="8" fill="#fff" text-anchor="middle">ns</text>
+<text x="42" y="48" font-family="Helvetica Neue,Arial,sans-serif" font-size="11" font-weight="700" fill="#000">nosecondus</text>
+<text x="42" y="62" font-family="monospace" font-size="9" fill="#888">2 hours ago</text>
+<rect x="14" y="72" width="172" height="1" fill="#f0f0f0"/>
+<text x="14" y="90" font-family="monospace" font-size="9" fill="#000">feat: add stealth mode 🕶</text>
+<text x="14" y="105" font-family="monospace" font-size="8" fill="#888">+247 -12 · main · dxles.eu</text>
+<rect x="152" y="112" width="36" height="12" rx="6" fill="#000"/>
+<text x="170" y="121" font-family="monospace" font-size="7" fill="#fff" text-anchor="middle">merged</text>
+</svg>
+</div>
+
+<div class="sticker s5">
+<svg width="190" height="112" viewBox="0 0 190 112" xmlns="http://www.w3.org/2000/svg">
+<rect width="190" height="112" fill="#000" rx="16"/>
+<text x="14" y="24" font-family="Helvetica Neue,Arial,sans-serif" font-size="9" fill="#555" letter-spacing="2">STACK</text>
+<rect x="14" y="34" width="46" height="18" rx="5" fill="#1a1a1a"/>
+<text x="37" y="46" font-family="monospace" font-size="8.5" fill="#00c853" text-anchor="middle">Python</text>
+<rect x="66" y="34" width="34" height="18" rx="5" fill="#1a1a1a"/>
+<text x="83" y="46" font-family="monospace" font-size="8.5" fill="#7aa2f7" text-anchor="middle">Go</text>
+<rect x="106" y="34" width="44" height="18" rx="5" fill="#1a1a1a"/>
+<text x="128" y="46" font-family="monospace" font-size="8.5" fill="#febc2e" text-anchor="middle">Node.js</text>
+<rect x="14" y="58" width="36" height="18" rx="5" fill="#1a1a1a"/>
+<text x="32" y="70" font-family="monospace" font-size="8.5" fill="#f7768e" text-anchor="middle">OSINT</text>
+<rect x="56" y="58" width="52" height="18" rx="5" fill="#1a1a1a"/>
+<text x="82" y="70" font-family="monospace" font-size="8.5" fill="#bb9af7" text-anchor="middle">RevEng</text>
+<rect x="114" y="58" width="38" height="18" rx="5" fill="#1a1a1a"/>
+<text x="133" y="70" font-family="monospace" font-size="8.5" fill="#e0af68" text-anchor="middle">SecOps</text>
+<text x="14" y="100" font-family="monospace" font-size="8" fill="#333">nosecondus · since 2018</text>
+</svg>
+</div>
+
+</div>
+</section>
+<section id="lastfm-section" style="padding:3rem 8vw 2rem;border-top:1px solid #eee;">
+<p class="sl">şu an <em>dinleniyor</em></p>
+
+<div id="lastfm-nowplaying" style="display:none;margin-bottom:2rem;">
+  <div style="display:flex;align-items:center;gap:1rem;background:#000;color:#e3e1e1;padding:1.2rem 1.6rem;border-radius:14px;max-width:500px;">
+    <div style="position:relative;flex-shrink:0;">
+      <img id="lfm-np-art" src="" width="56" height="56" style="border-radius:8px;display:block;object-fit:cover;background:#111;"/>
+      <span style="position:absolute;top:-5px;right:-5px;background:#00c853;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;">
+        <svg width="7" height="7" viewBox="0 0 8 8"><polygon points="2,1 7,4 2,7" fill="#000"/></svg>
+      </span>
+    </div>
+    <div style="overflow:hidden;min-width:0;">
+      <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#00c853;margin-bottom:4px;">▶ şu an çalıyor</div>
+      <div id="lfm-np-track" style="font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+      <div id="lfm-np-artist" style="font-size:12px;color:#888;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="lastfm-tracks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;max-width:960px;"></div>
+<div id="lastfm-loading" style="font-size:13px;color:#888;">yükleniyor...</div>
+<div id="lastfm-error" style="display:none;font-size:13px;color:#888;">Last.fm verisi alınamadı.</div>
+</section>
+
+<div class="mq"><div class="mq-t">
+<span>Python</span><span>·</span><span>Node.js</span><span>·</span><span>Go</span><span>·</span><span>OSINT</span><span>·</span><span>Telegram API</span><span>·</span><span>Discord API</span><span>·</span><span>Backend</span><span>·</span><span>Güvenlik Analizi</span><span>·</span><span>Otomasyon</span><span>·</span><span>Reverse Engineering</span><span>·</span>
+<span>Python</span><span>·</span><span>Node.js</span><span>·</span><span>Go</span><span>·</span><span>OSINT</span><span>·</span><span>Telegram API</span><span>·</span><span>Discord API</span><span>·</span><span>Backend</span><span>·</span><span>Güvenlik Analizi</span><span>·</span><span>Otomasyon</span><span>·</span><span>Reverse Engineering</span><span>·</span>
+</div></div>
+
+<section id="skills">
+<p class="sl">yetkin<em>likler</em></p>
+<div class="g">
+<div class="si"><span class="sn">01</span><div class="st">Python Dev</div><p class="sd">Otomasyon scriptleri, bot geliştirme, API entegrasyonları ve backend sistemler.</p></div>
+<div class="si"><span class="sn">02</span><div class="st">Siber Güvenlik</div><p class="sd">Güvenlik araştırmaları, penetrasyon testi temelleri ve zafiyet analizi.</p></div>
+<div class="si"><span class="sn">03</span><div class="st">OSINT</div><p class="sd">Açık kaynak istihbarat araçları, sosyal mühendislik farkındalığı ve dijital iz analizi.</p></div>
+<div class="si"><span class="sn">04</span><div class="st">Reverse Engineering</div><p class="sd">Binary analizi, yazılım davranışı inceleme ve tersine mühendislik temelleri.</p></div>
+<div class="si"><span class="sn">05</span><div class="st">Otomasyon</div><p class="sd">Tekrar eden görevleri otomatize eden scriptler ve workflow optimizasyonu.</p></div>
+<div class="si"><span class="sn">06</span><div class="st">Açık Kaynak</div><p class="sd">GitHub'da aktif olarak geliştirilen araçlar, toplulukla paylaşılan projeler.</p></div>
+</div>
+</section>
+
+<section id="w">
+<p class="sl">seçili_<em>araçlar</em></p>
+<div class="tl">
+<div class="ti"><span class="tn">01</span><div><div class="tnm">Username_Checker</div><p class="td">Belirli bir kullanıcı adının popüler sosyal medya platformlarında müsait olup olmadığını kontrol eder. Tarayıcıdan direkt çalışır.</p><div class="tags"><span class="tag">Python</span><span class="tag">Sosyal Medya</span><span class="tag">Online</span></div></div><a href="https://github.com/35rl/Socialmedia-user-checker" class="tlink" target="_blank">GitHub →</a></div>
+<div class="ti"><span class="tn">02</span><div><div class="tnm">Number_Lookup</div><p class="td">Bir telefon numarasına kayıtlı sosyal medya hesaplarını sorgular. OSINT araştırmalarında kullanılır.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span><span class="tag">Telefon</span></div></div><a href="https://github.com/megadose/ignorant" class="tlink" target="_blank">GitHub →</a></div>
+<div class="ti"><span class="tn">03</span><div><div class="tnm">OSINT_Tool_Map</div><p class="td">OSINT nasıl yapılır, hangi araçlar kullanılır? İnteraktif harita tüm kategorileri görsel olarak sunar.</p><div class="tags"><span class="tag">Web</span><span class="tag">OSINT</span><span class="tag">Kaynak</span></div></div><a href="https://map.malfrats.industries/" class="tlink" target="_blank">Siteye Git →</a></div>
+<div class="ti"><span class="tn">04</span><div><div class="tnm">Sherlock</div><p class="td">300+ platformda kullanıcı adı araması yapar. En popüler OSINT araçlarından biri. Komut satırından çalışır.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span></div></div><a href="https://github.com/sherlock-project/sherlock" class="tlink" target="_blank">GitHub →</a></div>
+<div class="ti"><span class="tn">05</span><div><div class="tnm">Holehe</div><p class="td">Bir e-posta adresinin hangi platformlara kayıtlı olduğunu kontrol eder. 120+ servisi tarar.</p><div class="tags"><span class="tag">Python</span><span class="tag">OSINT</span><span class="tag">E-posta</span></div></div><a href="https://holeheosint.com/" class="tlink" target="_blank">Site →</a></div>
+<div class="ti"><span class="tn">06</span><div><div class="tnm">Callb0mb</div><p class="td">Girdiğiniz telefon numarasına farklı ülkelerden arama yağdırır.</p><div class="tags"><span class="tag">Python</span><span class="tag">Callbomb</span><span class="tag">Telefon</span></div></div><a href="https://github.com/35rl/CallBomber" class="tlink" target="_blank">Tool →</a></div>
+</div>
+</section>
+
+<section id="exp">
+<p class="sl">dene<em>yim</em></p>
+<div class="ei">
+<div><span class="ep">2023 – 2025</span><div class="ec">Meta / Instagram</div><p class="er">Harici Teknik Destek</p></div>
+<div><p class="ed">Instagram'ın ban ve abuse algoritmalarıyla platform güvenlik süreçlerinde harici teknik destek sağladım. Sistem analizi, abuse tespiti ve süreç optimizasyonu üzerine çalıştım.</p></div>
+</div>
+<div class="ei">
+<div><span class="ep">2018 – günümüz</span><div class="ec">Açık Kaynak</div><p class="er">Kişisel Projeler</p></div>
+<div><p class="ed">2018den beri yazılımla ilgileniyorum. Python, Node.js ve Go ile araçlar, botlar, otomasyon sistemleri ve güvenlik araçları geliştiriyorum. Projelerimin büyük çoğunluğu GitHub'da açık kaynak.</p></div>
+</div>
+</section>
+
+<div class="qs">
+<blockquote>"Sistemi anlayan onu değiştirir; anlamayanlar ise onun tarafından değiştirilir."</blockquote>
+<cite>— nosecondus</cite>
+</div>
+
+<section id="c">
+<p class="sl">iletişime_<em>geç</em></p>
+<p class="cb">Bir proje mi var?<br><a href="mailto:dxxlxdxxx@gmail.com">Konuşalım.</a></p>
+<div class="soc">
+<a href="https://github.com/35rl" target="_blank">github</a>
+<a href="https://instagram.com/nosecondus" target="_blank">instagram</a>
+<a href="https://tiktok.com/@nosecondus" target="_blank">tiktok</a>
+<a href="mailto:dxxlxdxxx@gmail.com" target="_blank">gmail</a>
+<a href="https://dxles.eu" target="_blank">dxles.eu</a>
+<a href="https://youtube.com/@dxles" target="_blank">youtube</a>
+<a href="https://linkedin.com/in/dxlesx" target="_blank">linkedin</a>
+</div>
+<footer>
+<span>nosecondus · he/him · Bavyera, Almanya</span>
+<div class="fe"><a href="#t">yukarı çık</a></div>
+</footer>
+</section>
+
+</div>
+
+<script>
+const nickWrap = document.getElementById('nickWrap');
+const nickText = document.getElementById('nickText');
+const COLORS = ['#b026ff','#ff2e9a','#ff7a1a','#00ff66','#ff1a3a'];
+let transformed = false;
+
+function spawnParticles() {
+  const rect = nickText.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top  + rect.height / 2;
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'nick-particle';
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 50 + Math.random() * 120;
+    p.style.cssText = `
+      left:${cx}px;top:${cy}px;
+      background:${COLORS[Math.floor(Math.random()*COLORS.length)]};
+      width:${3+Math.random()*5}px;height:${3+Math.random()*5}px;
+      --pt:translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px);
+      animation-duration:${0.35+Math.random()*0.3}s;
+    `;
+    document.body.appendChild(p);
+    p.addEventListener('animationend', () => p.remove());
+  }
+}
+
+nickWrap.addEventListener('click', function() {
+  if (transformed) return;
+
+  spawnParticles();
+  nickWrap.classList.add('glitching');
+  setTimeout(() => {
+    nickText.textContent = 'nosecondus';
+    nickText.dataset.text = 'nosecondus';
+    nickText.style.textDecoration = 'none';
+  }, 175);
+
+  setTimeout(() => {
+    nickWrap.classList.remove('glitching');
+    transformed = true;
+    nickWrap.style.cursor = 'default';
+  }, 370);
+});
+window.addEventListener("scroll", function(){
+  var p = (window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  document.getElementById("sl").style.width = p+"%";
+});
+setTimeout(function(){
+  document.getElementById("popup").classList.add("show");
+  setTimeout(function(){ document.getElementById("popup").classList.remove("show"); }, 5000);
+}, 4000);
+</script>
+
+<script>
+const LFM_USER = 'Allahbaba31';
+const LFM_KEY  = '7f7181bf02aa309352cf0bb2f05bb299';
+const LFM_BASE = 'https://ws.audioscrobbler.com/2.0/';
+
+function lfmImg(images) {
+  const large = images.find(i=>i.size==='large')||images[images.length-1];
+  return large?.['#text'] || '';
+}
+
+async function loadLastFm() {
+  try {
+    const url = `${LFM_BASE}?method=user.getrecenttracks&user=${LFM_USER}&api_key=${LFM_KEY}&format=json&limit=10`;
+    const res  = await fetch(url);
+    const data = await res.json();
+    const tracks = data.recenttracks?.track;
+    if (!tracks || !tracks.length) throw new Error('no tracks');
+
+    document.getElementById('lastfm-loading').style.display = 'none';
+
+    const list = Array.isArray(tracks) ? tracks : [tracks];
+    const nowPlaying = list[0]?.['@attr']?.nowplaying === 'true' ? list[0] : null;
+
+    if (nowPlaying) {
+      document.getElementById('lfm-np-track').textContent  = nowPlaying.name;
+      document.getElementById('lfm-np-artist').textContent = nowPlaying.artist['#text'];
+      const art = lfmImg(nowPlaying.image);
+      if (art) document.getElementById('lfm-np-art').src = art;
+      document.getElementById('lastfm-nowplaying').style.display = 'block';
+    }
+
+    const recent = nowPlaying ? list.slice(1) : list;
+    const container = document.getElementById('lastfm-tracks');
+
+    recent.forEach((t, i) => {
+      const art = lfmImg(t.image);
+      const date = t.date?.['#text'] || '—';
+      const card = document.createElement('div');
+      card.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border:1px solid #eee;border-radius:10px;';
+      card.innerHTML = `
+        <span style="font-size:11px;color:#bbb;flex-shrink:0;width:16px;text-align:right;">${i+1}</span>
+        <img src="${art}" width="40" height="40" style="border-radius:6px;object-fit:cover;flex-shrink:0;background:#f0f0f0;" onerror="this.style.display='none'"/>
+        <div style="overflow:hidden;min-width:0;">
+          <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div>
+          <div style="font-size:11px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.artist['#text']}</div>
+          <div style="font-size:10px;color:#bbb;margin-top:2px;">${date}</div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+  } catch(e) {
+    document.getElementById('lastfm-loading').style.display = 'none';
+    document.getElementById('lastfm-error').style.display   = 'block';
+  }
+}
+loadLastFm();
+setInterval(()=>{
+  document.getElementById('lastfm-tracks').innerHTML = '';
+  document.getElementById('lastfm-nowplaying').style.display = 'none';
+  loadLastFm();
+}, 30000);
+</script>
+
+  <script data-goatcounter="https://dxles.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E3HJQWMVDP');
+  </script>
+</body>
+</html>
