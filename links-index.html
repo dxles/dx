@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dxles · links | tüm bağlantılarım</title>
+<link rel="canonical" href="https://dxles.eu/links" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="dxles'in tüm sosyal medya ve profil bağlantıları tek sayfada." />
+<meta name="theme-color" content="#0d0d0e" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<meta property="og:title" content="dxles · links" />
+<meta property="og:description" content="dxles'in tüm sosyal medya ve profil bağlantıları tek sayfada." />
+<meta property="og:type" content="profile" />
+<meta property="og:url" content="https://dxles.eu/links" />
+<meta property="og:image" content="https://dxles.eu/og-image.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="dxles · links" />
+<meta name="twitter:description" content="dxles'in tüm sosyal medya ve profil bağlantıları tek sayfada." />
+<meta name="twitter:image" content="https://dxles.eu/og-image.png" />
+<style>
+  :root{
+    --bg:#0d0d0e;
+    --purple:#c9c2b2;
+    --purple-soft:#e2ddd0;
+    --line:#2a2a29;
+    --line-soft:#1c1c1b;
+    --ink:#f1efe9;
+    --muted:#8c887f;
+    --mx:50%;
+    --my:30%;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+    padding:100px 24px 110px;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  .bg-video{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-2;
+    filter:grayscale(.85) contrast(1.05) brightness(.9);
+  }
+
+  .bg-tint{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background:linear-gradient(180deg, rgba(13,13,14,.6) 0%, rgba(13,13,14,.8) 45%, rgba(13,13,14,.94) 100%);
+  }
+
+  .spotlight{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    background:radial-gradient(600px circle at var(--mx) var(--my), rgba(201,194,178,.08), transparent 60%);
+    transition:background .05s linear;
+  }
+
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:600px;
+    margin:0 auto;
+  }
+
+  .hero{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    margin-bottom:88px;
+  }
+
+  .avatar{
+    width:96px;
+    height:96px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:30px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .avatar img{ width:100%; height:100%; object-fit:cover; filter:grayscale(1); }
+
+  .handle{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 16px;
+    opacity:0;
+    animation:rise .6s ease forwards;
+    animation-delay:.05s;
+  }
+
+  h1{
+    font-size:clamp(32px,5.5vw,42px);
+    line-height:1.1;
+    margin:0 0 16px;
+    font-weight:600;
+    letter-spacing:-.015em;
+    color:var(--ink);
+    opacity:0;
+    animation:rise .6s ease forwards;
+    animation-delay:.12s;
+  }
+
+  .tag{
+    color:var(--muted);
+    font-size:15px;
+    margin:0;
+    max-width:320px;
+    line-height:1.7;
+    opacity:0;
+    animation:rise .6s ease forwards;
+    animation-delay:.18s;
+  }
+
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .section-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 20px 2px;
+  }
+
+  .links{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .group + .group{
+    margin-top:56px;
+  }
+
+  .link{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:20px 4px;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--line-soft);
+    text-decoration:none;
+    color:var(--ink);
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:.005em;
+    opacity:0;
+    animation:rise .5s ease forwards;
+    transition:color .2s ease, border-color .2s ease, transform .15s ease-out;
+    will-change:transform;
+  }
+
+  .link:last-child{
+    border-bottom:none;
+  }
+
+  .link:hover{
+    color:var(--purple-soft);
+    border-color:var(--line);
+  }
+
+  .link .ic{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    flex:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:.9;
+    overflow:hidden;
+    transition:transform .2s ease;
+  }
+  .link:hover .ic{ transform:scale(1.08); }
+  .link .ic img{ width:100%; height:100%; object-fit:cover; filter:grayscale(1); }
+
+  .link .dot{
+    width:7px; height:7px;
+    border-radius:1px;
+    background:var(--purple);
+    flex:none;
+    transform:rotate(45deg);
+    transition:transform .2s ease;
+  }
+  .link:hover .dot{ transform:rotate(45deg) scale(1.4); }
+
+  .link .label{ flex:1; }
+
+  .link .go{
+    color:var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    opacity:0;
+    transform:translateX(-4px);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .link:hover .go{ opacity:1; transform:translateX(0); }
+
+  .primary{
+    border-bottom:1px solid var(--line);
+  }
+  .primary .label{ font-weight:600; }
+
+  .foot{
+    text-align:center;
+    margin-top:90px;
+    color:var(--line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:480px){
+    body{ padding:70px 18px 90px; }
+    .hero{ margin-bottom:64px; }
+    .group + .group{ margin-top:44px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .link, .avatar{ transition:none; animation:none; opacity:1; }
+  }
+</style>
+</head>
+<body>
+
+<video class="bg-video" id="bgVideo" src="0721.mp4" poster="bg-poster.jpg" preload="metadata" muted loop playsinline autoplay aria-hidden="true"></video>
+<div class="bg-tint"></div>
+<div class="spotlight"></div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="avatar" id="avatar"><img src="avatar.png" alt="dxles logo"></div>
+    <p class="handle">dxles</p>
+    <h1>her şey burada.</h1>
+    <p class="tag">aşağıdaki bağlantılardan birine tıkla, seni oraya götürsün.</p>
+  </div>
+
+  <div class="group">
+    <a class="link primary" href="https://dxles.eu/dxles" target="_blank" rel="noopener">
+      <span class="dot"></span>
+      <span class="label">dxles.eu/dxles</span>
+      <span class="go">AÇ →</span>
+    </a>
+  </div>
+
+  <div class="group">
+    <p class="section-label">profiller</p>
+    <div class="links">
+      <a class="link" href="https://guns.lol/huzur" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/huzur</span>
+        <span class="go">AÇ →</span>
+      </a>
+      <a class="link" href="https://guns.lol/yasam" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/yasam</span>
+        <span class="go">AÇ →</span>
+      </a>
+      <a class="link" href="https://guns.lol/dxl5" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/dxl5</span>
+        <span class="go">AÇ →</span>
+      </a>
+      <a class="link" href="https://guns.lol/dx2" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/dx2</span>
+        <span class="go">AÇ →</span>
+      </a>
+      <a class="link" href="https://guns.lol/dlx1" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/dlx1</span>
+        <span class="go">AÇ →</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <p class="section-label">diğer</p>
+    <div class="links">
+      <a class="link" href="https://guns.lol/kbic" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/kbic</span>
+        <span class="go">AÇ →</span>
+      </a>
+      <a class="link" href="https://guns.lol/l1l1l" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/l1l1l</span>
+        <span class="go">AÇ →</span>
+      </a>
+      <a class="link" href="https://guns.lol/4gsc" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/4gsc</span>
+        <span class="go">AÇ →</span>
+      </a>
+      <a class="link" href="https://guns.lol/wt9" target="_blank" rel="noopener">
+        <span class="ic"><img src="avatar.png" alt=""></span>
+        <span class="label">guns.lol/wt9</span>
+        <span class="go">AÇ →</span>
+      </a>
+    </div>
+  </div>
+
+  <p class="foot">choose a destination</p>
+
+</div>
+
+<script>
+  const body = document.body;
+
+  document.addEventListener('mousemove', (e) => {
+    const xPct = (e.clientX / window.innerWidth) * 100;
+    const yPct = (e.clientY / window.innerHeight) * 100;
+    body.style.setProperty('--mx', xPct + '%');
+    body.style.setProperty('--my', yPct + '%');
+  });
+
+  document.querySelectorAll('.link').forEach((link, i) => {
+    link.style.animationDelay = (0.22 + i * 0.045) + 's';
+
+    link.addEventListener('mousemove', (e) => {
+      const r = link.getBoundingClientRect();
+      const relX = (e.clientX - r.left - r.width / 2) / r.width;
+      const relY = (e.clientY - r.top - r.height / 2) / r.height;
+      link.style.transform = 'translate(' + (relX * 8) + 'px,' + (relY * 4) + 'px)';
+    });
+
+    link.addEventListener('mouseleave', () => {
+      link.style.transform = 'translate(0,0)';
+    });
+  });
+</script>
+
+</body>
+</html>
