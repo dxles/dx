@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Playlist MP3 İndirici</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #181818; padding: 25px; border-radius: 12px; width: 420px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6); border: 1px solid #282828; }
+        h2 { color: #1db954; margin-top: 0; }
+        input { width: 90%; padding: 12px; margin: 15px 0; border-radius: 6px; border: 1px solid #333; background: #282828; color: white; outline: none; box-sizing: border-box; }
+        input:focus { border-color: #1db954; }
+        button { background: #1db954; color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
+        button:hover { background: #1ed760; }
+        
+        /* Yükleme ve İlerleme Barı */
+        .progress-box { margin-top: 15px; display: none; }
+        .progress-bar-bg { background: #333; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 8px; }
+        .progress-bar-fill { background: #1db954; height: 100%; width: 0%; transition: width 0.3s; }
+        
+        #list { margin-top: 20px; text-align: left; max-height: 250px; overflow-y: auto; background: #222; padding: 10px; border-radius: 6px; font-size: 0.85em; }
+        .song-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .download-btn { color: white; background: #2563eb; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.8em; }
+        .loading-text { color: #eab308; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Playlist MP3 İndir</h2>
+    <!-- Yapıştırma yaparken boşlukları otomatik temizler -->
+    <input type="text" id="spotifyUrl" placeholder="Spotify Track veya Playlist Linki Yapıştırın..." onpaste="cleanInput(event)">
+    <button id="btnStart" onclick="startProcess()">Dönüştürmeyi Başlat</button>
+    
+    <div class="progress-box" id="progressBox">
+        <div id="statusText" style="font-size:0.85em; color:#bbb;">Şarkılar taranıyor...</div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+    </div>
+
+    <div id="list"></div>
+</div>
+
+<script>
+// Kopyala-yapıştır yaparken oluşan tüm boşlukları ve gizli karakterleri anında siler
+function cleanInput(e) {
+    setTimeout(() => {
+        let input = document.getElementById('spotifyUrl');
+        input.value = input.value.trim().replace(/\s+/g, '');
+    }, 50);
+}
+
+// Zaman Aşımı (Timeout) Destekli Fetch - Donmaları Önler
+async function fetchWithTimeout(resource, options = {}) {
+    const { timeout = 8000 } = options;
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const response = await fetch(resource, {
+        ...options,
+        signal: controller.signal
+    });
+    clearTimeout(id);
+    return response;
+}
+
+async function startProcess() {
+    let url = document.getElementById('spotifyUrl').value.trim();
+    const list = document.getElementById('list');
+    const progressBox = document.getElementById('progressBox');
+    const progressBar = document.getElementById('progressBar');
+    const statusText = document.getElementById('statusText');
+    const btnStart = document.getElementById('btnStart');
+
+    if (!url) {
+        alert("Lütfen bir Spotify linki yapıştırın!");
+        return;
+    }
+
+    btnStart.disabled = true;
+    list.innerHTML = "";
+    progressBox.style.display = "block";
+    progressBar.style.width = "0%";
+    statusText.innerText = "Spotify verisi çekiliyor...";
+
+    try {
+        // 1. Spotify HTML verisini CORS Proxy üzerinden çekme
+        const corsProxy = 'https://api.allorigins.win/get?url=';
+        const res = await fetch(corsProxy + encodeURIComponent(url));
+        const data = await res.json();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+
+        // Sayfadaki tüm şarkı isimlerini tara
+        let songs = [];
+        
+        // Playlist veya Tekli Parça başlığını al
+        const metaTitles = doc.querySelectorAll('meta[property="og:title"]');
+        const metaDescriptions = doc.querySelectorAll('meta[property="og:description"]');
+        
+        if (url.includes('/playlist/')) {
+            // HTML içindeki track list elementlerini tara
+            const trackElements = doc.querySelectorAll('meta[name="music:song"]');
+            if(trackElements.length > 0) {
+                // Spotify meta verilerinden çek
+                trackElements.forEach(el => {
+                    const songUrl = el.content;
+                    songs.push("Spotify Track " + (songs.length + 1));
+                });
+            } else {
+                // Fallback: Sayfadaki genel başlık yapısından şarkıyı al
+                const mainTitle = doc.querySelector('title')?.innerText.replace(' | Spotify', '');
+                if (mainTitle) songs.push(mainTitle);
+            }
+        } else {
+            const trackTitle = metaTitles[0]?.content;
+            if (trackTitle) songs.push(trackTitle);
+        }
+
+        if (songs.length === 0) {
+            statusText.innerText = "Şarkı bulunamadı. Lütfen doğrudan bir track veya açık playlist linki girin.";
+            btnStart.disabled = false;
+            return;
+        }
+
+        statusText.innerText = `Toplam ${songs.length} şarkı işleniyor...`;
+
+        // 2. Sırayla Şarkıları Yükleme (CORS & IP Ban Engellemek İçin Beklemeli Döngü)
+        for (let i = 0; i < songs.length; i++) {
+            const songName = songs[i];
+            
+            // Arayüze Taslak Satırı Ekle
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'song-item';
+            itemDiv.id = `song-${i}`;
+            itemDiv.innerHTML = `
+                <span>${songName}</span>
+                <span class="loading-text">Dönüştürülüyor...</span>
+            `;
+            list.appendChild(itemDiv);
+
+            // Barların Yüzdesini Güncelle
+            const percent = Math.round(((i + 1) / songs.length) * 100);
+            progressBar.style.width = percent + "%";
+            statusText.innerText = `İşleniyor: ${i + 1} / ${songs.length}`;
+
+            // API'den MP3 Arama İsteği at
+            try {
+                const apiRes = await fetchWithTimeout('https://api.cobalt.tools/api/json', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        url: `https://www.youtube.com/results?search_query=${encodeURIComponent(songName + " audio")}`,
+                        downloadMode: 'audio',
+                        audioFormat: 'mp3'
+                    })
+                });
+
+                const apiData = await apiRes.json();
+
+                if (apiData.url) {
+                    document.getElementById(`song-${i}`).innerHTML = `
+                        <span>${songName}</span>
+                        <a href="${apiData.url}" class="download-btn" target="_blank" download>MP3 İndir</a>
+                    `;
+                } else {
+                    document.getElementById(`song-${i}`).querySelector('.loading-text').innerText = "Bulunamadı";
+                }
+            } catch (err) {
+                document.getElementById(`song-${i}`).querySelector('.loading-text').innerText = "CORS/Zaman Aşımı";
+            }
+
+            // Sunucular ban atmasın diye her şarkı arasında 1.5 saniye bekleme süresi (Gecikme)
+            await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+
+        statusText.innerText = "İşlem Tamamlandı!";
+
+    } catch (err) {
+        console.error(err);
+        statusText.innerText = "Hata: Bağlantı kurulamadı veya CORS engeli yaşandı.";
+    }
+
+    btnStart.disabled = false;
+}
+</script>
+
+</body>
+</html>
