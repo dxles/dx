@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify MP3 İndirici (Pure JS)</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #181818; padding: 30px; border-radius: 12px; width: 380px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6); border: 1px solid #282828; }
+        h2 { margin-top: 0; color: #1db954; }
+        input { width: 90%; padding: 12px; margin: 15px 0; border-radius: 6px; border: 1px solid #333; background: #282828; color: white; outline: none; }
+        input:focus { border-color: #1db954; }
+        button { background: #1db954; color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button:hover { background: #1ed760; transform: scale(1.02); }
+        #status { margin-top: 20px; font-size: 0.9em; color: #b3b3b3; line-height: 1.5; }
+        .download-btn { display: inline-block; margin-top: 10px; background: #3b82f6; color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Spotify MP3 İndir</h2>
+    <input type="text" id="spotifyUrl" placeholder="Spotify Parça Linkini Yapıştırın...">
+    <button onclick="processSpotify()">Dönüştür ve Hazırla</button>
+    <div id="status"></div>
+</div>
+
+<script>
+async function processSpotify() {
+    const url = document.getElementById('spotifyUrl').value.trim();
+    const status = document.getElementById('status');
+    
+    if (!url) {
+        status.innerText = "Lütfen geçerli bir Spotify linki girin!";
+        return;
+    }
+
+    status.innerText = "Spotify verisi çekiliyor...";
+
+    try {
+        // 1. Spotify Sayfasının Meta Verilerini Çekme (CORS Proxy ile)
+        const proxyUrl = 'https://api.allorigins.win/get?url=';
+        const response = await fetch(proxyUrl + encodeURIComponent(url));
+        const data = await response.json();
+        
+        // HTML içeriğinden Şarkı Başlığını Çek
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+        const ogTitle = doc.querySelector('meta[property="og:title"]')?.content;
+
+        if (!ogTitle) {
+            status.innerText = "Şarkı bilgisi alınamadı. Linki kontrol edin.";
+            return;
+        }
+
+        status.innerText = `Bulunan Parça: "${ogTitle}" - MP3 Arama İsteği Gönderiliyor...`;
+
+        // 2. YouTube Search & MP3 İndirme İsteği (Public API üzerinden)
+        const cleanQuery = encodeURIComponent(ogTitle);
+        const downloadApi = `https://api.cobalt.tools/api/json`;
+
+        // Cobalt API üzerinden medya dönüştürme isteği
+        const apiResponse = await fetch(downloadApi, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                url: `https://www.youtube.com/results?search_query=${cleanQuery}`,
+                downloadMode: 'audio',
+                audioFormat: 'mp3'
+            })
+        });
+
+        const apiData = await apiResponse.json();
+
+        if (apiData.url) {
+            status.innerHTML = `
+                <p><b>${ogTitle}</b></p>
+                <a href="${apiData.url}" class="download-btn" target="_blank" download>MP3 Dosyasını İndir</a>
+            `;
+        } else {
+            status.innerText = "MP3 indirme bağlantısı oluşturulamadı. Lütfen tekrar deneyin.";
+        }
+
+    } catch (err) {
+        console.error(err);
+        status.innerText = "İşlem sırasında bir hata oluştu veya CORS engeline takıldı.";
+    }
+}
+</script>
+
+</body>
+</html>
