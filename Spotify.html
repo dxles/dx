@@ -8,12 +8,14 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: #181818; padding: 25px; border-radius: 12px; width: 420px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6); border: 1px solid #282828; }
         h2 { color: #1db954; margin-top: 0; }
-        input { width: 90%; padding: 12px; margin: 15px 0; border-radius: 6px; border: 1px solid #333; background: #282828; color: white; outline: none; box-sizing: border-box; }
+        .input-group { display: flex; gap: 8px; margin: 15px 0; }
+        input { flex: 1; padding: 12px; border-radius: 6px; border: 1px solid #333; background: #282828; color: white; outline: none; }
         input:focus { border-color: #1db954; }
-        button { background: #1db954; color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
-        button:hover { background: #1ed760; }
+        .paste-btn { background: #333; color: #1db954; border: 1px solid #1db954; padding: 0 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .paste-btn:hover { background: #1db954; color: white; }
+        button.action-btn { background: #1db954; color: white; border: none; padding: 12px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
+        button.action-btn:hover { background: #1ed760; }
         
-        /* Yükleme ve İlerleme Barı */
         .progress-box { margin-top: 15px; display: none; }
         .progress-bar-bg { background: #333; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 8px; }
         .progress-bar-fill { background: #1db954; height: 100%; width: 0%; transition: width 0.3s; }
@@ -28,12 +30,16 @@
 
 <div class="card">
     <h2>Playlist MP3 İndir</h2>
-    <!-- Yapıştırma yaparken boşlukları otomatik temizler -->
-    <input type="text" id="spotifyUrl" placeholder="Spotify Track veya Playlist Linki Yapıştırın..." onpaste="cleanInput(event)">
-    <button id="btnStart" onclick="startProcess()">Dönüştürmeyi Başlat</button>
+    
+    <div class="input-group">
+        <input type="text" id="spotifyUrl" placeholder="Spotify Linki Yapıştırın..." oninput="extractCleanUrl()">
+        <button class="paste-btn" onclick="pasteFromClipboard()" title="Panodan Temiz Yapıştır">Yapıştır</button>
+    </div>
+
+    <button class="action-btn" id="btnStart" onclick="startProcess()">Dönüştürmeyi Başlat</button>
     
     <div class="progress-box" id="progressBox">
-        <div id="statusText" style="font-size:0.85em; color:#bbb;">Şarkılar taranıyor...</div>
+        <div id="statusText" style="font-size:0.85em; color:#bbb;">Hazırlanıyor...</div>
         <div class="progress-bar-bg">
             <div class="progress-bar-fill" id="progressBar"></div>
         </div>
@@ -43,29 +49,50 @@
 </div>
 
 <script>
-// Kopyala-yapıştır yaparken oluşan tüm boşlukları ve gizli karakterleri anında siler
-function cleanInput(e) {
-    setTimeout(() => {
-        let input = document.getElementById('spotifyUrl');
-        input.value = input.value.trim().replace(/\s+/g, '');
-    }, 50);
+// Metin içindeki bplist / çöp karakterleri temizleyip SADECE Spotify URL'sini çeken Regex
+function parseSpotifyUrl(text) {
+    const regex = /(https?:\/\/open\.spotify\.com\/(track|playlist)\/[a-zA-Z0-9]+)/;
+    const match = text.match(regex);
+    return match ? match[0] : '';
 }
 
-// Zaman Aşımı (Timeout) Destekli Fetch - Donmaları Önler
+// Input alanına elle yapıştırılırsa anında ayıklar
+function extractCleanUrl() {
+    const input = document.getElementById('spotifyUrl');
+    const clean = parseSpotifyUrl(input.value);
+    if (clean) {
+        input.value = clean;
+    }
+}
+
+// "Yapıştır" butonuna basınca panoyu okur ve binary çöpü temizleyip saf URL koyar
+async function pasteFromClipboard() {
+    try {
+        const text = await navigator.clipboard.readText();
+        const cleanUrl = parseSpotifyUrl(text);
+        if (cleanUrl) {
+            document.getElementById('spotifyUrl').value = cleanUrl;
+        } else {
+            alert("Panoda geçerli bir Spotify linki bulunamadı!");
+        }
+    } catch (err) {
+        alert("Pano erişim izni alınamadı. Lütfen elle yapıştırın.");
+    }
+}
+
 async function fetchWithTimeout(resource, options = {}) {
     const { timeout = 8000 } = options;
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
-    const response = await fetch(resource, {
-        ...options,
-        signal: controller.signal
-    });
+    const response = await fetch(resource, { ...options, signal: controller.signal });
     clearTimeout(id);
     return response;
 }
 
 async function startProcess() {
-    let url = document.getElementById('spotifyUrl').value.trim();
+    let rawInput = document.getElementById('spotifyUrl').value;
+    let url = parseSpotifyUrl(rawInput);
+    
     const list = document.getElementById('list');
     const progressBox = document.getElementById('progressBox');
     const progressBar = document.getElementById('progressBar');
@@ -73,10 +100,11 @@ async function startProcess() {
     const btnStart = document.getElementById('btnStart');
 
     if (!url) {
-        alert("Lütfen bir Spotify linki yapıştırın!");
+        alert("Lütfen geçerli bir Spotify linki yapıştırın!");
         return;
     }
 
+    document.getElementById('spotifyUrl').value = url; // Kutuyu da temiz haliyle güncelle
     btnStart.disabled = true;
     list.innerHTML = "";
     progressBox.style.display = "block";
@@ -84,7 +112,6 @@ async function startProcess() {
     statusText.innerText = "Spotify verisi çekiliyor...";
 
     try {
-        // 1. Spotify HTML verisini CORS Proxy üzerinden çekme
         const corsProxy = 'https://api.allorigins.win/get?url=';
         const res = await fetch(corsProxy + encodeURIComponent(url));
         const data = await res.json();
@@ -92,45 +119,39 @@ async function startProcess() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(data.contents, 'text/html');
 
-        // Sayfadaki tüm şarkı isimlerini tara
         let songs = [];
         
-        // Playlist veya Tekli Parça başlığını al
-        const metaTitles = doc.querySelectorAll('meta[property="og:title"]');
-        const metaDescriptions = doc.querySelectorAll('meta[property="og:description"]');
-        
         if (url.includes('/playlist/')) {
-            // HTML içindeki track list elementlerini tara
-            const trackElements = doc.querySelectorAll('meta[name="music:song"]');
-            if(trackElements.length > 0) {
-                // Spotify meta verilerinden çek
-                trackElements.forEach(el => {
-                    const songUrl = el.content;
-                    songs.push("Spotify Track " + (songs.length + 1));
-                });
-            } else {
-                // Fallback: Sayfadaki genel başlık yapısından şarkıyı al
-                const mainTitle = doc.querySelector('title')?.innerText.replace(' | Spotify', '');
-                if (mainTitle) songs.push(mainTitle);
+            // Meta etiketlerinden ve title'dan şarkı/playlist adını yakala
+            const ogDescription = doc.querySelector('meta[property="og:description"]')?.content;
+            const mainTitle = doc.querySelector('title')?.innerText.replace(' | Spotify', '');
+
+            if (ogDescription && ogDescription.includes('·')) {
+                // Spotify playlist meta açıklamasından şarkıları ayrıştır
+                const trackList = ogDescription.split('·')[1] || ogDescription;
+                songs = trackList.split(',').map(s => s.trim()).filter(s => s.length > 0);
+            } 
+            
+            if (songs.length === 0 && mainTitle) {
+                songs.push(mainTitle);
             }
         } else {
-            const trackTitle = metaTitles[0]?.content;
+            const trackTitle = doc.querySelector('meta[property="og:title"]')?.content;
             if (trackTitle) songs.push(trackTitle);
         }
 
         if (songs.length === 0) {
-            statusText.innerText = "Şarkı bulunamadı. Lütfen doğrudan bir track veya açık playlist linki girin.";
+            statusText.innerText = "Şarkı bilgisi okunamadı. Linki kontrol edin.";
             btnStart.disabled = false;
             return;
         }
 
-        statusText.innerText = `Toplam ${songs.length} şarkı işleniyor...`;
+        statusText.innerText = `Toplam ${songs.length} şarkı bulundu...`;
 
-        // 2. Sırayla Şarkıları Yükleme (CORS & IP Ban Engellemek İçin Beklemeli Döngü)
+        // Şarkıları Sırayla İşle
         for (let i = 0; i < songs.length; i++) {
             const songName = songs[i];
             
-            // Arayüze Taslak Satırı Ekle
             const itemDiv = document.createElement('div');
             itemDiv.className = 'song-item';
             itemDiv.id = `song-${i}`;
@@ -140,12 +161,10 @@ async function startProcess() {
             `;
             list.appendChild(itemDiv);
 
-            // Barların Yüzdesini Güncelle
             const percent = Math.round(((i + 1) / songs.length) * 100);
             progressBar.style.width = percent + "%";
             statusText.innerText = `İşleniyor: ${i + 1} / ${songs.length}`;
 
-            // API'den MP3 Arama İsteği at
             try {
                 const apiRes = await fetchWithTimeout('https://api.cobalt.tools/api/json', {
                     method: 'POST',
@@ -168,18 +187,18 @@ async function startProcess() {
                     document.getElementById(`song-${i}`).querySelector('.loading-text').innerText = "Bulunamadı";
                 }
             } catch (err) {
-                document.getElementById(`song-${i}`).querySelector('.loading-text').innerText = "CORS/Zaman Aşımı";
+                document.getElementById(`song-${i}`).querySelector('.loading-text').innerText = "Hata/CORS";
             }
 
-            // Sunucular ban atmasın diye her şarkı arasında 1.5 saniye bekleme süresi (Gecikme)
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Sunucunun IP ban atmaması için bekleme süresi
+            await new Promise(resolve => setTimeout(resolve, 1200));
         }
 
         statusText.innerText = "İşlem Tamamlandı!";
 
     } catch (err) {
         console.error(err);
-        statusText.innerText = "Hata: Bağlantı kurulamadı veya CORS engeli yaşandı.";
+        statusText.innerText = "Spotify bağlantı hatası yaşandı.";
     }
 
     btnStart.disabled = false;
