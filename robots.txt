@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /wp-admin/
+Disallow: /administrator/
+Disallow: /old-panel/
 
 Sitemap: https://dxles.eu/sitemap.xml
