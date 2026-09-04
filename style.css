@@ -58,14 +58,13 @@ a{color:inherit;text-decoration:none}
 
 .cursor-ring,.cursor-dot{position:fixed;left:0;top:0;pointer-events:none;z-index:190;display:none}
 .cursor-ring{
-  width:34px;height:34px;margin:-17px 0 0 -17px;border:1px solid rgba(225,227,230,.4);
+  width:60px;height:60px;margin:-30px 0 0 -30px;border:1px solid rgba(225,227,230,.4);
   border-radius:50%;background:transparent;
-  transition:width .6s cubic-bezier(.16,.9,.24,1),height .6s cubic-bezier(.16,.9,.24,1),
-    margin .6s cubic-bezier(.16,.9,.24,1),border-color .4s ease,background .5s ease;
+  transform: scale(1);
+  transition:transform .6s cubic-bezier(.16,.9,.24,1),border-color .4s ease,background .5s ease;
 }
 .cursor-ring.is-hover{
-  width:min(70vmax,900px);height:min(70vmax,900px);
-  margin:calc(min(70vmax,900px) / -2) 0 0 calc(min(70vmax,900px) / -2);
+  transform: scale(14);
   border-color:transparent;
   background:radial-gradient(circle,rgba(212,83,53,.07) 0%,rgba(212,83,53,.03) 35%,transparent 68%);
   mix-blend-mode:screen;
