@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<title>403 Forbidden</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E3HJQWMVDP"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-E3HJQWMVDP');
+gtag('event', 'honeypot_hit', { 'path': '/old-panel/' });
+</script>
+<script data-goatcounter="https://dxles.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<p>403 Forbidden</p>
+</body>
+</html>
