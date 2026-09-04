@@ -1,24 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>404 — Sayfa bulunamadı | nosecondus</title>
-<meta name="robots" content="noindex, follow" />
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Helvetica Neue",Arial,sans-serif;background:#e3e1e1;color:#000;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem}
-.code{font-family:monospace;font-size:14px;color:#888;letter-spacing:.1em;margin-bottom:1.5rem}
-h1{font-size:clamp(2rem,6vw,4rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem}
-p{font-size:15px;color:#555;max-width:420px;line-height:1.7;margin-bottom:2rem}
-a{display:inline-flex;align-items:center;gap:.5rem;background:#000;color:#ccbeb8;padding:14px 28px;border-radius:100px;font-size:13px;letter-spacing:.05em;text-decoration:none;transition:opacity .2s}
-a:hover{opacity:.7}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404</title>
+  <meta name="description" content="Aradığın sayfa bulunamadı. dxles.eu — Python geliştirici & OSINT araştırmacısı." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#111215" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
-<div class="code">$ cat /var/www/requested_page → not found</div>
-<h1>404</h1>
-<p>Aradığın sayfa taşınmış, silinmiş ya da hiç var olmamış olabilir.</p>
-<a href="/">ana sayfaya dön →</a>
+
+  <div class="error-page">
+    <main class="error-main">
+      <span class="error-eyebrow"><i aria-hidden="true"></i>NOT FOUND</span>
+
+      <h1 class="error-code">4<em>0</em>4</h1>
+
+      <h2 class="error-title">Bu yol bir yere çıkmıyor.</h2>
+      <p class="error-copy">Aradığın sayfa taşınmış, silinmiş ya da hiç var olmamış olabilir. Ana sayfaya dönüp oradan devam edebilirsin.</p>
+
+      <div class="error-actions">
+        <a class="error-home magnetic" href="/">← Ana sayfaya dön</a>
+        <nav class="error-links" aria-label="Hızlı bağlantılar">
+          <a href="/#work">Work</a>
+          <a href="/#about">About</a>
+          <a href="/#contact">Contact</a>
+        </nav>
+      </div>
+    </main>
+
+    <footer class="error-footer">
+      <span></span>
+      <span>PORTFOLİO SAYFASINDA ADMİN GİRİŞİMİ ARIYON KRAL :D</span>
+      <span>ERROR 404</span>
+    </footer>
+  </div>
+
 </body>
 </html>
